@@ -12,7 +12,7 @@ The objective of this project is to develop a social media application that ress
 
 1. The user can post pictures.
 2. The user can follow other users and received notifications when the followed user posts a picture.
-3. The user can leave comments to a posted pictures.
+3. The user can leave comments to posted pictures.
 4. The user can like other users' posts.
 5. The user can send private messages to other users.
 6. The user can customize the UI of the application.
