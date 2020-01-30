@@ -29,6 +29,6 @@ The objective of this project is to develop a social media application that ress
 * Android
 * Java / C# (TBD)
 * MySQL
-* Ionic / React Native (TBD)
+* React Native (TBD)
 * JavaScript
 * Adobe Photoshop
