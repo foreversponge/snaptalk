@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -23,6 +15,8 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import FollowButton from './Follow';
 
 const App: () => React$Node = () => {
   return (
@@ -58,11 +52,8 @@ const App: () => React$Node = () => {
                 <DebugInstructions />
               </Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
+            <View>
+                <FollowButton/>
             </View>
             <LearnMoreLinks />
           </View>
