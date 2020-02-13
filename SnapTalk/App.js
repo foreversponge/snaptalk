@@ -1,4 +1,6 @@
 import React from 'react';
+import PostButton from './components/PostButton';
+
 import {
   StyleSheet,
   ScrollView,
@@ -33,6 +35,7 @@ const App: () => React$Node = () => {
                 <ProfilePage />
             </View>
         </ScrollView>
+        <PostButton/>
     </>
   );
 };
@@ -58,5 +61,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
+
+export default App;
 
 
