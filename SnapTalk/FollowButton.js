@@ -11,3 +11,4 @@ export default class FollowButton extends Component {
     );
   }
 }
+
