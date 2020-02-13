@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "16.9.0",
-    "react-native": "0.61.5"
+    "native-base": "^2.13.8",
+    "navigation": "^5.2.0",
+    "react": "^16.9.0",
+    "react-native": "0.61.5",
+    "react-navigation": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
