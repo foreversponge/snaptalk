@@ -1,76 +1,62 @@
-
 import React from 'react';
-import {StyleSheet,View,Text, Image} from 'react-native';
-import {Icon, Container, Content, Left, Right, Body, Button} from 'native-base';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  Divider,
+} from 'react-native';
 
+import {
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 
+import ProfilePage from './components/ProfilePage';
 
-
-export default class App extends React.Component{
-    constructor(){
-    super();
-    this.state = {nbPosts: '22', nbFollowers: '222', nbFollowing: '2222'};
-    }
-
-
-
-    render() {
-        return(
-
-
-        <Container style={styles.container}>
-            <Content>
-                <View>
-                    <View style={{flexDirection: 'row'}}>
-
-                                <View style={{flex:1, paddingLeft:10, paddingTop:10}}>
-
-                                    <Image source={require('C:/Users/laure/Documents/Concordia/GitRepos/snapstalk/SnapTalk/assets/GettyImages-1192179860.jpg')}
-                                    style={{ width: 75, height: 75, borderRadius: 37.5}}/>
-
-                                </View>
-
-                                <View style = {{flex:3}}>
-                                    <View style={{flexDirection : 'row', justifyContent: 'space-around'}}>
-                                        <View style={{flexDirection: 'column'}}>
-                                            <Text style={{paddingTop:10}}>{this.state.nbPosts}</Text>
-                                            <Text style={{paddingTop:10}}>Post</Text>
-                                        </View>
-                                        <View style={{flexDirection: 'column'}}>
-                                             <Text style={{paddingTop:10}}>{this.state.nbFollowers}</Text>
-                                              <Text style={{paddingTop:10}}>Followers</Text>
-                                        </View>
-                                         <View style={{flexDirection: 'column'}}>
-                                              <Text style={{paddingTop:10}}>{this.state.nbFollowing}</Text>
-                                              <Text style={{paddingTop:10}}>Following</Text>
-                                         </View>
-                                    </View>
-                                </View>
-
-                    </View>
-                    <Text style={{paddingTop : 10, paddingLeft : 10}}>Cristiano Ronaldo</Text>
-                 </View>
-
-            </Content>
-        </Container>
-
-
-
-
-        );
-    }
-
-}
-
-
+const App: () => React$Node = () => {
+  return (
+    <>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={styles.scrollView}>
+          {global.HermesInternal == null ? null : (
+            <View style={styles.engine}>
+              <Text style={styles.footer}>Engine: Hermes</Text>
+            </View>
+          )}
+            <View>
+                <ProfilePage />
+            </View>
+        </ScrollView>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
- container: {
- flex:1,
- backgroundColor: '#fff',
- backgroundColor:'white',
- },
-
+  scrollView: {
+    backgroundColor: Colors.lighter,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  footer: {
+    color: Colors.dark,
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
+  },
 });
 
 
