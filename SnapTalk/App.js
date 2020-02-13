@@ -16,7 +16,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import ProfilePage from './ProfilePage';
+import ProfilePage from './components/ProfilePage';
 
 const App: () => React$Node = () => {
   return (
@@ -45,20 +45,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
   },
-  body: {
-    backgroundColor: '#d6d7da',
-  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-    textAlign: 'center',
-    fontWeight: "bold",
-
   },
   footer: {
     color: Colors.dark,
