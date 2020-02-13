@@ -1,114 +1,76 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet,View,Text, Image} from 'react-native';
+import {Icon, Container, Content, Left, Right, Body, Button} from 'native-base';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+
+
+export default class App extends React.Component{
+    constructor(){
+    super();
+    this.state = {nbPosts: '22', nbFollowers: '222', nbFollowing: '2222'};
+    }
+
+
+
+    render() {
+        return(
+
+
+        <Container style={styles.container}>
+            <Content>
+                <View>
+                    <View style={{flexDirection: 'row'}}>
+
+                                <View style={{flex:1, paddingLeft:10, paddingTop:10}}>
+
+                                    <Image source={require('C:/Users/laure/Documents/Concordia/GitRepos/snapstalk/SnapTalk/assets/GettyImages-1192179860.jpg')}
+                                    style={{ width: 75, height: 75, borderRadius: 37.5}}/>
+
+                                </View>
+
+                                <View style = {{flex:3}}>
+                                    <View style={{flexDirection : 'row', justifyContent: 'space-around'}}>
+                                        <View style={{flexDirection: 'column'}}>
+                                            <Text style={{paddingTop:10}}>{this.state.nbPosts}</Text>
+                                            <Text style={{paddingTop:10}}>Post</Text>
+                                        </View>
+                                        <View style={{flexDirection: 'column'}}>
+                                             <Text style={{paddingTop:10}}>{this.state.nbFollowers}</Text>
+                                              <Text style={{paddingTop:10}}>Followers</Text>
+                                        </View>
+                                         <View style={{flexDirection: 'column'}}>
+                                              <Text style={{paddingTop:10}}>{this.state.nbFollowing}</Text>
+                                              <Text style={{paddingTop:10}}>Following</Text>
+                                         </View>
+                                    </View>
+                                </View>
+
+                    </View>
+                    <Text style={{paddingTop : 10, paddingLeft : 10}}>Cristiano Ronaldo</Text>
+                 </View>
+
+            </Content>
+        </Container>
+
+
+
+
+        );
+    }
+
+}
+
+
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+ container: {
+ flex:1,
+ backgroundColor: '#fff',
+ backgroundColor:'white',
+ },
+
 });
 
-export default App;
+
