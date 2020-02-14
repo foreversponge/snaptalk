@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, View, Text, Image, StyleSheet, FlatList } from 'react-native';
+import { Alert, Button, View, Text, Image, StyleSheet, FlatList, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 
@@ -43,14 +43,18 @@ export default class PostButton extends Component {
 
     return (
 
-        <View style={styles.button}>
-            {photo && (
-            <Image
-                source={{ uri: photo.uri }}
-                style={styles.images}
-            />
-            )}
-            <Button title="POST" type="outline" onPress={this.chooseImageGallery} />
+        <View>
+            <View style={styles.images}>
+                {photo && (
+                <Image
+                    source={{ uri: photo.uri }}
+                    style={styles.images}
+                />
+                )}
+            </View>
+            <View style={styles.button}>
+                <Button title="POST" type="outline" onPress={this.chooseImageGallery} />
+            </View>
         </View>
 
     );
@@ -59,12 +63,12 @@ export default class PostButton extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-end'
+        alignSelf:'stretch',
+        paddingTop: 10
     },
     images: {
-        width: 300,
-        height: 300
+        alignItems: 'center',
+        alignSelf:'stretch',
+        height: 300,
     }
 })

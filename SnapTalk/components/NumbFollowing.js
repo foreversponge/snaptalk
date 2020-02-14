@@ -5,7 +5,7 @@ export default class NumbFollowing extends Component{
     render(){
     return(
         <TouchableOpacity onPress={()=> {
-            Alert.alert("You have 12345 followers");
+            Alert.alert("You are following 12345 users");
         }}>
         <View style={{flexDirection: 'column'}}>
              <Text style={{paddingTop:20}}> 12345 </Text>
