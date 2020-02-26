@@ -1,67 +1,47 @@
-import React from 'react';
-import PostButton from './components/PostButton';
-
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Divider,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import LoadingScreen from './components/LoadingScreen';
+import LoginScreen from './components/LoginScreen';
+import RegisterScreen from './components/RegisterScreen';
 import ProfilePage from './components/ProfilePage';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-            <View>
-                <ProfilePage />
-            </View>
-        </ScrollView>
-        <PostButton/>
-    </>
-  );
+import * as firebase from 'firebase';
+
+var firebaseConfig = {
+  apiKey: "AIzaSyBKiZ9_vygXMXTQ14dya5H10EplqqcjYBs",
+  authDomain: "snaptalk-4d93d.firebaseapp.com",
+  databaseURL: "https://snaptalk-4d93d.firebaseio.com",
+  projectId: "snaptalk-4d93d",
+  storageBucket: "snaptalk-4d93d.appspot.com",
+  messagingSenderId: "",
+  appId: "1:925695837279:android:1243e01eac671c687647ea"
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+firebase.initializeApp(firebaseConfig);
 
-export default App;
+const AppStack = createStackNavigator(
+  {
+    Home: ProfilePage
+  }
+)
 
+const AuthStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Register: RegisterScreen
+  }
+)
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "Loading"
+    }
+  )
+);
 
