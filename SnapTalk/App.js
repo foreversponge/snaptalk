@@ -1,60 +1,41 @@
 
 import React from 'react';
-import {StyleSheet,View,Text, Image} from 'react-native';
-import {Icon, Container, Content, Left, Right, Body, Button} from 'native-base';
+import {StyleSheet,View,Text, Image, TextInput,TouchableOpacity} from 'react-native';
 
 
+
+import {Container, Content, Left, Right, Body, Button} from 'native-base';
+
+import Icon from 'react-native-vector-icons/Ionicons'
+import firebase from 'firebase';
 
 
 export default class App extends React.Component{
-    constructor(){
-    super();
-    this.state = {nbPosts: '22', nbFollowers: '222', nbFollowing: '2222'};
+
+
+        handleSearch = () => {
+        firebase.database().ref('Users/').once('value', function (snapshot) {
+                console.log(snapshot.val())
+            });
     }
-
-
 
     render() {
         return(
 
 
-        <Container style={styles.container}>
-            <Content>
-                <View>
-                    <View style={{flexDirection: 'row'}}>
-
-                                <View style={{flex:1, paddingLeft:10, paddingTop:10}}>
-
-                                    <Image source={require('C:/Users/laure/Documents/Concordia/GitRepos/snapstalk/SnapTalk/assets/GettyImages-1192179860.jpg')}
-                                    style={{ width: 75, height: 75, borderRadius: 37.5}}/>
-
-                                </View>
-
-                                <View style = {{flex:3}}>
-                                    <View style={{flexDirection : 'row', justifyContent: 'space-around'}}>
-                                        <View style={{flexDirection: 'column'}}>
-                                            <Text style={{paddingTop:10}}>{this.state.nbPosts}</Text>
-                                            <Text style={{paddingTop:10}}>Post</Text>
-                                        </View>
-                                        <View style={{flexDirection: 'column'}}>
-                                             <Text style={{paddingTop:10}}>{this.state.nbFollowers}</Text>
-                                              <Text style={{paddingTop:10}}>Followers</Text>
-                                        </View>
-                                         <View style={{flexDirection: 'column'}}>
-                                              <Text style={{paddingTop:10}}>{this.state.nbFollowing}</Text>
-                                              <Text style={{paddingTop:10}}>Following</Text>
-                                         </View>
-                                    </View>
-                                </View>
+            <View style = {{flex: 1}}>
+                <View style = {styles.header}>
+                    <View style = {styles.headerText}>
+                        <TextInput placeholder="Search" style={{fontSize:24, marginLeft:15}}/>
 
                     </View>
-                    <Text style={{paddingTop : 10, paddingLeft : 10}}>Cristiano Ronaldo</Text>
+                </View>
+                 <View>
+                 <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
+                                                       <Text style={{color:"#FFF", fontWeight: "500"}}>Click</Text>
+                                                   </TouchableOpacity>
                  </View>
-
-            </Content>
-        </Container>
-
-
+           </View>
 
 
         );
@@ -67,9 +48,29 @@ export default class App extends React.Component{
 const styles = StyleSheet.create({
  container: {
  flex:1,
- backgroundColor: '#fff',
- backgroundColor:'white',
+ alignItems: 'center'
+
  },
+ header :{
+    height:80,
+    backgroundColor: '#ADFF2F',
+    justifyContent: 'center',
+    paddingHorizontal: 5
+ },
+ headerText: {
+    height : 50,
+    backgroundColor: 'white'
+
+ },
+ button: {
+             marginHorizontal: 30,
+             backgroundColor: "#E9446A",
+             borderRadius: 4,
+             height: 52,
+             alignItems: "center",
+             justifyContent: "center"
+}
+
 
 });
 
