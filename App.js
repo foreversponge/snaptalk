@@ -1,5 +1,6 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID} from 'react-native-dotenv';
 import LoadingScreen from './components/LoadingScreen';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
@@ -7,17 +8,26 @@ import ProfilePage from './components/ProfilePage';
 
 import * as firebase from 'firebase';
 
+const API_KEY = FIREBASE_API_KEY;
+const AUTH_DOMAIN = FIREBASE_AUTH_DOMAIN;
+const DATABASE_URL = FIREBASE_DATABASE_URL;
+const PROJECT_ID = FIREBASE_PROJECT_ID;
+const STORAGE_BUCKET = FIREBASE_STORAGE_BUCKET;
+const APP_ID = FIREBASE_APP_ID;
+
 var firebaseConfig = {
-  apiKey: "AIzaSyBKiZ9_vygXMXTQ14dya5H10EplqqcjYBs",
-  authDomain: "snaptalk-4d93d.firebaseapp.com",
-  databaseURL: "https://snaptalk-4d93d.firebaseio.com",
-  projectId: "snaptalk-4d93d",
-  storageBucket: "snaptalk-4d93d.appspot.com",
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
   messagingSenderId: "",
-  appId: "1:925695837279:android:1243e01eac671c687647ea"
+  appId: APP_ID
 };
 
-firebase.initializeApp(firebaseConfig);
+if(!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig);
+}
 
 const AppStack = createStackNavigator(
   {
