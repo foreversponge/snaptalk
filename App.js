@@ -1,77 +1,56 @@
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID} from 'react-native-dotenv';
+import LoadingScreen from './components/LoadingScreen';
+import LoginScreen from './components/LoginScreen';
+import RegisterScreen from './components/RegisterScreen';
+import ProfilePage from './components/ProfilePage';
 
-import React from 'react';
-import {StyleSheet,View,Text, Image, TextInput,TouchableOpacity} from 'react-native';
+import * as firebase from 'firebase';
 
+const API_KEY = FIREBASE_API_KEY;
+const AUTH_DOMAIN = FIREBASE_AUTH_DOMAIN;
+const DATABASE_URL = FIREBASE_DATABASE_URL;
+const PROJECT_ID = FIREBASE_PROJECT_ID;
+const STORAGE_BUCKET = FIREBASE_STORAGE_BUCKET;
+const APP_ID = FIREBASE_APP_ID;
 
+var firebaseConfig = {
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: "",
+  appId: APP_ID
+};
 
-import {Container, Content, Left, Right, Body, Button} from 'native-base';
-
-import Icon from 'react-native-vector-icons/Ionicons'
-import firebase from 'firebase';
-
-
-export default class App extends React.Component{
-
-
-        handleSearch = () => {
-        firebase.database().ref('Users/').once('value', function (snapshot) {
-                console.log(snapshot.val())
-            });
-    }
-
-    render() {
-        return(
-
-
-            <View style = {{flex: 1}}>
-                <View style = {styles.header}>
-                    <View style = {styles.headerText}>
-                        <TextInput placeholder="Search" style={{fontSize:24, marginLeft:15}}/>
-
-                    </View>
-                </View>
-                 <View>
-                 <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-                                                       <Text style={{color:"#FFF", fontWeight: "500"}}>Click</Text>
-                                                   </TouchableOpacity>
-                 </View>
-           </View>
-
-
-        );
-    }
-
+if(!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig);
 }
 
+const AppStack = createStackNavigator(
+  {
+    Home: ProfilePage
+  }
+)
 
+const AuthStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Register: RegisterScreen
+  }
+)
 
-const styles = StyleSheet.create({
- container: {
- flex:1,
- alignItems: 'center'
-
- },
- header :{
-    height:80,
-    backgroundColor: '#ADFF2F',
-    justifyContent: 'center',
-    paddingHorizontal: 5
- },
- headerText: {
-    height : 50,
-    backgroundColor: 'white'
-
- },
- button: {
-             marginHorizontal: 30,
-             backgroundColor: "#E9446A",
-             borderRadius: 4,
-             height: 52,
-             alignItems: "center",
-             justifyContent: "center"
-}
-
-
-});
-
-
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "Loading"
+    }
+  )
+);

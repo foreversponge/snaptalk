@@ -14,7 +14,7 @@ The objective of this project is to develop a social media application that ress
 2. The user can follow other users and received notifications when the followed user posts a picture.
 3. The user can leave comments to posted pictures.
 4. The user can like other users' posts.
-5. The user can send private messages to other users.
+5. The user can search for other users.
 
 ## Team Members
 
@@ -26,7 +26,7 @@ The objective of this project is to develop a social media application that ress
 
 ## Technologies
 * Android
-* MySQL
+* Firebase
 * React Native
 * JavaScript
 * Adobe Photoshop
