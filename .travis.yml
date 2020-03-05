@@ -20,5 +20,7 @@ android:
     - extra-google-m2repository
     - addon-google_apis-google-19
 script:
+  - npm i --save -dev jetifier 
+  - npx jetify 
   - cd android
   - ./gradlew assembleRelease --stacktrace
