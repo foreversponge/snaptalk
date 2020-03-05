@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import {StyleSheet,View,Text, Image} from 'react-native';
 import {Icon, Container, Content, Left, Right, Body, Button} from 'native-base';
 
-import FollowButton from './FollowButton';
-import PostButton from './PostButton';
-import HomeButton from './HomeButton';
 import ProfilePicture from './ProfilePicture';
 import NumbFollowers from './NumbFollowers';
 import NumbPosts from './NumbPosts';
 import NumbFollowing from './NumbFollowing';
+import LogoutButton from './LogoutButton';
 
-export default class ProfilePage extends Component {
+export default class ProfilePageScreen extends Component {
    render() {
      return (
         <>
@@ -29,6 +27,9 @@ export default class ProfilePage extends Component {
                                      <NumbFollowing />
                                 </View>
                             </View>
+                        </View>
+                        <View>
+                            <LogoutButton />
                         </View>
                      </View>
                 </Content>
