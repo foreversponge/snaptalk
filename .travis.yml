@@ -21,4 +21,4 @@ android:
     - addon-google_apis-google-19
 script:
   - cd android
-  - yes | ./gradlew assembleRelease --debug
+  - yes | ./gradlew assembleRelease
