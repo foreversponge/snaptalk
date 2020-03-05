@@ -2,6 +2,7 @@ language: android
 before_install:
   - nvm install 13
   - node --version
+  - yes | sdkmanager "platforms;android-28"
   - cd android
   - chmod +x gradlew
   - cd ..
@@ -12,8 +13,7 @@ android:
     - tools
     - platform-tools
     - build-tools-28.0.3
-    - android-29
-    - android-19
+    - android-28
     - extra-android-support
     - extra-android-m2repository
     - extra-google-google_play_services
@@ -21,4 +21,4 @@ android:
     - addon-google_apis-google-19
 script:
   - cd android
-  - y | ./gradlew assembleRelease --debug
+  - yes | ./gradlew assembleRelease --debug
