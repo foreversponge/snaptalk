@@ -18,4 +18,4 @@ android:
     - addon-google_apis-google-19
 script:
   - cd android
-  - chmod +x ./gradlew assembleDebug
+  - ./gradlew assembleRelease
