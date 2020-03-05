@@ -6,7 +6,6 @@ before_install:
   - cd android
   - chmod +x gradlew
   - cd ..
-  - npx jetify
 install:
   - npm install
 android:
