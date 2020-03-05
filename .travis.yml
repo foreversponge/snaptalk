@@ -2,7 +2,9 @@ language: android
 before_install:
   - nvm install 6
   - node --version
+  - cd android
   - chmod +x gradlew
+  - cd ..
 install:
   - npm install
 android:
