@@ -1,9 +1,5 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID} from 'react-native-dotenv';
-
-
-
 
 import LoadingScreen from './components/LoadingScreen';
 import LoginScreen from './components/LoginScreen';
@@ -22,14 +18,13 @@ if(!firebase.apps.length){
 const AppContainer = createStackNavigator(
   {
     SnapTalk: Tabs,
-    Post: {
-      screen: PostScreen
-    }
+    // Post: {
+    //   screen: PostScreen
+    // }
   },
   {
     mode: "modal",
     headerMode: "none",
-    initialRouteName: "Post"
   }
 )
 

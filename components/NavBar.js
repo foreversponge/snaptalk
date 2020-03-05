@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import ProfilePage from './ProfilePage';
+import ProfilePageScreen from './ProfilePageScreen';
 import HomeScreen from './HomeScreen';
 import NotificationScreen from './NotificationScreen';
 import PostScreen from './PostScreen';
@@ -57,7 +57,7 @@ export default function Tabs() {
          />
         <AppTabs.Screen 
             name="Profile" 
-            component={ProfilePage}
+            component={ProfilePageScreen}
             options={{
                 tabBarIcon: ({ color, size}) => (
                     <Icon name="ios-person" size={30} color= {color} />
