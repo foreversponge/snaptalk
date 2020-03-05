@@ -17,5 +17,5 @@ android:
     - extra-google-m2repository
     - addon-google_apis-google-19
 script:
-  - npm run ci
-  - cd android && ./gradlew assembleRelease
+  - npm ci
+  - cd android && chmod +x ./gradlew assembleRelease
