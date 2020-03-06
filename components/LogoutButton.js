@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native';
 import * as firebase from 'firebase';
 import Fire from './Fire';
 
@@ -15,7 +15,7 @@ export default class LogoutButton extends Component {
 
   return(
         <Button 
-            onPress={() => {Fire.shared.signOut}}
+            onPress={this.handleLogout}
             title="Logout"
         />
     )};

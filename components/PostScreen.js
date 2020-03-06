@@ -46,7 +46,7 @@ export default class PostScreen extends React.Component {
             console.log('Camera permission denied');
           }
         } catch (err) {
-          console.warn(err);
+            console.warn(err);
         }
     };
 
@@ -55,7 +55,7 @@ export default class PostScreen extends React.Component {
             this.setState({text:"", image:null});
             this.props.navigation.goBack(); 
         })
-        .catch(error => {
+        .catch(error => {   
             alert(error);
         });
     };
@@ -84,7 +84,7 @@ export default class PostScreen extends React.Component {
                         <Icon name="ios-arrow-back" size={24} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.handlePost}>
-                        <Text style= {{fontWeight: "500"}}> Post </Text>
+                        <Text style= {{fontWeight: "bold"}}> Post </Text>
                     </TouchableOpacity>
                 </View>
 

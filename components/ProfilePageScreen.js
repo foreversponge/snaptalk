@@ -59,6 +59,7 @@ export default class ProfilePageScreen extends Component {
                         <Text style={styles.title}> Following </Text>
                     </View>
                 </View>
+                <LogoutButton/>
             </View>
         </>
      );

@@ -32,17 +32,17 @@ class Fire {
         let remoteUri = null
 
         try{
-            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
+            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(error => re.setState({errorMessage: error.message}));
 
             let db = this.firestore.collection("users").doc(this.uid);
 
             db.set({
                 name: user.name,
-                email: user.email
+                email: user.email,
             });
 
         } catch(error){
-            alert("Error: ", error)
+            alert("Error: Format is wrong.");
        }
     }
 
@@ -81,6 +81,9 @@ class Fire {
         return Date.now();
     }
 }
+
+
+
 
 Fire.shared = new Fire();
 export default Fire;
