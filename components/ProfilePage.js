@@ -9,6 +9,8 @@ import ProfilePicture from './ProfilePicture';
 import NumbFollowers from './NumbFollowers';
 import NumbPosts from './NumbPosts';
 import NumbFollowing from './NumbFollowing';
+import ScrollFeed from './ScrollFeed';
+import CommentList from './CommentList';
 
 export default class ProfilePage extends Component {
    render() {
@@ -31,6 +33,26 @@ export default class ProfilePage extends Component {
                             </View>
                         </View>
                      </View>
+
+                    <View style={{flex:1, paddingLeft:30, paddingTop:30}}>
+                                
+                    </View>
+
+                    {/* <Button   
+                    onPress={() => this.props.navigation.navigate("CommentList")}>
+           
+                        <Text>See comments</Text>
+        
+                    </Button> */}
+
+
+                    <CommentList></CommentList>
+
+                    
+
+                    {/* <ScrollFeed></ScrollFeed> */}
+                    
+                    
                 </Content>
             </Container>
         </>

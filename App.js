@@ -7,6 +7,9 @@ import RegisterScreen from './components/RegisterScreen';
 import ProfilePage from './components/ProfilePage';
 
 import * as firebase from 'firebase';
+import CommentList from './components/CommentList';
+import ScrollFeed from './components/ScrollFeed';
+import Post from './components/Post';
 
 const API_KEY = FIREBASE_API_KEY;
 const AUTH_DOMAIN = FIREBASE_AUTH_DOMAIN;
@@ -31,7 +34,10 @@ if(!firebase.apps.length){
 
 const AppStack = createStackNavigator(
   {
-    Home: ProfilePage
+    Home: ProfilePage,
+    ScrollFeed: { screen: Post},
+    Post: Post,
+    CommentList: CommentList
   }
 )
 
