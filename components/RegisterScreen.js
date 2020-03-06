@@ -4,12 +4,20 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as firebase from 'firebase';
 
 export default class RegisterScreen extends React.Component {
-    
-    state = {
-        name: "",
-        email: "",
-        password: "",
-        errorMessage: null
+
+    constructor(){
+        super()
+        this.state = {
+            name: "",
+            email: "",
+            password: "",
+            nbPost: 0,
+            nbFollowers: "",
+            errorMessage: null
+        }
+
+
+
     }
 
     handleSignUp = () =>
@@ -23,7 +31,23 @@ export default class RegisterScreen extends React.Component {
                 );
             })
             .catch(error => this.setState({errorMessage: error.message}));
+
+
+            firebase.database().ref('Users/').push({
+                        Email : this.state.email,
+                        Name : this.state.name,
+                        Password : this.state.password,
+                        NbPost : this.state.nbPost
+                    }).then((data)=>{
+                        console.log('user was added to database ' , data)
+                    }).catch((error)=>{
+                        console.log('error ' , error)
+                    })
+
+
+
     }
+
 
     render()
     {

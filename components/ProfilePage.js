@@ -10,7 +10,22 @@ import NumbFollowers from './NumbFollowers';
 import NumbPosts from './NumbPosts';
 import NumbFollowing from './NumbFollowing';
 
+import * as firebase from 'firebase';
+
 export default class ProfilePage extends Component {
+
+
+    constructor(){
+    super()
+
+
+
+
+    }
+
+
+
+
    render() {
      return (
         <>
@@ -19,8 +34,9 @@ export default class ProfilePage extends Component {
                     <View>
                         <View style={{flexDirection: 'row'}}>
 
-                            <View style={{flex:1, paddingLeft:10, paddingTop:10}}>
+                            <View style={{flex:2, paddingLeft:10, paddingTop:10}}>
                                 <ProfilePicture />
+                                <FollowButton />
                             </View>
                             <View style = {{flex:3}}>
                                 <View style={{flexDirection : 'row', justifyContent: 'space-around'}}>
