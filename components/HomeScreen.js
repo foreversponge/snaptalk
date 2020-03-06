@@ -1,8 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from "moment";
 import Fire from './Fire';
+import Comments from './CommentList'
+import CommentList from './CommentList';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 posts = [
@@ -19,7 +22,8 @@ posts = [
 export default class HomeScreen extends React.Component{
 
   state = {
-    posts:[]
+    posts:[],
+    openCommentBox: false
   };
 
   componentDidMount(){
@@ -44,7 +48,9 @@ export default class HomeScreen extends React.Component{
               <Text style={styles.name}> {post.name}</Text>
               <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
             </View>
-            <Icon name="ios-more" size={24} color="#73788B" />
+            <TouchableOpacity onPress={() => {
+              this.setState({openCommentBox : true})
+            }}><Icon name="ios-chatboxes" size={24} color="#73788B"/></TouchableOpacity>
           </View>
           <Text style={styles.post}>{post.text}</Text>
 
@@ -59,6 +65,7 @@ export default class HomeScreen extends React.Component{
     );
   };
 
+
     render() {
       return (
         <View style={styles.container}>
@@ -66,13 +73,37 @@ export default class HomeScreen extends React.Component{
             <Text style={styles.headerTitle}> Feed </Text>
           </View>
 
-          <FlatList 
+          {/* <FlatList 
             style={styles.feed} 
             data={posts} 
             renderItem={({item}) => this.renderPost(item)} 
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
-            /> 
+
+            
+          /> */}
+
+          <ScrollView>
+
+          <FlatList
+          style={styles.feed} 
+          data={posts} 
+          renderItem={({item}) => this.renderPost(item)} 
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          ></FlatList>
+
+          <CommentList></CommentList>
+
+          </ScrollView>
+
+          
+          
+
+          
+          
+
+
         </View>
       );
     }

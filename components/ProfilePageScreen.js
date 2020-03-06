@@ -41,7 +41,7 @@ export default class ProfilePageScreen extends Component {
             <View styles = {styles.container}>
                 <View style={{marginTop : 64, alignItems: "center"}}>
                     <View>
-                        <Text> Profile Picture Goes Here</Text>
+                        <ProfilePicture></ProfilePicture>
                     </View>
                     <Text style={styles.name}> {this.state.user.name} </Text>
                 </View>

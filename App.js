@@ -10,6 +10,8 @@ import Tabs from './components/NavBar';
 import FirebaseKeys from './components/config';
 
 import * as firebase from 'firebase';
+import CommentList from './components/CommentList';
+import HomeScreen from './components/HomeScreen';
 
 if(!firebase.apps.length){
   firebase.initializeApp(FirebaseKeys);
@@ -18,6 +20,14 @@ if(!firebase.apps.length){
 const AppContainer = createStackNavigator(
   {
     SnapTalk: Tabs,
+    Comments: {
+      screen: CommentList
+    },
+
+    HomeScreen:{
+      screen: HomeScreen
+    } 
+
     // Post: {
     //   screen: PostScreen
     // }
