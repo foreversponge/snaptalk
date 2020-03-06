@@ -115,7 +115,7 @@ export default class CommentList extends Component {
 
             <View style={{ flex: 1}}>
                 <View style={{
-                    backgroundColor: 'green',
+                    backgroundColor: 'gray',
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
                     alignItems: 'center',
@@ -176,39 +176,11 @@ export default class CommentList extends Component {
 
                             <CommentBox uri={item.avatar} name={item.name} comment={item.comment} date={item.date}></CommentBox>
 
-
-                            // <Text style={{
-                            //     fontSize: 20,
-                            //     fontWeight: 'bold',
-                            //     margin: 10
-                            // }}>{item.comment}</Text>);
                         );    
                     }}                    
                 >
                 </FlatList>
             </View>
-
-
-
-
-
-
-
-
-
-
-            {/* <AddComment></AddComment>
-
-
-            <Button onPress={writeUserData(comm1)}><Text>Click me to write all the comments to the db</Text></Button>
-
-            <CommentBox uri="https://assets.change.org/photos/9/yq/ux/RWYquxnYdozJBBz-800x450-noPad.jpg?1484284968" name="Frank" message="Cool pic fam" date="09/12/2323" ></CommentBox>
-            <CommentBox uri="https://cdn.mos.cms.futurecdn.net/c7dppKDbG3JXuMfybV5tUX-970-80.jpg" name="Einstein" message="Nice" date="09/12/2333"></CommentBox>
-            <CommentBox uri="https://gmsrp.cachefly.net/images/19/01/23/30af83f34eef97cc1af94b43c7f36ebd/960.jpg" name="Messi" message="How cute!" date="09/12/1000"></CommentBox>
-
-
-            <Button onPress={readUserData()}><Text>Click me to read all the comments</Text></Button> */}
-
 
       </ScrollView>
       );

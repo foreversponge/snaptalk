@@ -73,37 +73,22 @@ export default class HomeScreen extends React.Component{
             <Text style={styles.headerTitle}> Feed </Text>
           </View>
 
-          {/* <FlatList 
-            style={styles.feed} 
-            data={posts} 
-            renderItem={({item}) => this.renderPost(item)} 
-            keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
-
-            
-          /> */}
-
           <ScrollView>
 
-          <FlatList
-          style={styles.feed} 
-          data={posts} 
-          renderItem={({item}) => this.renderPost(item)} 
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          ></FlatList>
+            <FlatList 
+              style={styles.feed} 
+              data={posts} 
+              renderItem={({item}) => this.renderPost(item)} 
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
 
-          <CommentList></CommentList>
+              
+            />
+
+            <CommentList></CommentList>
 
           </ScrollView>
-
           
-          
-
-          
-          
-
-
         </View>
       );
     }
