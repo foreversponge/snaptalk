@@ -8,8 +8,13 @@ class Fire {
         firebase.initializeApp(FirebaseKeys);
     }
 
+
     addPost = async({text, localUri}) => {
-        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/${this.uid}/${Date.now()}');
+        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/'+this.uid+'/'+Date.now());
+
+        const name = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPath = new firebase.firestore.FieldPath('name');
 
         return new Promise((res, rej) => {
             this.firestore.collection("posts").add({
@@ -17,6 +22,7 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
+                username: name.get(fieldPath)
             })
             .then( ref=> {
                 res(ref);
@@ -39,6 +45,9 @@ class Fire {
             db.set({
                 name: user.name,
                 email: user.email,
+                listOfFollowers: [],
+                listOfFollowing: [],
+                listOfPosts: []
             });
 
         } catch(error){

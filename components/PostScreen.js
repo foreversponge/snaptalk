@@ -97,7 +97,7 @@ export default class PostScreen extends React.Component {
                 </TouchableOpacity>
 
                 <View style = {{marginalHorizontal: 32, marginTop: 32, height: 150}}>
-                    <Image source = {{uri: this.state.image}} style={{width: "70%", height:"70%"}}></Image>
+                    <Image source = {{uri: this.state.image}} style={{width: "100%", height:"100%"}}></Image>
                 </View>
             </SafeAreaView>
         );
