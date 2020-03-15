@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import {StyleSheet,View,Text, Image, Button, TouchableHighlightBase} from 'react-native';
-import {Icon, Container, Content, Left, Right, Body} from 'native-base';
 import Fire from './Fire';
-
-import ProfilePicture from './ProfilePicture';
-import NumbFollowers from './NumbFollowers';
-import NumbPosts from './NumbPosts';
-import NumbFollowing from './NumbFollowing';
 import LogoutButton from './LogoutButton';
 
 export default class ProfilePageScreen extends Component {
-
 
     state = {
         user: {}
@@ -39,9 +32,9 @@ export default class ProfilePageScreen extends Component {
      return (
         <>
             <View styles = {styles.container}>
-                <View style={{marginTop : 64, alignItems: "center"}}>
-                    <View>
-                        <Text> Profile Picture Goes Here</Text>
+                <View style={{marginTop : 32, alignItems: "center"}}>
+                    <View style={styles.avatarContaine}>
+                        <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
                     </View>
                     <Text style={styles.name}> {this.state.user.name} </Text>
                 </View>
@@ -92,8 +85,17 @@ const styles = StyleSheet.create({
          fontSize: 12,
          fontWeight: "bold",
          marginTop: 4,
+     },
+     avatarContainer:{
+         shadowColor: "#151734",
+         shadowRadius: 30,
+         shadowOpacity: 0.4
+     },
+     avatar:
+     {
+         width: 100,
+         height: 100,
+         borderRadius: 68,
      }
-
-
 });
 

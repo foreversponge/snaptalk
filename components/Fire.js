@@ -12,9 +12,13 @@ class Fire {
     addPost = async({text, localUri}) => {
         const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/'+this.uid+'/'+Date.now());
 
-        const name = await firebase.firestore().collection("users").doc(this.uid).get();
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
         const fieldPath = new firebase.firestore.FieldPath('name');
+
+        const userAgain = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPath2 = new firebase.firestore.FieldPath('profilePicture');
 
         return new Promise((res, rej) => {
             this.firestore.collection("posts").add({
@@ -22,7 +26,8 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
-                username: name.get(fieldPath)
+                username: user.get(fieldPath),
+                avatar: userAgain.get(fieldPath2)
             })
             .then( ref=> {
                 res(ref);
@@ -35,9 +40,10 @@ class Fire {
 
 
     createUser = async user => {
-        let remoteUri = null
+        let remoteAvatarUri = null
 
         try{
+
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(error => re.setState({errorMessage: error.message}));
 
             let db = this.firestore.collection("users").doc(this.uid);
@@ -47,8 +53,15 @@ class Fire {
                 email: user.email,
                 listOfFollowers: [],
                 listOfFollowing: [],
-                listOfPosts: []
+                listOfPosts: [],
+                profilePicture: remoteAvatarUri
             });
+
+            if(user.avatar)
+            {
+                remoteAvatarUri = await this.uploadPhotoAsync(user.avatar, 'avatar/'+this.uid);
+                db.set({profilePicture: remoteAvatarUri}, {merge: true})
+            }
 
         } catch(error){
             alert("Error: Format is wrong.");

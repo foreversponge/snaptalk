@@ -11,7 +11,6 @@ export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
-    //name: null
   };
 
   componentDidMount(){
@@ -26,22 +25,10 @@ export default class HomeScreen extends React.Component{
       });
   };
 
-  /*getUsername = async() =>
-  {
-    const userInfo = await firebase.firestore().collection("posts").doc(this.uid).get();
-
-    const fieldPathUser = new firebase.firestore.FieldPath('username');
-
-    const username = userInfo.get(fieldPathUser);
-
-    this.setState({name: username})
-  }*/
-
   renderPost = post => {
-    //this.getUsername();
     return(
       <View style={styles.feedItem}>
-        <Image source = {post.avatar} style={styles.avatar}/>
+        <Image source = {post.avatar ? {uri: post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
         <View style = {{flex: 1}}>
           <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <View>
