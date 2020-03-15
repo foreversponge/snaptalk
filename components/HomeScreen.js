@@ -11,7 +11,7 @@ export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
-    name: null
+    //name: null
   };
 
   componentDidMount(){
@@ -26,13 +26,15 @@ export default class HomeScreen extends React.Component{
       });
   };
 
-  /*getUsername()
+  /*getUsername = async() =>
   {
-    const user = firebase.firestore().collection("posts").doc('GSdMzEViKIQOyx5KDRkE').get();
+    const userInfo = await firebase.firestore().collection("posts").doc(this.uid).get();
 
-    const fieldPath = new firebase.firestore.FieldPath('username');
+    const fieldPathUser = new firebase.firestore.FieldPath('username');
 
-    this.setState({name: user.get(fieldPath)})
+    const username = userInfo.get(fieldPathUser);
+
+    this.setState({name: username})
   }*/
 
   renderPost = post => {
@@ -43,7 +45,7 @@ export default class HomeScreen extends React.Component{
         <View style = {{flex: 1}}>
           <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <View>
-              <Text style={styles.name}> {this.state.name} </Text>
+              <Text style={styles.name}>{(JSON.stringify(post.username)).replace(/\"/g,"")}</Text>
               <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
             </View>
             <Icon name="ios-more" size={24} color="#73788B" />
