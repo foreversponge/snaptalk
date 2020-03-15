@@ -8,8 +8,17 @@ class Fire {
         firebase.initializeApp(FirebaseKeys);
     }
 
+
     addPost = async({text, localUri}) => {
-        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/${this.uid}/${Date.now()}');
+        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/'+this.uid+'/'+Date.now());
+
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPath = new firebase.firestore.FieldPath('name');
+
+        const userAgain = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPath2 = new firebase.firestore.FieldPath('profilePicture');
 
         return new Promise((res, rej) => {
             this.firestore.collection("posts").add({
@@ -17,6 +26,8 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
+                username: user.get(fieldPath),
+                avatar: userAgain.get(fieldPath2)
             })
             .then( ref=> {
                 res(ref);
@@ -29,9 +40,10 @@ class Fire {
 
 
     createUser = async user => {
-        let remoteUri = null
+        let remoteAvatarUri = null
 
         try{
+
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(error => re.setState({errorMessage: error.message}));
 
             let db = this.firestore.collection("users").doc(this.uid);
@@ -39,7 +51,17 @@ class Fire {
             db.set({
                 name: user.name,
                 email: user.email,
+                listOfFollowers: [],
+                listOfFollowing: [],
+                listOfPosts: [],
+                profilePicture: remoteAvatarUri
             });
+
+            if(user.avatar)
+            {
+                remoteAvatarUri = await this.uploadPhotoAsync(user.avatar, 'avatar/'+this.uid);
+                db.set({profilePicture: remoteAvatarUri}, {merge: true})
+            }
 
         } catch(error){
             alert("Error: Format is wrong.");

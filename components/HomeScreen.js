@@ -3,23 +3,14 @@ import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS } from 'react-
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from "moment";
 import Fire from './Fire';
+import firebase from 'firebase';
 
-
-posts = [
-  {
-    id: "1",
-    name:"Joe Mckday",
-    text: "Lollololololol",
-    timestamp: 159109273726,
-    avatar: require("../assets/CR.jpg"),
-    image: require("../assets/CR.jpg")
-  }
-]
+posts = []
 
 export default class HomeScreen extends React.Component{
 
   state = {
-    posts:[]
+    posts:[],
   };
 
   componentDidMount(){
@@ -37,18 +28,18 @@ export default class HomeScreen extends React.Component{
   renderPost = post => {
     return(
       <View style={styles.feedItem}>
-        <Image source = {post.avatar} style={styles.avatar}/>
+        <Image source = {post.avatar ? {uri: post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
         <View style = {{flex: 1}}>
           <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <View>
-              <Text style={styles.name}> {post.name}</Text>
+              <Text style={styles.name}>{(JSON.stringify(post.username)).replace(/\"/g,"")}</Text>
               <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
             </View>
             <Icon name="ios-more" size={24} color="#73788B" />
           </View>
           <Text style={styles.post}>{post.text}</Text>
 
-          <Image source={post.image} style={styles.postImage} resizeMode="cover"/>
+          <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
 
           <View style={{flexDirection:"row"}}>
             <Icon name="ios-heart-empty" size={24} color="#73788B" style={{marginRight: 16}}/>

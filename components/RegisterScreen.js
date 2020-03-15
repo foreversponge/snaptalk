@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Fire from './Fire';
+import ImagePicker from 'react-native-image-picker';
 
 export default class RegisterScreen extends React.Component {
     
@@ -10,10 +12,26 @@ export default class RegisterScreen extends React.Component {
             name: "",
             email: "",
             password: "",
-            errorMessage: null
+            errorMessage: null,
+            avatar: null
         },
         errorMessage: null
      }
+
+    handlePickAvatar = async () =>
+    {
+        ImagePicker.launchImageLibrary({aspect: [4, 3], mediaType: 'photo'}, (response) => {
+            console.log('Response =', response);
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+              } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+              } else {
+                const source = { uri: response.uri };
+            this.setState({ user: { ...this.state.user, avatar: response.uri}});
+            }
+        });
+    }
 
     handleSignUp = () =>
     {
@@ -24,19 +42,23 @@ export default class RegisterScreen extends React.Component {
     {
         return (
             <View style={styles.container}>
-                <Text style={styles.greeting}>
-                    {'Sign up to get started'}
-                </Text>
-
-                <View style={styles.errorMessage}>
-                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
-                </View>
 
                 <KeyboardAwareScrollView
                     resetScrollToCoords={{ x: 0, y:0 }}
                     scrollEnabled={true}
                 >
-                    <View style={styles.form}>
+                    <Text style={styles.greeting}>
+                        {'Sign up to get started'}
+                    </Text>
+
+                    <View style={{alignItems: "center", width: "100%" }}>
+                        <TouchableOpacity style={styles.avatarPlaceHolder} onPress={this.handlePickAvatar}>
+                            <Image source={{uri: this.state.user.avatar}} style={styles.avatar}></Image>
+                            <Icon name="ios-add" size={40} color="#FFF" style={{alignItems: "center", justifyContent: "center"}}></Icon>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.form}>    
                         <View>
                             <Text style={styles.inputTitle}>Full Name</Text>
                             <TextInput 
@@ -89,7 +111,7 @@ const styles = StyleSheet.create(
             marginTop: 32,
             fontSize: 18,
             fontWeight: "400",
-            textAlign: "center"
+            textAlign: "center",
         },
         errorMessage:{
             height: 72,
@@ -105,6 +127,7 @@ const styles = StyleSheet.create(
             textAlign: "center"
         },
         form:{
+            marginTop: 0,
             marginBottom: 48,
             marginHorizontal: 30
         },
@@ -130,5 +153,23 @@ const styles = StyleSheet.create(
             height: 52,
             alignItems: "center",
             justifyContent: "center"
+        },
+        avatar:
+        {
+            position: "absolute",
+            marginTop: 25,
+            width: 100,
+            height: 100,
+            borderRadius: 50
+        },
+        avatarPlaceHolder:
+        {
+            width: 100,
+            height: 100,
+            backgroundColor: "#E1E2E6",
+            borderRadius: 50,
+            marginTop: 25,
+            justifyContent: "center",
+            alignItems: "center"
         }
     })
