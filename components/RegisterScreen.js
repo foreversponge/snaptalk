@@ -1,53 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import * as firebase from 'firebase';
+import Fire from './Fire';
 
 export default class RegisterScreen extends React.Component {
 
-    constructor(){
-        super()
-        this.state = {
+    state = {
+        user: {
             name: "",
             email: "",
             password: "",
-            nbPost: 0,
-            nbFollowers: "",
             errorMessage: null
-        }
-
-
-
-    }
+        },
+        errorMessage: null
+     }
 
     handleSignUp = () =>
     {
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(userCredentials => {
-                    return userCredentials.user.updateProfile(
-                    {
-                        displayName: this.state.name
-                    }
-                );
-            })
-            .catch(error => this.setState({errorMessage: error.message}));
-
-
-            firebase.database().ref('Users/').push({
-                        Email : this.state.email,
-                        Name : this.state.name,
-                        Password : this.state.password,
-                        NbPost : this.state.nbPost
-                    }).then((data)=>{
-                        console.log('user was added to database ' , data)
-                    }).catch((error)=>{
-                        console.log('error ' , error)
-                    })
-
-
-
+        Fire.shared.createUser(this.state.user);
     }
-
 
     render()
     {
@@ -71,8 +42,8 @@ export default class RegisterScreen extends React.Component {
                             <TextInput 
                                 style={styles.input} 
                                 autoCapitalize="none" 
-                                onChangeText={name => this.setState({ name })}
-                                value={this.state.name}
+                                onChangeText={name => this.setState({ user: {...this.state.user, name} })}
+                                value={this.state.user.name}
                             ></TextInput>
                         </View>
 
@@ -81,8 +52,8 @@ export default class RegisterScreen extends React.Component {
                             <TextInput 
                                 style={styles.input} 
                                 autoCapitalize="none" 
-                                onChangeText={email => this.setState({ email })}
-                                value={this.state.email}
+                                onChangeText={email => this.setState({ user: {...this.state.user, email} })}
+                                value={this.state.user.email}
                             ></TextInput>
                         </View>
                     
@@ -93,8 +64,8 @@ export default class RegisterScreen extends React.Component {
                                     style={styles.input}
                                     secureTextEntry
                                     autoCapitalize="none"
-                                    onChangeText={password => this.setState({ password })}
-                                    value={this.state.password}
+                                    onChangeText={password => this.setState({ user: {...this.state.user, password} })}
+                                    value={this.state.user.password}
                                 ></TextInput>
                             </View>
                         </View>
