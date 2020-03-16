@@ -22,10 +22,20 @@ export default class PostScreen extends React.Component {
         text: "",
         image: null,
         likes: 0,
+        user: {}
     };
 
     componentDidMount() {
         this.requestCameraRollPermission();
+
+        const user = this.props.uid || Fire.shared.uid;
+
+        this.unsubscribe = Fire.shared.firestore
+            .collection("users")
+            .doc(user)
+            .onSnapshot(doc => {
+                this.setState({user: doc.data()});
+            });
     }
 
     requestCameraRollPermission = async () => {
@@ -89,7 +99,7 @@ export default class PostScreen extends React.Component {
                 </View>
 
                 <View style={styles.captionContainer}>
-                    <Image  source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyqR3FXPVUpubp2shDrw3X1iktFXSVpNFbpzl0dVz7Gao1Z-9zww&s',}} style={styles.profilePic}></Image>
+                    <Image  source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')} style={styles.profilePic}></Image>
                     <TextInput autofocus={true} multiline={true} numberOfLines={4} style = {{flex:1}} placeholder="Write your caption..." maxLength = {250} onChangeText={text => this.setState({text})} value={this.state.text}></TextInput>
                 </View>
                 <TouchableOpacity style = {styles.cameraIcon} onPress={this.pickImage}>
