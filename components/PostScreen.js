@@ -63,6 +63,7 @@ export default class PostScreen extends React.Component {
     handlePost = () => {
         Fire.shared.addPost({text: this.state.text.trim(), localUri: this.state.image}).then(ref => {
             this.setState({text:"", image:null});
+            Fire.shared.updatePostList(ref.id);
             this.props.navigation.goBack(); 
         })
         .catch(error => {   

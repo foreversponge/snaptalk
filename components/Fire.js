@@ -14,11 +14,11 @@ class Fire {
 
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
-        const fieldPath = new firebase.firestore.FieldPath('name');
+        const fieldPathName = new firebase.firestore.FieldPath('name');
 
         const userAgain = await firebase.firestore().collection("users").doc(this.uid).get();
 
-        const fieldPath2 = new firebase.firestore.FieldPath('profilePicture');
+        const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
 
         return new Promise((res, rej) => {
             this.firestore.collection("posts").add({
@@ -26,8 +26,8 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
-                username: user.get(fieldPath),
-                avatar: userAgain.get(fieldPath2)
+                username: user.get(fieldPathName),
+                avatar: userAgain.get(fieldPathProfilePicture)
             })
             .then( ref=> {
                 res(ref);
@@ -38,6 +38,17 @@ class Fire {
         })
     };
 
+    updatePostList = async (postId) =>
+    {
+        let db = this.firestore.collection("users").doc(this.uid);
+
+        if(postId)
+        {
+            db.update({
+                listOfPosts: firebase.firestore.FieldValue.arrayUnion(postId)
+            })
+        }
+    }
 
     createUser = async user => {
         let remoteAvatarUri = null
