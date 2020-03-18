@@ -40,7 +40,7 @@ export default class ProfilePageScreen extends Component {
                 </View>
                 <View style = {styles.info}>
                     <View style={styles.state}>
-                        <Text style = {styles.amount}> 21 </Text>
+                        <Text style = {styles.amount}> {this.state.user.nbOfPosts} </Text>
                         <Text style={styles.title}> Posts </Text>
                     </View>
                     <View style={styles.state}>

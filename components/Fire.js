@@ -1,5 +1,6 @@
 import FirebaseKeys from "./config";
 import firebase from 'firebase';
+import { useTheme } from "react-navigation";
 require("firebase/firestore");
 
 class Fire {
@@ -42,11 +43,21 @@ class Fire {
     {
         let db = this.firestore.collection("users").doc(this.uid);
 
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPathListOfPosts = new firebase.firestore.FieldPath('listOfPosts');
+
         if(postId)
         {
             db.update({
                 listOfPosts: firebase.firestore.FieldValue.arrayUnion(postId)
             })
+
+            const nbOfPosts = await user.get(fieldPathListOfPosts).length + 1;
+            
+            db.set(
+                {nbOfPosts: nbOfPosts}, {merge: true}
+            )
         }
     }
 
@@ -65,6 +76,7 @@ class Fire {
                 listOfFollowers: [],
                 listOfFollowing: [],
                 listOfPosts: [],
+                nbOfPosts: 0,
                 profilePicture: remoteAvatarUri
             });
 
