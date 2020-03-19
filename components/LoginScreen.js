@@ -122,7 +122,7 @@ const styles = StyleSheet.create(
         button:
         {
             marginHorizontal: 30,
-            backgroundColor: "#E9446A",
+            backgroundColor: "purple",
             borderRadius: 4,
             height: 52,
             alignItems: "center",

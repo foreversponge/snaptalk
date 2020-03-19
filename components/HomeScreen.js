@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from "moment";
 import Fire from './Fire';
 import firebase from 'firebase';
+import _ from "underscore";
 
 posts = []
 
@@ -11,19 +12,28 @@ export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
+    isLoading: false
   };
 
   componentDidMount(){
+    this.getData
+  };
 
+  getData = () =>
+  {
+    this.setState({isLoading:true})
     this.unsubscribe = Fire.shared.firestore
       .collection("posts")
       .get()
       .then(snapshot => {
         snapshot.forEach( doc => {
-          posts.push(doc.data())
+            if(_.findWhere(posts,doc.data()) == null)
+            {      
+              posts.push(doc.data())
+            }
         })
-      });
-  };
+      }).finally(()=> this.setState({isLoading:false}))
+  }
 
   renderPost = post => {
     return(
@@ -63,6 +73,8 @@ export default class HomeScreen extends React.Component{
             renderItem={({item}) => this.renderPost(item)} 
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
+            refreshing={this.state.isLoading}
+            onRefresh={this.getData}
             /> 
         </View>
       );

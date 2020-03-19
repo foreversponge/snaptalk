@@ -17,6 +17,7 @@ export default class LogoutButton extends Component {
         <Button 
             onPress={this.handleLogout}
             title="Logout"
+            color="purple"
         />
     )};
 };

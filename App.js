@@ -11,6 +11,8 @@ import FirebaseKeys from './components/config';
 
 import * as firebase from 'firebase';
 
+console.disableYellowBox = true
+
 if(!firebase.apps.length){
   firebase.initializeApp(FirebaseKeys);
 }

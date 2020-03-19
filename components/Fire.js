@@ -1,5 +1,6 @@
 import FirebaseKeys from "./config";
 import firebase from 'firebase';
+import { useTheme } from "react-navigation";
 require("firebase/firestore");
 
 class Fire {
@@ -14,11 +15,11 @@ class Fire {
 
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
-        const fieldPath = new firebase.firestore.FieldPath('name');
+        const fieldPathName = new firebase.firestore.FieldPath('name');
 
         const userAgain = await firebase.firestore().collection("users").doc(this.uid).get();
 
-        const fieldPath2 = new firebase.firestore.FieldPath('profilePicture');
+        const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
 
         return new Promise((res, rej) => {
             this.firestore.collection("posts").add({
@@ -26,8 +27,8 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
-                username: user.get(fieldPath),
-                avatar: userAgain.get(fieldPath2)
+                username: user.get(fieldPathName),
+                avatar: userAgain.get(fieldPathProfilePicture)
             })
             .then( ref=> {
                 res(ref);
@@ -38,6 +39,27 @@ class Fire {
         })
     };
 
+    updatePostList = async (postId) =>
+    {
+        let db = this.firestore.collection("users").doc(this.uid);
+
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPathListOfPosts = new firebase.firestore.FieldPath('listOfPosts');
+
+        if(postId)
+        {
+            db.update({
+                listOfPosts: firebase.firestore.FieldValue.arrayUnion(postId)
+            })
+
+            const nbOfPosts = await user.get(fieldPathListOfPosts).length + 1;
+            
+            db.set(
+                {nbOfPosts: nbOfPosts}, {merge: true}
+            )
+        }
+    }
 
     createUser = async user => {
         let remoteAvatarUri = null
@@ -54,6 +76,7 @@ class Fire {
                 listOfFollowers: [],
                 listOfFollowing: [],
                 listOfPosts: [],
+                nbOfPosts: 0,
                 profilePicture: remoteAvatarUri
             });
 
