@@ -148,7 +148,7 @@ const styles = StyleSheet.create(
         {
             marginHorizontal: 30,
             marginBottom: 30,
-            backgroundColor: "#E9446A",
+            backgroundColor: "purple",
             borderRadius: 4,
             height: 52,
             alignItems: "center",
