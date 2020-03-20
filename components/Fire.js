@@ -66,7 +66,24 @@ class Fire {
 
         try{
 
-            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(error => re.setState({errorMessage: error.message}));
+            if(!user.name)
+            {
+                throw new Error("Username was not entered.")
+            }
+
+            await this.firestore
+            .collection("users")
+            .get()
+            .then(snapshot => {
+                snapshot.forEach( doc => {   
+                    if(user.name == doc.data().name)
+                    {
+                        throw new Error("Username already taken.")
+                    }
+                })
+            })
+
+            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
             let db = this.firestore.collection("users").doc(this.uid);
 
@@ -87,7 +104,7 @@ class Fire {
             }
 
         } catch(error){
-            alert("Error: Format is wrong.");
+            alert("Error: " + error.message);
        }
     }
 
