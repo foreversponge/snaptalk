@@ -30,7 +30,7 @@ export default class FollowButton extends Component {
 
 const styles = StyleSheet.create({
      buttonStyle: {
-     flex:1,
+     flex:1
      },
 
 });

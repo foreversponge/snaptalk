@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from "moment";
 import Fire from './Fire';
 import firebase from 'firebase';
 import _ from "underscore";
+import OtherUserProfile from './OtherUserProfile';
+import FollowButton from './FollowButton';
 
 posts = []
 
@@ -12,8 +14,10 @@ export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
-    isLoading: false
+    isLoading: false,
+    isProfileModalVisible: false
   };
+
 
   componentDidMount(){
     this.getData
@@ -35,16 +39,23 @@ export default class HomeScreen extends React.Component{
       }).finally(()=> this.setState({isLoading:false}))
   }
 
+
+
   renderPost = post => {
     return(
       <View style={styles.feedItem}>
         <Image source = {post.avatar ? {uri: post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
         <View style = {{flex: 1}}>
           <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-            <View>
-              <Text style={styles.name}>{(JSON.stringify(post.username)).replace(/\"/g,"")}</Text>
-              <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
+            <View >
+
+                <OtherUserProfile username = {(JSON.stringify(post.username)).replace(/\"/g,"")}>
+
+                </OtherUserProfile>
+            <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
+
             </View>
+
             <Icon name="ios-more" size={24} color="#73788B" />
           </View>
           <Text style={styles.post}>{post.text}</Text>
@@ -142,4 +153,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 16
   }
-})
+
+});
