@@ -5,17 +5,25 @@ import moment from "moment";
 import Fire from './Fire';
 import firebase from 'firebase';
 import _ from "underscore";
+
 import OtherUserProfile from './OtherUserProfile';
 import FollowButton from './FollowButton';
 
 posts = []
+
+import CommentList from './CommentList'
+
 
 export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
     isLoading: false,
-    isProfileModalVisible: false
+    isProfileModalVisible: false,
+
+    postInArray: false,
+    result: '',
+
   };
 
 
@@ -30,10 +38,18 @@ export default class HomeScreen extends React.Component{
       .collection("posts")
       .get()
       .then(snapshot => {
+        
         snapshot.forEach( doc => {
-            if(_.findWhere(posts,doc.data()) == null)
-            {      
-              posts.push(doc.data())
+            this.setState({postInArray:false})
+            this.state.posts.forEach(currentPost => {
+
+              if (currentPost.postKey == doc.data().postKey) {
+                this.setState({postInArray:true})
+              }
+            })
+
+            if (!this.state.postInArray) {
+              this.state.posts.push(doc.data())
             }
         })
       }).finally(()=> this.setState({isLoading:false}))
@@ -59,12 +75,10 @@ export default class HomeScreen extends React.Component{
             <Icon name="ios-more" size={24} color="#73788B" />
           </View>
           <Text style={styles.post}>{post.text}</Text>
-
           <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
-
           <View style={{flexDirection:"row"}}>
             <Icon name="ios-heart-empty" size={24} color="#73788B" style={{marginRight: 16}}/>
-            <Icon name="ios-chatboxes" size={24} color="#73788B"/>
+            <CommentList name="comment-list" postKey={post.postKey}></CommentList>
           </View>
         </View>
       </View>
@@ -77,10 +91,9 @@ export default class HomeScreen extends React.Component{
           <View style={styles.header}>
             <Text style={styles.headerTitle}> Feed </Text>
           </View>
-
           <FlatList 
             style={styles.feed} 
-            data={posts} 
+            data={this.state.posts} 
             renderItem={({item}) => this.renderPost(item)} 
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
@@ -154,4 +167,6 @@ const styles = StyleSheet.create({
     marginVertical: 16
   }
 
+
 });
+

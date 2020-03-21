@@ -10,7 +10,7 @@ class Fire {
     }
 
 
-    addPost = async({text, localUri}) => {
+    addPost = async({text, localUri, postKey}) => {
         const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/'+this.uid+'/'+Date.now());
 
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
@@ -25,10 +25,13 @@ class Fire {
             this.firestore.collection("posts").add({
                 text,
                 uid: this.uid,
+                postKey: '',
                 timestamp: this.timestamp,
                 image: remoteUri,
                 username: user.get(fieldPathName),
-                avatar: userAgain.get(fieldPathProfilePicture)
+                avatar: userAgain.get(fieldPathProfilePicture),
+                listOfComments: [],
+                nbOfComments: 0,
             })
             .then( ref=> {
                 res(ref);
@@ -37,6 +40,18 @@ class Fire {
                 rej(error);
             })
         })
+    };
+
+    addPostKey = async(postId) => {
+
+        let dbPost = this.firestore.collection("posts").doc(postId);
+
+        if(postId)
+        {
+            dbPost.update({
+                postKey: postId
+            })
+        }
     };
 
     updatePostList = async (postId) =>
@@ -61,12 +76,104 @@ class Fire {
         }
     }
 
+    addComment = async({text, postKey}) => {
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPathName = new firebase.firestore.FieldPath('name');
+
+        const userAgain = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
+
+        return new Promise((res, rej) => {
+            this.firestore.collection("comments").add({
+                comment: text,
+                uid: this.uid,
+                timestamp: this.timestamp,
+                username: user.get(fieldPathName),
+                postKey: postKey,
+                commentKey: '',
+                avatar: userAgain.get(fieldPathProfilePicture)
+            })
+            .then( ref=> {
+                res(ref);
+            })
+            .catch(error => {
+                rej(error);
+            })
+        })
+    };
+
+    addCommentKey = async(commentId) => {
+
+        let dbComment = this.firestore.collection("comments").doc(commentId);
+
+        if(commentId)
+        {
+            dbComment.update({
+                commentKey: commentId
+            })
+        }
+    };
+
+    updateCommentList = async ({commentId, postId}) =>
+    {
+        let dbUser = this.firestore.collection("users").doc(this.uid);
+
+        let dbPost = this.firestore.collection("posts").doc(postId);
+
+        const user = await firebase.firestore().collection("users").doc(this.uid).get();
+
+        const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
+
+        if(commentId)
+        {
+            dbUser.update({
+                listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
+            })
+
+            const nbOfComments = await user.get(fieldPathListOfComments).length + 1;
+            
+            dbUser.set(
+                {nbOfComments: nbOfComments}, {merge: true}
+            )
+        }
+
+        if(postId)
+        {
+            dbPost.update({
+                listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
+            })
+
+            const nbOfComments = await user.get(fieldPathListOfComments).length + 1;
+            
+            dbPost.set(
+                {nbOfComments: nbOfComments}, {merge: true}
+            )
+        }
+    }
+
     createUser = async user => {
         let remoteAvatarUri = null
 
         try{
 
-            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(error => re.setState({errorMessage: error.message}));
+            if(!user.name) {
+                throw new Error("The user name was not entered.");
+            }
+
+            await this.firestore
+            .collection("users")
+            .get()
+            .then(snapshot => {
+                snapshot.forEach( doc => {
+                    if (user.name == doc.data().name) {
+                        throw new Error("This user name is already taken.");
+                    }
+                })
+            })
+
+            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
             let db = this.firestore.collection("users").doc(this.uid);
 
@@ -76,7 +183,9 @@ class Fire {
                 listOfFollowers: [],
                 listOfFollowing: [],
                 listOfPosts: [],
+                listOfComments: [],
                 nbOfPosts: 0,
+                nbOfComments: 0,
                 profilePicture: remoteAvatarUri
             });
 
@@ -87,7 +196,7 @@ class Fire {
             }
 
         } catch(error){
-            alert("Error: Format is wrong.");
+            alert("Error: " + error.message);
        }
     }
 
@@ -126,8 +235,6 @@ class Fire {
         return Date.now();
     }
 }
-
-
 
 
 Fire.shared = new Fire();

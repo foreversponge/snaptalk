@@ -24,14 +24,14 @@ export default class ModalExample extends Component {
           }}>
           <View style={{marginTop: 22}}>
             <View>
-              <Text>{this.props.username}</Text>
+                                        <Text>{this.props.username}</Text>
 
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
+                                      <TouchableHighlight
+                                        onPress={() => {
+                                          this.setModalVisible(!this.state.modalVisible);
+                                        }}>
+                                        <Text>Hide Modal</Text>
+                                      </TouchableHighlight>
             </View>
           </View>
         </Modal>
