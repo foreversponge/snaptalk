@@ -22,27 +22,27 @@ export default class HomeScreen extends React.Component{
 
   getData = () =>
   {
-    this.setState({isLoading:true})
-    this.unsubscribe = Fire.shared.firestore
-      .collection("posts")
-      .get()
-      .then(snapshot => {
-        
-        snapshot.forEach( doc => {
-            this.setState({postInArray:false})
-            this.state.posts.forEach(currentPost => {
+      this.setState({isLoading:true})
+      this.unsubscribe = Fire.shared.firestore
+        .collection("posts")
+        .get()
+        .then(snapshot => {
+          
+          snapshot.forEach( doc => {
+              this.setState({postInArray:false})
+              this.state.posts.forEach(currentPost => {
 
-              if (currentPost.postKey == doc.data().postKey) {
-                this.setState({postInArray:true})
+                if (currentPost.postKey == doc.data().postKey) {
+                  this.setState({postInArray:true})
+                }
+              })
+
+              if (!this.state.postInArray) {
+                this.state.posts.push(doc.data())
               }
-            })
-
-            if (!this.state.postInArray) {
-              this.state.posts.push(doc.data())
-            }
-        })
-        this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
-      }).finally(()=> this.setState({isLoading:false}))
+          })
+          this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
+        }).finally(()=> this.setState({isLoading:false}))
   }
 
   renderPost = post => {
