@@ -62,6 +62,7 @@ export default class PostScreen extends React.Component {
 
     handlePost = () => {
         Fire.shared.addPost({text: this.state.text.trim(), localUri: this.state.image}).then(ref => {
+            Fire.shared.addPostKey(ref.id);
             this.setState({text:"", image:null});
             Fire.shared.updatePostList(ref.id);
             this.props.navigation.goBack(); 
@@ -98,7 +99,6 @@ export default class PostScreen extends React.Component {
                         <Text style= {{fontWeight: "bold"}}> Post </Text>
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.captionContainer}>
                     <Image  source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')} style={styles.profilePic}></Image>
                     <TextInput autofocus={true} multiline={true} numberOfLines={4} style = {{flex:1}} placeholder="Write your caption..." maxLength = {250} onChangeText={text => this.setState({text})} value={this.state.text}></TextInput>
