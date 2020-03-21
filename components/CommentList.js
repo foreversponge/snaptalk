@@ -160,17 +160,6 @@ class CommentList extends Component {
                             </Button>
 
                         </View>
-
-                        {//Keep the touchable below if we want to replace the button by a plus sign.
-                        }
-                        {/* <TouchableHighlight
-                                style={{ marginRight: 10 }}
-                                underlayColor='tomato'
-                                onPress={this.onPressAdd}>
-
-                                <Image 
-                                source={{uri: "https://image.flaticon.com/icons/svg/60/60740.svg", width: 35, height: 35}}/>
-                            </TouchableHighlight> */}
                     </View>
                 </Modal>
 
@@ -181,8 +170,6 @@ class CommentList extends Component {
                     <Icon name="ios-chatboxes" size={24} color="#73788B" />
                 </TouchableHighlight>
             </View>
-
-
         );
     }
 }
