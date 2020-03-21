@@ -32,6 +32,7 @@ export default class HomeScreen extends React.Component{
               posts.push(doc.data())
             }
         })
+        posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
       }).finally(()=> this.setState({isLoading:false}))
   }
 
