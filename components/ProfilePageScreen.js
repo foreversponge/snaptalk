@@ -115,11 +115,16 @@ export default class ProfilePageScreen extends Component {
     {
         return(
             <View style={{backgroundColor: "#EFECF4"}} >
-                                    <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
-                                    <View>
-                                        <View styles = {styles.container}>
-                                            <View style={{paddingBottom: 10}}>
-                                                <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+
+                    <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
+                    <LogoutButton style={styles.logout}/>
+                    </View>
+
+                        <View>
+                            <View styles = {styles.container}>
+                                  <View style={{paddingBottom: 10}}>
+                                        <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
                                                                  <View style={styles.avatarContainer}>
                                                                         <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
                                                                       </View>
@@ -286,6 +291,10 @@ const styles = StyleSheet.create({
       {
         flex: 1,
         backgroundColor: "#EFECF4"
+      },
+      logout:{
+      alignSelf: 'flex-end'
       }
+
 
 });
