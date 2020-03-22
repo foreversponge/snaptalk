@@ -157,18 +157,19 @@ class Fire {
         let remoteAvatarUri = null
 
         try{
-
-            if(!user.name) {
-                throw new Error("The user name was not entered.");
+            if(!user.name)
+            {
+                throw new Error("Username was not entered.")
             }
 
             await this.firestore
             .collection("users")
             .get()
             .then(snapshot => {
-                snapshot.forEach( doc => {
-                    if (user.name == doc.data().name) {
-                        throw new Error("This user name is already taken.");
+                snapshot.forEach( doc => {   
+                    if(user.name == doc.data().name)
+                    {
+                        throw new Error("Username already taken.")
                     }
                 })
             })
