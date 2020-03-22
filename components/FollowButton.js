@@ -19,7 +19,7 @@ export default class FollowButton extends Component {
 
     return (
         <TouchableHighlight
-            style={{width: 70, height: 20, backgroundColor:buttonColor, marginRight:90, marginTop:10,paddingBottom:20, borderRadius:10, borderWidth: 1, borderColor: 'black'}}
+            style={{width: 70, height: 20, backgroundColor:buttonColor, borderRadius:5, borderWidth: 1, borderColor: 'black',  color: "#52575D", fontFamily: "HelveticaNeue", fontSize: 18,}}
             onPress={() => this.setState({followClick: !this.state.followClick, follow: !this.state.follow})}
         >
         <Text style = {{textAlign: 'center'}}>{followState}</Text>
@@ -27,10 +27,3 @@ export default class FollowButton extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-     buttonStyle: {
-     flex:1
-     },
-
-});

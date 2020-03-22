@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component{
           <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
             <View >
 
-                <OtherUserProfile username = {(JSON.stringify(post.username)).replace(/\"/g,"")}>
+                <OtherUserProfile postUserId = {post.uid} username = {(JSON.stringify(post.username)).replace(/\"/g,"")}>
 
                 </OtherUserProfile>
             <Text style= {styles.timestamp}> {moment(post.timestamp).fromNow()} </Text>
