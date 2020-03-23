@@ -24,6 +24,7 @@ export default class HomeScreen extends React.Component{
     postInArray: false,
     result: '',
 
+
   };
 
 
@@ -58,8 +59,13 @@ export default class HomeScreen extends React.Component{
 
 
 
+
+
   renderPost = post => {
     return(
+
+
+
       <View style={styles.feedItem}>
         <Image source = {post.avatar ? {uri: post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
         <View style = {{flex: 1}}>

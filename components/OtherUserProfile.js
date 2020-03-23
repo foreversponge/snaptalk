@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import {StyleSheet,View,Text, Image, Button, TouchableHighlight, Modal, Alert, ImageBackground} from 'react-native';
 import Fire from './Fire';
 import FollowButton from './FollowButton';
+import LogoutButton from './LogoutButton';
 
 
 
 const firebase = require('firebase');
 require("firebase/firestore");
+
+
+//accessing uid of current user <Text>{current.uid}</Text>
+
 
 export default class ModalExample extends Component {
 
@@ -17,41 +22,33 @@ export default class ModalExample extends Component {
     modalVisible: false,
     user:{},
     nbOfFollowers:0,
-    nbOfFollowing:0
+    nbOfFollowing:0,
+    nbOfPosts:0,
+    currentUserId : null,
+    isNotSameUser : true,
   };
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+
+
+  this.setState({modalVisible: visible});
+
+
   }
 
  componentDidMount() {
 
-
- this.unsubscribe = Fire.shared.firestore
-                                   .collection("users")
-                                   .get()
-                                   .then(snapshot => {
-
-                                       snapshot.forEach(doc => {
-
-                                           if (doc.data().name == this.props.username) {
-
-                                               this.setState({user: doc.data()});
-                                           //    console.log(this.state.user)
-
-                                              this.getListSize();
-
-
-                                           }
-                                       })
-                                   })
-
+    this.getUserId();
     };
 
 
     getListSize = async () => {
 
      const user = await firebase.firestore().collection("users").doc(this.props.postUserId).get();
+
+     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
+
+     this.setState({nbOfPosts:await user.get(listOfPosts).length});
 
      const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
 
@@ -62,6 +59,42 @@ export default class ModalExample extends Component {
      this.setState({nbOfFollowing:await user.get(listOfFollowing).length});
 
     };
+
+    getUserId = async () => {
+
+    this.unsubscribe = Fire.shared.firestore
+                                       .collection("users")
+                                       .get()
+                                       .then(snapshot => {
+
+                                           snapshot.forEach(doc => {
+
+                                               if (doc.data().name == this.props.username) {
+
+                                                   this.setState({user: doc.data()});
+                                               //    console.log(this.state.user)
+
+                                                  this.getListSize();
+
+                                                    var current = firebase.auth().currentUser;
+                                                    //   console.log(current.uid)
+                                                       this.setState({currentUserId : current.uid})
+                                                  //    console.log(this.state.currentUserId)
+
+                                                          if(current.uid == doc.id){
+                                                              this.setState({isNotSameUser:false})
+                                                              console.log(isNotSameUser)
+                                                          }
+
+
+                                               }
+                                           })
+                                       })
+
+
+
+
+    }
 
 
   render() {
@@ -80,7 +113,10 @@ export default class ModalExample extends Component {
 
 
           <View style={{backgroundColor: "#EFECF4"}} >
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
             <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
+            {!this.state.isNotSameUser && <LogoutButton style={styles.logout}/>}
+            </View>
             <View>
                 <View styles = {styles.container}>
                     <View style={{paddingBottom: 10}}>
@@ -90,12 +126,15 @@ export default class ModalExample extends Component {
                                               </View>
                                              <Text style={styles.name}> {this.state.user.name} </Text>
 
+
+
+
                         </ImageBackground>
 
                     </View>
 
                     <View  style={styles.followStyle}>
-                     <FollowButton/>
+                    {this.state.isNotSameUser && <FollowButton loggedUserUID = {this.state.currentUserId} userToFollow = {this.state.user.name}/>}
                     </View>
 
 
@@ -105,7 +144,7 @@ export default class ModalExample extends Component {
 
                 <View style = {styles.info}>
                     <View style={styles.state}>
-                        <Text style = {styles.amount}> {this.state.user.nbOfPosts} </Text>
+                        <Text style = {styles.amount}> {this.state.nbOfPosts} </Text>
                         <Text style={styles.title}> Posts </Text>
                     </View>
                     <View style={[styles.state, {borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1}]}>
@@ -209,7 +248,10 @@ const styles = StyleSheet.create({
          alignItems:'center',
          justifyContent: 'center',
 
-         }
+         },
+         logout:{
+               alignSelf: 'flex-end'
+               }
 
 
 });
