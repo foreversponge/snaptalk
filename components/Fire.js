@@ -1,6 +1,5 @@
 import FirebaseKeys from "./config";
 import firebase from 'firebase';
-import { useTheme } from "react-navigation";
 require("firebase/firestore");
 
 class Fire {
@@ -32,6 +31,8 @@ class Fire {
                 avatar: userAgain.get(fieldPathProfilePicture),
                 listOfComments: [],
                 nbOfComments: 0,
+                listOfLikes: [],
+                nbOfLikes: 0,
             })
             .then( ref=> {
                 res(ref);
@@ -41,6 +42,30 @@ class Fire {
             })
         })
     };
+
+    updateUserLikedList = async (postId) =>
+    {
+        let db = this.firestore.collection("posts").doc(postId);
+
+        const post = await firebase.firestore().collection("posts").doc(postId).get();
+        const fieldPathListOfLikes = new firebase.firestore.FieldPath('listOfLikes');
+        const arrayOfLikes = await post.get(fieldPathListOfLikes)
+
+        if(arrayOfLikes.includes(this.uid))
+        {
+            db.update({
+                listOfLikes: firebase.firestore.FieldValue.arrayRemove(this.uid),
+            })
+        }
+        else
+        {
+            db.update({
+                listOfLikes: firebase.firestore.FieldValue.arrayUnion(this.uid),
+            })
+        }  
+    }
+
+    
 
     addPostKey = async(postId) => {
 
