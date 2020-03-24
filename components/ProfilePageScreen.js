@@ -18,10 +18,12 @@ export default class ProfilePageScreen extends Component {
         posts:[],
         isLoading: false,
         postInArray: false,
-        result: ''
+        result: '',
+
     }
 
     unsubscribe = null
+
 
     componentDidMount(){
 
@@ -29,6 +31,8 @@ export default class ProfilePageScreen extends Component {
 
         this.getData();
     }
+
+
 
 
 
@@ -76,10 +80,10 @@ export default class ProfilePageScreen extends Component {
    render() {
      return (
         <View style={{backgroundColor: "#EFECF4"}} >
-                            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                            <View style={{flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end'}}>
 
-                            <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
-                            <LogoutButton style={styles.logout}/>
+
+                            <LogoutButton/>
                             </View>
 
                                 <View>
