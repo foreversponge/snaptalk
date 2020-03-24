@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Alert, View, Text } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
+const firebase = require('firebase');
+require("firebase/firestore");
+
 export default class ProfilePicture extends Component {
   render() {
     return (

@@ -6,8 +6,10 @@ import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
 import PostScreen from './components/PostScreen';
 import Tabs from './components/NavBar';
-
+import OtherUserProfile from './components/OtherUserProfile';
+import HomeScreen from './components/HomeScreen';
 import FirebaseKeys from './components/config';
+
 
 import * as firebase from 'firebase';
 
@@ -19,10 +21,13 @@ if(!firebase.apps.length){
 
 const AppContainer = createStackNavigator(
   {
-    SnapTalk: Tabs,
+    SnapTalk: Tabs
+
     // Post: {
     //   screen: PostScreen
     // }
+
+
   },
   {
     mode: "modal",
@@ -37,6 +42,7 @@ const AuthStack = createStackNavigator(
   }
 )
 
+
 export default createAppContainer(
   createSwitchNavigator(
     {
@@ -44,9 +50,12 @@ export default createAppContainer(
       App: AppContainer,
       Auth: AuthStack
     },
+
+
+
+
     {
       initialRouteName: "Loading"
     }
   )
 );
-

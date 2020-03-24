@@ -6,7 +6,7 @@ import Fire from './Fire';
 import ImagePicker from 'react-native-image-picker';
 
 export default class RegisterScreen extends React.Component {
-    
+
     state = {
         user: {
             name: "",

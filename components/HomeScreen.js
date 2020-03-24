@@ -1,17 +1,29 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS, Modal } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import moment from "moment";
 import Fire from './Fire';
 import _ from "underscore";
+import OtherUserProfile from './OtherUserProfile';
+import FollowButton from './FollowButton';
+import CommentList from './CommentList'
 import Post from './Post';
+
+
 
 export default class HomeScreen extends React.Component{
 
   state = {
     posts:[],
     isLoading: false,
+    isProfileModalVisible: false,
+
     postInArray: false,
     result: '',
+
+
   };
+
 
   componentDidMount(){
     this.getData
@@ -42,11 +54,17 @@ export default class HomeScreen extends React.Component{
         }).finally(()=> this.setState({isLoading:false}))
   }
 
+
+
+
+
   renderPost = post => {
     return(
+
       <Post post = {post}/>
       )
     };
+
     render() {
       return (
         <View style={styles.container}>
@@ -128,4 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 16
   }
-})
+
+
+});
+

@@ -5,6 +5,7 @@ require("firebase/firestore");
 import moment from "moment";
 import Icon from 'react-native-vector-icons/Ionicons';
 import CommentList from './CommentList';
+import OtherUserProfile from './OtherUserProfile';
 import firebase from 'firebase';
 
 export default class Post extends Component {
@@ -48,10 +49,19 @@ export default class Post extends Component {
     <Image source = {this.state.post.avatar ? {uri: this.state.post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
     <View style = {{flex: 1}}>
       <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-        <View>
-          <Text style={styles.name}>{(JSON.stringify(this.state.post.username)).replace(/\"/g,"")}</Text>
-          <Text style= {styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
-        </View>
+
+
+        <View >
+
+                        <OtherUserProfile postUserId = {this.state.post.uid} username = {(JSON.stringify(this.state.post.username)).replace(/\"/g,"")}>
+
+                        </OtherUserProfile>
+                    <Text style= {styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
+
+                    </View>
+
+
+
         <Icon name="ios-more" size={24} color="#73788B" />
       </View>
       <Text style={styles.post}>{this.state.post.text}</Text> 

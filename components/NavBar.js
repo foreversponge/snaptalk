@@ -8,6 +8,7 @@ import ProfilePageScreen from './ProfilePageScreen';
 import HomeScreen from './HomeScreen';
 import NotificationScreen from './NotificationScreen';
 import PostScreen from './PostScreen';
+import OtherUserProfile from './OtherUserProfile';
 
 
 
@@ -30,7 +31,9 @@ export default function Tabs() {
             options={{
                 tabBarIcon: ({ color, size}) => (
                     <Icon name="ios-home" size={30} color= {color} />
-                ),
+
+
+                )
             }}
          />
          <AppTabs.Screen 
@@ -46,8 +49,11 @@ export default function Tabs() {
             //     navigation.navigate("Post")
             // }}
         />
-        <AppTabs.Screen 
-            name="Notifications" 
+
+
+
+        <AppTabs.Screen
+            name="Notifications"
             component={NotificationScreen}
             options={{
                 tabBarIcon: ({ color, size}) => (
@@ -64,7 +70,11 @@ export default function Tabs() {
                 )
             }} 
         />
+
+
       </AppTabs.Navigator>
     </NavigationContainer>
+
   );
+
 }

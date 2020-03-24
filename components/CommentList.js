@@ -73,6 +73,7 @@ class CommentList extends Component {
             }).finally(() => this.setState({ isLoading: false }))
 
         this.setState({ isLoading: true })
+
         this.unsubscribe = Fire.shared.firestore
             .collection("comments")
             .get()
