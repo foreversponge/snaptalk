@@ -1,17 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import Icon from 'react-native-vector-icons/Ionicons';
-
 import ProfilePageScreen from './ProfilePageScreen';
 import HomeScreen from './HomeScreen';
 import NotificationScreen from './NotificationScreen';
 import PostScreen from './PostScreen';
-import OtherUserProfile from './OtherUserProfile';
-
-
-
 
 const AppTabs = createBottomTabNavigator();
 
@@ -31,8 +25,6 @@ export default function Tabs() {
             options={{
                 tabBarIcon: ({ color, size}) => (
                     <Icon name="ios-home" size={30} color= {color} />
-
-
                 )
             }}
          />
@@ -44,14 +36,7 @@ export default function Tabs() {
                     <Icon name="ios-add-circle-outline" size={30} color= {color} />
                 )
             }} 
-            // listeners={{
-            //   tabPress: 
-            //     navigation.navigate("Post")
-            // }}
         />
-
-
-
         <AppTabs.Screen
             name="Notifications"
             component={NotificationScreen}
@@ -70,8 +55,6 @@ export default function Tabs() {
                 )
             }} 
         />
-
-
       </AppTabs.Navigator>
     </NavigationContainer>
 
