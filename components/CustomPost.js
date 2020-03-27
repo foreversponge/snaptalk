@@ -4,7 +4,7 @@ import {Text, View, Image, StyleSheet} from 'react-native';
 require('firebase/firestore');
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CommentList from './CommentList';
+import CommentList from './comment/CommentList';
 import firebase from 'firebase';
 
 export default class Post extends Component {

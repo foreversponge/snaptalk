@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import Fire from './Fire';
+import Fire from '../firebase/Fire';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -109,24 +109,18 @@ export default class FollowButton extends Component {
 
     return (
       <TouchableHighlight
-        style={styles.followButton}
+        style={{width: 70,
+          height: 20,
+          backgroundColor: buttonColor,
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: 'black',
+          color: '#52575D',
+          fontFamily: 'HelveticaNeue',
+          fontSize: 1}}
         onPress={this.followAction}>
         <Text style={{textAlign: 'center'}}>{followState}</Text>
       </TouchableHighlight>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  followButton: {
-    width: 70,
-    height: 20,
-    backgroundColor: buttonColor,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'black',
-    color: '#52575D',
-    fontFamily: 'HelveticaNeue',
-    fontSize: 18,
-  },
-});

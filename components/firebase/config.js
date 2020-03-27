@@ -5,7 +5,7 @@ import {
   FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET,
   FIREBASE_APP_ID,
-} from './node_modules/react-native-dotenv';
+} from 'react-native-dotenv';
 
 const API_KEY = FIREBASE_API_KEY;
 const AUTH_DOMAIN = FIREBASE_AUTH_DOMAIN;

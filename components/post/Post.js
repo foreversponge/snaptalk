@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Fire from './Fire';
+import Fire from '../firebase/Fire';
 import { Text, View, Image, StyleSheet } from 'react-native';
 require("firebase/firestore");
 import moment from "moment";
 import Icon from 'react-native-vector-icons/Ionicons';
-import CommentList from './CommentList';
-import OtherUserProfile from './OtherUserProfile';
+import CommentList from '../comment/CommentList';
+import OtherUserProfile from '../profile/OtherUserProfile';
 import firebase from 'firebase';
 
 export default class Post extends Component {
@@ -42,7 +42,7 @@ export default class Post extends Component {
   render() {
     return (
       <View style={styles.feedItem}>
-        <Image source={this.state.post.avatar ? { uri: this.state.post.avatar } : require('../assets/tempAvatar.jpg')} style={styles.avatar} />
+        <Image source={this.state.post.avatar ? { uri: this.state.post.avatar } : require('../../assets/tempAvatar.jpg')} style={styles.avatar} />
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View >

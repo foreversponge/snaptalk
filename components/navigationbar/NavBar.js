@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePageScreen from '../profile/ProfilePageScreen';
-import DiscoveryScreen from './components/discovery/DiscoveryScreen';
+import DiscoveryScreen from '../discovery/DiscoveryScreen';
 import PersonalScreen from '../personal/PersonalScreen';
 import NotificationScreen from '../notification/NotificationScreen';
 import PostScreen from '../post/PostScreen';

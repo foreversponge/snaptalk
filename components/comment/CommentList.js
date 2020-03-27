@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View, TextInput, FlatList, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Button } from 'native-base';
-import CommentBox from './CommentBox';
-import Fire from './Fire';
+import CommentBox from '../comment/CommentBox';
+import Fire from '../firebase/Fire';
 import _ from "underscore";
 
 class CommentList extends Component {

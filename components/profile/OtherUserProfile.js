@@ -1,4 +1,4 @@
-import React, {Component} from './node_modules/react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,13 +8,13 @@ import {
   Modal,
   ImageBackground,
 } from 'react-native';
-import Fire from './Fire';
-import FollowButton from './FollowButton';
-import LogoutButton from './LogoutButton';
-import Icon from './node_modules/react-native-vector-icons/Ionicons';
+import Fire from '../firebase/Fire';
+import FollowButton from '../profile/FollowButton';
+import LogoutButton from '../profile/LogoutButton';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const firebase = require('./node_modules/firebase');
-require('./node_modules/firebase/firestore');
+const firebase = require('firebase');
+require('firebase/firestore');
 
 export default class ModalExample extends Component {
   state = {
@@ -105,7 +105,7 @@ export default class ModalExample extends Component {
               <View styles={styles.container}>
                 <View style={{paddingBottom: 10}}>
                   <ImageBackground
-                    source={require('../assets/Default-profile-bg.jpg')}
+                    source={require('../../assets/Default-profile-bg.jpg')}
                     style={styles.backgroundImage}>
                     <View style={styles.avatarContainer}>
                       <Image
@@ -113,7 +113,7 @@ export default class ModalExample extends Component {
                         source={
                           this.state.user.profilePicture
                             ? {uri: this.state.user.profilePicture}
-                            : require('../assets/tempAvatar.jpg')
+                            : require('../../assets/tempAvatar.jpg')
                         }></Image>
                     </View>
                     <Text style={styles.name}> {this.state.user.name} </Text>

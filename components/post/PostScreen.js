@@ -1,4 +1,4 @@
-import React from './node_modules/react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,12 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import Icon from './node_modules/react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {PermissionsAndroid} from 'react-native';
-import Fire from './Fire';
-import ImagePicker from './node_modules/react-native-image-picker';
+import Fire from '../firebase/Fire';
+import ImagePicker from 'react-native-image-picker';
 
-import {decode, encode} from './node_modules/base-64';
+import {decode, encode} from 'base-64';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -23,8 +23,8 @@ if (!global.atob) {
   global.atob = decode;
 }
 
-const firebase = require('./node_modules/firebase');
-require('./node_modules/firebase/firestore');
+const firebase = require('firebase');
+require('firebase/firestore');
 
 export default class PostScreen extends React.Component {
   state = {
@@ -117,7 +117,7 @@ export default class PostScreen extends React.Component {
             source={
               this.state.user.profilePicture
                 ? {uri: this.state.user.profilePicture}
-                : require('../assets/tempAvatar.jpg')
+                : require('../../assets/tempAvatar.jpg')
             }
             style={styles.profilePic}></Image>
           <TextInput

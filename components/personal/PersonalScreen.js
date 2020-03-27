@@ -1,9 +1,9 @@
-import React from './node_modules/react';
+import React from 'react';
 import {Text, View, StyleSheet, FlatList} from 'react-native';
-import Fire from './Fire';
-import _ from './node_modules/underscore';
+import Fire from '../firebase/Fire';
+import _ from 'underscore';
 import Post from '../post/Post';
-import firebase from './node_modules/firebase';
+import firebase from 'firebase';
 
 export default class PersonalScreen extends React.Component {
   state = {

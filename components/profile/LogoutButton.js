@@ -1,6 +1,6 @@
-import React, {Component} from './node_modules/react';
+import React, {Component} from 'react';
 import {Button} from 'react-native';
-import * as firebase from './node_modules/firebase';
+import * as firebase from 'firebase';
 
 export default class LogoutButton extends Component {
   handleLogout = () => {

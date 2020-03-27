@@ -1,4 +1,4 @@
-import FirebaseKeys from './components/firebase/config';
+import FirebaseKeys from '../firebase/config';
 import firebase from 'firebase';
 require('firebase/firestore');
 

@@ -1,4 +1,4 @@
-import React, {Component} from './node_modules/react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,9 +7,9 @@ import {
   ImageBackground,
   FlatList,
 } from 'react-native';
-import Fire from './Fire';
-import LogoutButton from './LogoutButton';
-import firebase from './node_modules/firebase';
+import Fire from '../firebase/Fire';
+import LogoutButton from '../profile/LogoutButton';
+import firebase from 'firebase';
 import CustomPost from '../CustomPost';
 
 export default class ProfilePageScreen extends Component {
@@ -105,7 +105,7 @@ export default class ProfilePageScreen extends Component {
           <View style={styles.container}>
             <View style={{paddingBottom: 10}}>
               <ImageBackground
-                source={require('../assets/Default-profile-bg.jpg')}
+                source={require('../../assets/Default-profile-bg.jpg')}
                 style={{
                   alignItems: 'center',
                   borderTopWidth: 1,
@@ -117,7 +117,7 @@ export default class ProfilePageScreen extends Component {
                     source={
                       this.state.user.profilePicture
                         ? {uri: this.state.user.profilePicture}
-                        : require('../assets/tempAvatar.jpg')
+                        : require('../../assets/tempAvatar.jpg')
                     }></Image>
                 </View>
                 <Text style={styles.name}> {this.state.user.name} </Text>
