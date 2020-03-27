@@ -1,27 +1,17 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, Image, SnapshotViewIOS, Modal } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import moment from "moment";
+import { Text, View, StyleSheet, FlatList} from 'react-native';
 import Fire from './Fire';
 import _ from "underscore";
-import OtherUserProfile from './OtherUserProfile';
-import FollowButton from './FollowButton';
-import CommentList from './CommentList'
 import Post from './Post';
 
-
-
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component{
 
   state = {
     posts: [],
     isLoading: false,
     isProfileModalVisible: false,
-
     postInArray: false,
-    result: '',
-
-
+    result: ''
   };
 
 
@@ -35,27 +25,23 @@ export default class HomeScreen extends React.Component {
       .collection("posts")
       .get()
       .then(snapshot => {
+        
+        snapshot.forEach( doc => {
+            this.setState({postInArray:false})
+            this.state.posts.forEach(currentPost => {
 
-        snapshot.forEach(doc => {
-          this.setState({ postInArray: false })
-          this.state.posts.forEach(currentPost => {
+              if (currentPost.postKey == doc.data().postKey) {
+                this.setState({postInArray:true})
+              }
+            })
 
-            if (currentPost.postKey == doc.data().postKey) {
-              this.setState({ postInArray: true })
+            if (!this.state.postInArray) {
+              this.state.posts.push(doc.data())
             }
-          })
-
-          if (!this.state.postInArray) {
-            this.state.posts.push(doc.data())
-          }
         })
-        this.state.posts.sort(function (a, b) { return parseInt(b.timestamp) - parseInt(a.timestamp) })
-      }).finally(() => this.setState({ isLoading: false }))
+        this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
+      }).finally(()=> this.setState({isLoading:false}))
   }
-
-
-
-
 
   renderPost = post => {
     return (
@@ -145,7 +131,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 16
   }
-
-
 });
 

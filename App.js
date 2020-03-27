@@ -1,16 +1,10 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-
 import LoadingScreen from './components/LoadingScreen';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
-import PostScreen from './components/PostScreen';
 import Tabs from './components/NavBar';
-import OtherUserProfile from './components/OtherUserProfile';
-import HomeScreen from './components/HomeScreen';
 import FirebaseKeys from './components/config';
-
-
 import * as firebase from 'firebase';
 
 console.disableYellowBox = true
@@ -22,15 +16,8 @@ if(!firebase.apps.length){
 const AppContainer = createStackNavigator(
   {
     SnapTalk: Tabs
-
-    // Post: {
-    //   screen: PostScreen
-    // }
-
-
   },
   {
-    mode: "modal",
     headerMode: "none",
   }
 )
@@ -42,7 +29,6 @@ const AuthStack = createStackNavigator(
   }
 )
 
-
 export default createAppContainer(
   createSwitchNavigator(
     {
@@ -50,10 +36,6 @@ export default createAppContainer(
       App: AppContainer,
       Auth: AuthStack
     },
-
-
-
-
     {
       initialRouteName: "Loading"
     }

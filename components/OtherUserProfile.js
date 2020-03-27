@@ -3,14 +3,10 @@ import { StyleSheet, View, Text, Image, Button, TouchableHighlight, Modal, Alert
 import Fire from './Fire';
 import FollowButton from './FollowButton';
 import LogoutButton from './LogoutButton';
-
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const firebase = require('firebase');
 require("firebase/firestore");
-
-
-
 
 export default class ModalExample extends Component {
 
@@ -31,135 +27,105 @@ export default class ModalExample extends Component {
     this.getUserId();
   };
 
-
   getListSize = async () => {
-
     const user = await firebase.firestore().collection("users").doc(this.props.postUserId).get();
+
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
-    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
-    const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
-    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
-    const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
-    this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
+    this.setState({nbOfPosts:await user.get(listOfPosts).length});
 
+    const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
+
+    this.setState({nbOfFollowers:await user.get(listOfFollowers).length});
+
+    const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
+
+    this.setState({nbOfFollowing:await user.get(listOfFollowing).length});
   };
 
   getUserId = async () => {
-
-    this.unsubscribe = Fire.shared.firestore
-      .collection("users")
-      .get()
-      .then(snapshot => {
-
-        snapshot.forEach(doc => {
-
-          if (doc.data().name == this.props.username) {
-
-            this.setState({ user: doc.data() });
-            //    console.log(this.state.user)
-
-            this.getListSize();
-
-            var current = firebase.auth().currentUser;
-            //   console.log(current.uid)
-            this.setState({ currentUserId: current.uid })
-            //    console.log(this.state.currentUserId)
-
-            if (current.uid == doc.id) {
-              this.setState({ isNotSameUser: false })
-              console.log(isNotSameUser)
-            }
-
-
-          }
-        })
+    this.setState({isLoadingList:true})
+    this.unsubscribe = await Fire.shared.firestore
+        .collection("users")
+        .get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+              if (doc.data().name == this.props.username) {
+                this.setState({user: doc.data()});
+                this.getListSize();
+                var current = firebase.auth().currentUser;
+                this.setState({currentUserId : current.uid})
+                if(current.uid == doc.id){
+                  this.setState({isNotSameUser:false})
+                }
+              }
+            })
       })
-
-
-
-
   }
-
 
   render() {
     return (
-
       <View >
         <Modal
-
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
             this.setModalVisible(!this.state.modalVisible);
           }}>
-
-
-
-          <View style={{ backgroundColor: "#EFECF4" }} >
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible); }}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
-
+          <View style={{backgroundColor: "#EFECF4"}} >
+            <View style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 15, paddingVertical:5}}>
+              <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Icon name="ios-arrow-back" size={24} style={{paddingVertical:3}} /></TouchableHighlight>
+                {!this.state.isNotSameUser && <LogoutButton style={styles.logout}/>}
             </View>
             <View>
-              <View styles={styles.container}>
-                <View style={{ paddingBottom: 10 }}>
-                  <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{ alignItems: "center", borderTopWidth: 1, borderColor: "#52575D" }}>
+              <View styles = {styles.container}>
+                <View style={{paddingBottom: 10}}>
+                  <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
                     <View style={styles.avatarContainer}>
-                      <Image style={styles.avatar} source={this.state.user.profilePicture ? { uri: this.state.user.profilePicture } : require('../assets/tempAvatar.jpg')}></Image>
+                      <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
                     </View>
                     <Text style={styles.name}> {this.state.user.name} </Text>
                   </ImageBackground>
-
                 </View>
-
-                <View style={styles.followStyle}>
-                  {this.state.isNotSameUser && <FollowButton loggedUserUID={this.state.currentUserId} userToFollow={this.state.user.name} />}
+                <View  style={styles.followStyle}>
+                  {this.state.isNotSameUser && <FollowButton loggedUserUID = {this.state.currentUserId} userToFollow = {this.state.user.name}/>}
                 </View>
-
-                <View style={styles.info}>
+                <View style = {styles.info}>
                   <View style={styles.state}>
-                    <Text style={styles.amount}> {this.state.nbOfPosts} </Text>
+                    <Text style = {styles.amount}> {this.state.nbOfPosts} </Text>
                     <Text style={styles.title}> Posts </Text>
                   </View>
-                  <View style={[styles.state, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                    <Text style={styles.amount}> {this.state.nbOfFollowers} </Text>
+                  <View style={[styles.state, {borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1}]}>
+                    <Text style = {styles.amount}> {this.state.nbOfFollowers} </Text>
                     <Text style={styles.title}> Followers </Text>
                   </View>
                   <View style={styles.state}>
-                    <Text style={styles.amount}> {this.state.nbOfFollowing} </Text>
+                    <Text style = {styles.amount}> {this.state.nbOfFollowing} </Text>
                     <Text style={styles.title}> Following </Text>
                   </View>
                 </View>
-
               </View>
-            </View>
           </View>
-
+        </View>
         </Modal>
-
-        <TouchableHighlight
-          onPress={() => {
-            this.setModalVisible(true);
-          }}>
-          <Text style={styles.modalProfile}>{this.props.username}</Text>
-        </TouchableHighlight>
-      </View>
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(true);
+            }}>
+            <Text style={styles.modalProfile}>{this.props.username}</Text>
+          </TouchableHighlight>
+        </View>
     );
   }
 }
 
-
 const styles = StyleSheet.create({
-
-  modalProfile: {
-    paddingBottom: 2
-
+  modalProfile:{
+    paddingBottom:2
   },
   container: {
-    flex: 1,
-
+    flex:1,
   },
   name: {
     marginTop: 24,
@@ -176,7 +142,6 @@ const styles = StyleSheet.create({
     padding: 8,
     flexDirection: "row",
     marginVertical: 8,
-
   },
   state: {
     alignItems: "center",
@@ -191,16 +156,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     marginTop: 4,
-    color: "#AEB5BC",
+    color:"#AEB5BC",
     textTransform: "uppercase",
     fontWeight: "500"
   },
-  avatarContainer: {
+  avatarContainer:{
     shadowColor: "#151734",
     shadowRadius: 30,
     shadowOpacity: 0.4,
-    paddingTop: 10
-
+    paddingTop:10
   },
   avatar:
   {

@@ -9,6 +9,7 @@ import moment from "moment";
 import CommentList from './CommentList'
 import firebase from "firebase"
 import ImagePicker from 'react-native-image-picker';
+import CustomPost from "./CustomPost";
 
 export default class ProfilePageScreen extends Component {
 
@@ -27,11 +28,12 @@ export default class ProfilePageScreen extends Component {
 
     unsubscribe = null
 
-    componentDidMount() {
+    componentDidMount(){
         this.getData();
     }
 
-    getData = async () => {
+    getData = async () =>
+    {
         const user = this.props.uid || Fire.shared.uid;
 
         this.unsubscribe = Fire.shared.firestore
@@ -41,99 +43,144 @@ export default class ProfilePageScreen extends Component {
                 this.setState({ user: doc.data() });
             });
 
-        this.getListSize();
 
+
+        this.getListSize();
+        this.getCurrentUserPost();
     }
 
     getListSize = async () => {
 
         const user = await firebase.firestore().collection("users").doc(Fire.shared.uid).get();
+
         const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
-        this.setState({ nbOfPosts: await user.get(listOfPosts).length });
+        this.setState({nbOfPosts:await user.get(listOfPosts).length});
+
         const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
-        this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
+
+        this.setState({nbOfFollowers:await user.get(listOfFollowers).length});
 
         const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
-        this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
+
+        this.setState({nbOfFollowing:await user.get(listOfFollowing).length});
 
     };
 
     changeModalVisibility = (bool) => {
-        this.setState({ isModalVisible: bool });
+            this.setState({ isModalVisible: bool });
 
+        }
+
+        setColor = (data) => {
+            this.setState({ infoColor: data });
+
+        }
+
+    getCurrentUserPost = async() =>
+    {
+        this.setState({isLoading:true})
+        Fire.shared.firestore
+          .collection("posts")
+          .get()
+          .then(snapshot => {
+
+            snapshot.forEach( doc => {
+                this.setState({postInArray:false})
+                this.state.posts.forEach(currentPost => {
+
+                    if (currentPost.postKey == doc.data().postKey) {
+                        this.setState({postInArray:true})
+                    }
+
+                })
+
+                if(firebase.auth().currentUser.uid == doc.data().uid)
+                {
+                    if (!this.state.postInArray) {
+                        this.state.posts.push(doc.data())
+                    }
+                }
+            })
+            this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
+        }).finally(()=> this.setState({isLoading:false}))
     }
 
-    setColor = (data) => {
-        this.setState({ infoColor: data });
+    renderPost = post => {
+        return(
+          <CustomPost post = {post}/>
+        )
+    };
 
-    }
-
-    render() {
+    profileHeaderRender = () => {
         return (
-            <View style={{ backgroundColor: this.state.infoColor }} >
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end' }}>
-                    <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
+            <View style={{backgroundColor: this.state.infoColor}} >
+                <View style={{flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end'}}>
+                <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
                         <Text>Open Modal</Text>
                     </Button>
 
                     <Modal visible={this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}>
                         <PicColor changeModalVisibility={this.changeModalVisibility} setColor={this.setColor} />
                     </Modal>
-
-                    <LogoutButton />
+                <LogoutButton/>
                 </View>
-
                 <View>
-                    <View styles={styles.container}>
-                        <View style={{ paddingBottom: 10 }}>
-                            <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{ alignItems: "center", borderTopWidth: 1, borderColor: "#52575D" }}>
+                    <View styles = {styles.container}>
+                        <View style={{paddingBottom: 10}}>
+                            <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
                                 <View style={styles.avatarContainer}>
-                                    <Image style={styles.avatar} source={this.state.user.profilePicture ? { uri: this.state.user.profilePicture } : require('../assets/tempAvatar.jpg')}></Image>
-                                </View>
-                                <View style={styles.changePic}>
-
+                                    <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
                                 </View>
                                 <Text style={styles.name}> {this.state.user.name} </Text>
-
                             </ImageBackground>
 
                         </View>
-
-
-                        <View style={styles.info}>
+                        <View style = {styles.info}>
                             <View style={styles.state}>
-                                <Text style={styles.amount}> {this.state.nbOfPosts} </Text>
+                                <Text style = {styles.amount}> {this.state.nbOfPosts} </Text>
                                 <Text style={styles.title}> Posts </Text>
                             </View>
-                            <View style={[styles.state, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                                <Text style={styles.amount}> {this.state.nbOfFollowers} </Text>
+                            <View style={[styles.state, {borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1}]}>
+                                <Text style = {styles.amount}> {this.state.nbOfFollowers} </Text>
                                 <Text style={styles.title}> Followers </Text>
                             </View>
                             <View style={styles.state}>
-                                <Text style={styles.amount}> {this.state.nbOfFollowing} </Text>
+                                <Text style = {styles.amount}> {this.state.nbOfFollowing} </Text>
                                 <Text style={styles.title}> Following </Text>
                             </View>
                         </View>
-
                     </View>
                 </View>
             </View>
+        );
+    }
+
+    render() {
+        return (
+          <View style={styles.container}>
+            <FlatList 
+              style={styles.feed} 
+              data={this.state.posts} 
+              renderItem={({item}) => this.renderPost(item)} 
+              ListHeaderComponent={this.profileHeaderRender}
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
+              refreshing={this.state.isLoading}
+              onRefresh={this.getData}
+              /> 
+          </View>
         );
     }
 };
 
 
 const styles = StyleSheet.create({
-
-
-    modalProfile: {
-        paddingBottom: 2
-
+    modalProfile:{
+        paddingBottom:2
     },
     container: {
-        flex: 1,
-
+        flex:1,
     },
     name: {
         marginTop: 24,
@@ -243,22 +290,7 @@ const styles = StyleSheet.create({
     changePic: {
         paddingRight: 120,
         paddingTop: 10,
-
-
-
-
         position: "absolute",
-
-
-
-
-
-
-
-
-
-
-
     }
 
 

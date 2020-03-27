@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Fire from './Fire';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image,StyleSheet } from 'react-native';
 require("firebase/firestore");
 import moment from "moment";
 import Icon from 'react-native-vector-icons/Ionicons';
 import CommentList from './CommentList';
-import OtherUserProfile from './OtherUserProfile';
 import firebase from 'firebase';
 
 export default class Post extends Component {
@@ -15,7 +14,7 @@ export default class Post extends Component {
     likeIconName: "ios-heart-empty",
     numOfLikes: 0
   }
-
+ 
   componentDidMount() {
     this.updateLikeIcon(this.state.post.postKey);
   }
@@ -41,7 +40,7 @@ export default class Post extends Component {
           })
       }
   }
-
+  
   render() {
     return(
       <View style={styles.feedItem}>
@@ -49,14 +48,13 @@ export default class Post extends Component {
           <View style = {{flex: 1}}>
             <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
               <View >
-                <OtherUserProfile postUserId = {this.state.post.uid} username = {(JSON.stringify(this.state.post.username)).replace(/\"/g,"")}>
-                </OtherUserProfile>
+                <Text style={styles.name}>{(JSON.stringify(this.state.post.username)).replace(/\"/g,"")}</Text>
                 <Text style= {styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
               </View>
               <Icon name="ios-more" size={24} color="#73788B" />
             </View>
-          <Text style={styles.post}>{this.state.post.text}</Text> 
-          <Image source={{uri: this.state.post.image}} style={styles.postImage} resizeMode="cover"/>
+            <Text style={styles.post}>{this.state.post.text}</Text> 
+            <Image source={{uri: this.state.post.image}} style={styles.postImage} resizeMode="cover"/>
             <View style={{flexDirection:"row"}}>
               <View>
                 <Icon name= {this.state.likeIconName} size={24} onPress={ async () => 
@@ -79,7 +77,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#EFECF4"
-
   },
   header: {
     paddingTop: 16,
@@ -90,7 +87,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#EBECF4",
     shadowColor: "#454D65",
-    shadowOffset: { height: 5 },
+    shadowOffset: {height: 5},
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 10
