@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Fire from './Fire';
@@ -16,77 +16,74 @@ export default class RegisterScreen extends React.Component {
             avatar: null
         },
         errorMessage: null
-     }
+    }
 
-    handlePickAvatar = async () =>
-    {
-        ImagePicker.launchImageLibrary({aspect: [4, 3], mediaType: 'photo'}, (response) => {
+    handlePickAvatar = async () => {
+        ImagePicker.launchImageLibrary({ aspect: [4, 3], mediaType: 'photo' }, (response) => {
             console.log('Response =', response);
             if (response.didCancel) {
                 console.log('User cancelled image picker');
-              } else if (response.error) {
+            } else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
-              } else {
+            } else {
                 const source = { uri: response.uri };
-            this.setState({ user: { ...this.state.user, avatar: response.uri}});
+                this.setState({ user: { ...this.state.user, avatar: response.uri } });
             }
         });
     }
 
-    handleSignUp = () =>
-    {
+    handleSignUp = () => {
         Fire.shared.createUser(this.state.user);
     }
 
-    render()
-    {
+    render() {
         return (
             <View style={styles.container}>
 
                 <KeyboardAwareScrollView
-                    resetScrollToCoords={{ x: 0, y:0 }}
+                    resetScrollToCoords={{ x: 0, y: 0 }}
                     scrollEnabled={true}
                 >
                     <Text style={styles.greeting}>
                         {'Sign up to get started'}
                     </Text>
 
-                    <View style={{alignItems: "center", width: "100%" }}>
+                    <View style={{ alignItems: "center", width: "100%" }}>
                         <TouchableOpacity style={styles.avatarPlaceHolder} onPress={this.handlePickAvatar}>
-                            <Image source={{uri: this.state.user.avatar}} style={styles.avatar}></Image>
-                            <Icon name="ios-add" size={40} color="#FFF" style={{alignItems: "center", justifyContent: "center"}}></Icon>
+                            <Image source={{ uri: this.state.user.avatar }} style={styles.avatar}></Image>
+                            <Icon name="ios-add" size={40} color="#FFF" style={{ alignItems: "center", justifyContent: "center" }}></Icon>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.form}>    
+                    <View style={styles.form}>
                         <View>
                             <Text style={styles.inputTitle}>Full Name</Text>
-                            <TextInput 
-                                style={styles.input} 
-                                autoCapitalize="none" 
-                                onChangeText={name => this.setState({ user: {...this.state.user, name} })}
+                            <TextInput
+                                style={styles.input}
+                                autoCapitalize="none"
+                                onChangeText={name => this.setState({ user: { ...this.state.user, name } })}
                                 value={this.state.user.name}
                             ></TextInput>
                         </View>
 
-                        <View style={{marginTop: 32}}>
+                        <View style={{ marginTop: 32 }}>
                             <Text style={styles.inputTitle}>Email Address</Text>
-                            <TextInput 
-                                style={styles.input} 
-                                autoCapitalize="none" 
-                                onChangeText={email => this.setState({ user: {...this.state.user, email} })}
+                            <TextInput
+                                style={styles.input}
+                                autoCapitalize="none"
+                                onChangeText={email => this.setState({ user: { ...this.state.user, email } })}
                                 value={this.state.user.email}
                             ></TextInput>
                         </View>
-                    
-                        <View style={{marginTop: 32}}>
+
+                        <View style={{ marginTop: 32 }}>
                             <View>
                                 <Text style={styles.inputTitle}>Password</Text>
-                                <TextInput 
+                                <TextInput
                                     style={styles.input}
                                     secureTextEntry
                                     autoCapitalize="none"
-                                    onChangeText={password => this.setState({ user: {...this.state.user, password} })}
+                                    onChangeText={password => this.setState({ user: { ...this.state.user, password } })}
                                     value={this.state.user.password}
                                 ></TextInput>
                             </View>
@@ -94,7 +91,7 @@ export default class RegisterScreen extends React.Component {
                     </View>
 
                     <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
-                        <Text style={{color:"#FFF", fontWeight: "500"}}>Sign up</Text>
+                        <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign up</Text>
                     </TouchableOpacity>
                 </KeyboardAwareScrollView>
             </View>
@@ -107,13 +104,13 @@ const styles = StyleSheet.create(
         container: {
             flex: 1,
         },
-        greeting:{
+        greeting: {
             marginTop: 32,
             fontSize: 18,
             fontWeight: "400",
             textAlign: "center",
         },
-        errorMessage:{
+        errorMessage: {
             height: 72,
             alignItems: "center",
             justifyContent: "center",
@@ -126,7 +123,7 @@ const styles = StyleSheet.create(
             fontWeight: "600",
             textAlign: "center"
         },
-        form:{
+        form: {
             marginTop: 0,
             marginBottom: 48,
             marginHorizontal: 30

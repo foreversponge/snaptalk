@@ -9,8 +9,8 @@ class Fire {
     }
 
 
-    addPost = async({text, localUri, postKey}) => {
-        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/'+this.uid+'/'+Date.now());
+    addPost = async ({ text, localUri, postKey }) => {
+        const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/' + this.uid + '/' + Date.now());
 
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
@@ -34,74 +34,68 @@ class Fire {
                 listOfLikes: [],
                 nbOfLikes: 0,
             })
-            .then( ref=> {
-                res(ref);
-            })
-            .catch(error => {
-                rej(error);
-            })
+                .then(ref => {
+                    res(ref);
+                })
+                .catch(error => {
+                    rej(error);
+                })
         })
     };
 
-    updateUserLikedList = async (postId) =>
-    {
+    updateUserLikedList = async (postId) => {
         let db = this.firestore.collection("posts").doc(postId);
 
         const post = await firebase.firestore().collection("posts").doc(postId).get();
         const fieldPathListOfLikes = new firebase.firestore.FieldPath('listOfLikes');
         const arrayOfLikes = await post.get(fieldPathListOfLikes)
 
-        if(arrayOfLikes.includes(this.uid))
-        {
+        if (arrayOfLikes.includes(this.uid)) {
             db.update({
                 listOfLikes: firebase.firestore.FieldValue.arrayRemove(this.uid),
             })
         }
-        else
-        {
+        else {
             db.update({
                 listOfLikes: firebase.firestore.FieldValue.arrayUnion(this.uid),
             })
-        }  
+        }
     }
 
-    
 
-    addPostKey = async(postId) => {
+
+    addPostKey = async (postId) => {
 
         let dbPost = this.firestore.collection("posts").doc(postId);
 
-        if(postId)
-        {
+        if (postId) {
             dbPost.update({
                 postKey: postId
             })
         }
     };
 
-    updatePostList = async (postId) =>
-    {
+    updatePostList = async (postId) => {
         let db = this.firestore.collection("users").doc(this.uid);
 
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
         const fieldPathListOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
-        if(postId)
-        {
+        if (postId) {
             db.update({
                 listOfPosts: firebase.firestore.FieldValue.arrayUnion(postId)
             })
 
             const nbOfPosts = await user.get(fieldPathListOfPosts).length + 1;
-            
+
             db.set(
-                {nbOfPosts: nbOfPosts}, {merge: true}
+                { nbOfPosts: nbOfPosts }, { merge: true }
             )
         }
     }
 
-    addComment = async({text, postKey}) => {
+    addComment = async ({ text, postKey }) => {
         const user = await firebase.firestore().collection("users").doc(this.uid).get();
 
         const fieldPathName = new firebase.firestore.FieldPath('name');
@@ -120,29 +114,27 @@ class Fire {
                 commentKey: '',
                 avatar: userAgain.get(fieldPathProfilePicture)
             })
-            .then( ref=> {
-                res(ref);
-            })
-            .catch(error => {
-                rej(error);
-            })
+                .then(ref => {
+                    res(ref);
+                })
+                .catch(error => {
+                    rej(error);
+                })
         })
     };
 
-    addCommentKey = async(commentId) => {
+    addCommentKey = async (commentId) => {
 
         let dbComment = this.firestore.collection("comments").doc(commentId);
 
-        if(commentId)
-        {
+        if (commentId) {
             dbComment.update({
                 commentKey: commentId
             })
         }
     };
 
-    updateCommentList = async ({commentId, postId}) =>
-    {
+    updateCommentList = async ({ commentId, postId }) => {
         let dbUser = this.firestore.collection("users").doc(this.uid);
 
         let dbPost = this.firestore.collection("posts").doc(postId);
@@ -151,29 +143,27 @@ class Fire {
 
         const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
 
-        if(commentId)
-        {
+        if (commentId) {
             dbUser.update({
                 listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
             })
 
             const nbOfComments = await user.get(fieldPathListOfComments).length + 1;
-            
+
             dbUser.set(
-                {nbOfComments: nbOfComments}, {merge: true}
+                { nbOfComments: nbOfComments }, { merge: true }
             )
         }
 
-        if(postId)
-        {
+        if (postId) {
             dbPost.update({
                 listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
             })
 
             const nbOfComments = await user.get(fieldPathListOfComments).length + 1;
-            
+
             dbPost.set(
-                {nbOfComments: nbOfComments}, {merge: true}
+                { nbOfComments: nbOfComments }, { merge: true }
             )
         }
     }
@@ -181,23 +171,21 @@ class Fire {
     createUser = async user => {
         let remoteAvatarUri = null
 
-        try{
-            if(!user.name)
-            {
+        try {
+            if (!user.name) {
                 throw new Error("Username was not entered.")
             }
 
             await this.firestore
-            .collection("users")
-            .get()
-            .then(snapshot => {
-                snapshot.forEach( doc => {   
-                    if(user.name == doc.data().name)
-                    {
-                        throw new Error("Username already taken.")
-                    }
+                .collection("users")
+                .get()
+                .then(snapshot => {
+                    snapshot.forEach(doc => {
+                        if (user.name == doc.data().name) {
+                            throw new Error("Username already taken.")
+                        }
+                    })
                 })
-            })
 
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
@@ -215,15 +203,14 @@ class Fire {
                 profilePicture: remoteAvatarUri
             });
 
-            if(user.avatar)
-            {
-                remoteAvatarUri = await this.uploadPhotoAsync(user.avatar, 'avatar/'+this.uid);
-                db.set({profilePicture: remoteAvatarUri}, {merge: true})
+            if (user.avatar) {
+                remoteAvatarUri = await this.uploadPhotoAsync(user.avatar, 'avatar/' + this.uid);
+                db.set({ profilePicture: remoteAvatarUri }, { merge: true })
             }
 
-        } catch(error){
+        } catch (error) {
             alert("Error: " + error.message);
-       }
+        }
     }
 
     uploadPhotoAsync = async (uri, filename) => {
@@ -237,19 +224,19 @@ class Fire {
                 .ref(filename)
                 .put(file);
 
-            upload.on("state_changed", snapshot => {}, err => {
+            upload.on("state_changed", snapshot => { }, err => {
                 rej(err);
             },
-            async () => {
-                const url = await upload.snapshot.ref.getDownloadURL();
-                res(url);
-            }
-        );
-    });
-};
-    
+                async () => {
+                    const url = await upload.snapshot.ref.getDownloadURL();
+                    res(url);
+                }
+            );
+        });
+    };
 
-    get firestore(){
+
+    get firestore() {
         return firebase.firestore();
     }
 

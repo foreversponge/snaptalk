@@ -6,18 +6,19 @@ import Fire from './Fire';
 export default class LogoutButton extends Component {
 
     handleLogout = () => {
-            firebase
-                .auth()
-                .signOut()
-        }
+        firebase
+            .auth()
+            .signOut()
+    }
 
-  render() {
+    render() {
 
-  return(
-        <Button 
-            onPress={this.handleLogout}
-            title="Logout"
-            color="purple"
-        />
-    )};
+        return (
+            <Button
+                onPress={this.handleLogout}
+                title="Logout"
+                color="purple"
+            />
+        )
+    };
 };
