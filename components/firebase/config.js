@@ -1,4 +1,11 @@
-import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_APP_ID } from 'react-native-dotenv';
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_APP_ID,
+} from './node_modules/react-native-dotenv';
 
 const API_KEY = FIREBASE_API_KEY;
 const AUTH_DOMAIN = FIREBASE_AUTH_DOMAIN;
@@ -13,6 +20,6 @@ export default FirebaseKeys = {
   databaseURL: DATABASE_URL,
   projectId: PROJECT_ID,
   storageBucket: STORAGE_BUCKET,
-  messagingSenderId: "",
-  appId: APP_ID
+  messagingSenderId: '',
+  appId: APP_ID,
 };

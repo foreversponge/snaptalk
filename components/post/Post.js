@@ -46,8 +46,7 @@ export default class Post extends Component {
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <View >
-              <OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")}>
-              </OtherUserProfile>
+              <OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")}/>
               <Text style={styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
             </View>
             <Icon name="ios-more" size={24} color="#73788B" />
