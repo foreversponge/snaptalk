@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList} from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 import Fire from './Fire';
 import _ from "underscore";
 import Post from './Post';
 
-export default class HomeScreen extends React.Component{
+export default class HomeScreen extends React.Component {
 
   state = {
     posts: [],
@@ -25,22 +25,22 @@ export default class HomeScreen extends React.Component{
       .collection("posts")
       .get()
       .then(snapshot => {
-        
-        snapshot.forEach( doc => {
-            this.setState({postInArray:false})
-            this.state.posts.forEach(currentPost => {
 
-              if (currentPost.postKey == doc.data().postKey) {
-                this.setState({postInArray:true})
-              }
-            })
+        snapshot.forEach(doc => {
+          this.setState({ postInArray: false })
+          this.state.posts.forEach(currentPost => {
 
-            if (!this.state.postInArray) {
-              this.state.posts.push(doc.data())
+            if (currentPost.postKey == doc.data().postKey) {
+              this.setState({ postInArray: true })
             }
+          })
+
+          if (!this.state.postInArray) {
+            this.state.posts.push(doc.data())
+          }
         })
-        this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
-      }).finally(()=> this.setState({isLoading:false}))
+        this.state.posts.sort(function (a, b) { return parseInt(b.timestamp) - parseInt(a.timestamp) })
+      }).finally(() => this.setState({ isLoading: false }))
   }
 
   renderPost = post => {

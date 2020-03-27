@@ -20,59 +20,56 @@ export default class Post extends Component {
     this.updateLikeIcon(this.state.post.postKey);
   }
 
-  updateLikeIcon = async (postId) => 
-  {
-      const post = await firebase.firestore().collection("posts").doc(postId).get();
-      const fieldPathListOfLikes = new firebase.firestore.FieldPath('listOfLikes');
-      const arrayOfLikes = await post.get(fieldPathListOfLikes)
+  updateLikeIcon = async (postId) => {
+    const post = await firebase.firestore().collection("posts").doc(postId).get();
+    const fieldPathListOfLikes = new firebase.firestore.FieldPath('listOfLikes');
+    const arrayOfLikes = await post.get(fieldPathListOfLikes)
 
-      if(arrayOfLikes.includes(firebase.auth().currentUser.uid))
-      {
-          this.setState({likeIconName:"ios-heart"});
-          this.setState(prevState => {
-            return {numOfLikes: arrayOfLikes.length}
-          })
-      }
-      else
-      {
-          this.setState({likeIconName:"ios-heart-empty"})
-          this.setState(prevState => {
-              return {numOfLikes: arrayOfLikes.length}
-          })
-      }
+    if (arrayOfLikes.includes(firebase.auth().currentUser.uid)) {
+      this.setState({ likeIconName: "ios-heart" });
+      this.setState(prevState => {
+        return { numOfLikes: arrayOfLikes.length }
+      })
+    }
+    else {
+      this.setState({ likeIconName: "ios-heart-empty" })
+      this.setState(prevState => {
+        return { numOfLikes: arrayOfLikes.length }
+      })
+    }
   }
 
   render() {
-    return(
+    return (
       <View style={styles.feedItem}>
-        <Image source = {this.state.post.avatar ? {uri: this.state.post.avatar} : require('../assets/tempAvatar.jpg')} style={styles.avatar}/>
-          <View style = {{flex: 1}}>
-            <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-              <View >
-                <OtherUserProfile postUserId = {this.state.post.uid} username = {(JSON.stringify(this.state.post.username)).replace(/\"/g,"")}>
-                </OtherUserProfile>
-                <Text style= {styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
-              </View>
-              <Icon name="ios-more" size={24} color="#73788B" />
+        <Image source={this.state.post.avatar ? { uri: this.state.post.avatar } : require('../assets/tempAvatar.jpg')} style={styles.avatar} />
+        <View style={{ flex: 1 }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <View >
+              <OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")}>
+              </OtherUserProfile>
+              <Text style={styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
             </View>
-          <Text style={styles.post}>{this.state.post.text}</Text> 
-          <Image source={{uri: this.state.post.image}} style={styles.postImage} resizeMode="cover"/>
-            <View style={{flexDirection:"row"}}>
-              <View>
-                <Icon name= {this.state.likeIconName} size={24} onPress={ async () => 
-                    {
-                      await Fire.shared.updateUserLikedList(this.state.post.postKey);
-                      this.updateLikeIcon(this.state.post.postKey);
-                    }
-                  }
-                  color="#73788B" style={{marginRight: 16}}/>
-                <Text> {this.state.numOfLikes} </Text>
-              </View>
-              <CommentList name="comment-list" postKey={this.state.post.postKey}></CommentList>
+            <Icon name="ios-more" size={24} color="#73788B" />
+          </View>
+          <Text style={styles.post}>{this.state.post.text}</Text>
+          <Image source={{ uri: this.state.post.image }} style={styles.postImage} resizeMode="cover" />
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Icon name={this.state.likeIconName} size={24} onPress={async () => {
+                await Fire.shared.updateUserLikedList(this.state.post.postKey);
+                this.updateLikeIcon(this.state.post.postKey);
+              }
+              }
+                color="#73788B" style={{ marginRight: 16 }} />
+              <Text> {this.state.numOfLikes} </Text>
             </View>
+            <CommentList name="comment-list" postKey={this.state.post.postKey}></CommentList>
           </View>
         </View>
-    )};
+      </View>
+    )
+  };
 };
 
 const styles = StyleSheet.create({

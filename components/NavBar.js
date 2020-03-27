@@ -19,23 +19,23 @@ export default function Tabs() {
           showLabel: false
         }}
       >
-        <AppTabs.Screen 
-            name="Home" 
-            component={HomeScreen}
-            options={{
-                tabBarIcon: ({ color, size}) => (
-                    <Icon name="ios-home" size={30} color= {color} />
-                )
-            }}
-         />
-         <AppTabs.Screen 
-            name="Post"
-            component = {PostScreen} 
-            options={{
-                tabBarIcon: ({ color, size}) => (
-                    <Icon name="ios-add-circle-outline" size={30} color= {color} />
-                )
-            }} 
+        <AppTabs.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="ios-home" size={30} color={color} />
+            )
+          }}
+        />
+        <AppTabs.Screen
+          name="Post"
+          component={PostScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="ios-add-circle-outline" size={30} color={color} />
+            )
+          }}
         />
         <AppTabs.Screen
           name="Notifications"
