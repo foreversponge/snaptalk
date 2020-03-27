@@ -11,10 +11,10 @@ import Post from './Post';
 
 
 
-export default class HomeScreen extends React.Component{
+export default class HomeScreen extends React.Component {
 
   state = {
-    posts:[],
+    posts: [],
     isLoading: false,
     isProfileModalVisible: false,
 
@@ -25,33 +25,32 @@ export default class HomeScreen extends React.Component{
   };
 
 
-  componentDidMount(){
+  componentDidMount() {
     this.getData
   };
 
-  getData = () =>
-  {
-      this.setState({isLoading:true})
-      this.unsubscribe = Fire.shared.firestore
-        .collection("posts")
-        .get()
-        .then(snapshot => {
-          
-          snapshot.forEach( doc => {
-              this.setState({postInArray:false})
-              this.state.posts.forEach(currentPost => {
+  getData = () => {
+    this.setState({ isLoading: true })
+    this.unsubscribe = Fire.shared.firestore
+      .collection("posts")
+      .get()
+      .then(snapshot => {
 
-                if (currentPost.postKey == doc.data().postKey) {
-                  this.setState({postInArray:true})
-                }
-              })
+        snapshot.forEach(doc => {
+          this.setState({ postInArray: false })
+          this.state.posts.forEach(currentPost => {
 
-              if (!this.state.postInArray) {
-                this.state.posts.push(doc.data())
-              }
+            if (currentPost.postKey == doc.data().postKey) {
+              this.setState({ postInArray: true })
+            }
           })
-          this.state.posts.sort(function(a,b){return parseInt(b.timestamp) - parseInt(a.timestamp)})
-        }).finally(()=> this.setState({isLoading:false}))
+
+          if (!this.state.postInArray) {
+            this.state.posts.push(doc.data())
+          }
+        })
+        this.state.posts.sort(function (a, b) { return parseInt(b.timestamp) - parseInt(a.timestamp) })
+      }).finally(() => this.setState({ isLoading: false }))
   }
 
 
@@ -59,31 +58,31 @@ export default class HomeScreen extends React.Component{
 
 
   renderPost = post => {
-    return(
+    return (
 
-      <Post post = {post}/>
-      )
-    };
+      <Post post={post} />
+    )
+  };
 
-    render() {
-      return (
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}> Feed </Text>
-          </View>
-          <FlatList 
-            style={styles.feed} 
-            data={this.state.posts} 
-            renderItem={({item}) => this.renderPost(item)} 
-            keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
-            refreshing={this.state.isLoading}
-            onRefresh={this.getData}
-            /> 
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}> Feed </Text>
         </View>
-      );
-    }
+        <FlatList
+          style={styles.feed}
+          data={this.state.posts}
+          renderItem={({ item }) => this.renderPost(item)}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          refreshing={this.state.isLoading}
+          onRefresh={this.getData}
+        />
+      </View>
+    );
   }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#EBECF4",
     shadowColor: "#454D65",
-    shadowOffset: {height: 5},
+    shadowOffset: { height: 5 },
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 10

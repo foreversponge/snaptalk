@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,View,Text, Image, Button, TouchableHighlightBase, TouchableHighlight, ImageBackground, ScrollView, FlatList,TouchableOpacity, Modal} from 'react-native';
+import { StyleSheet, View, Text, Image, Button, TouchableHighlightBase, TouchableHighlight, ImageBackground, ScrollView, FlatList, TouchableOpacity, Modal } from 'react-native';
 
 import Fire from './Fire';
 import LogoutButton from './LogoutButton';
@@ -14,276 +14,252 @@ export default class ProfilePageScreen extends Component {
 
     state = {
         user: {},
-        nbOfFollowers:0,
-        nbOfFollowing:0,
-        nbOfPosts:0,
-        posts:[],
+        nbOfFollowers: 0,
+        nbOfFollowing: 0,
+        nbOfPosts: 0,
+        posts: [],
         isLoading: false,
         postInArray: false,
         result: '',
         infoColor: "#EFECF4",
         isModalVisible: false,
-
-
-
-
     }
 
     unsubscribe = null
 
-
-
-    componentDidMount(){
-
-
-
+    componentDidMount() {
         this.getData();
     }
 
-
-
-
-
-    getData = async () =>
-    {
+    getData = async () => {
         const user = this.props.uid || Fire.shared.uid;
 
-                this.unsubscribe = Fire.shared.firestore
-                    .collection("users")
-                    .doc(user)
-                    .onSnapshot(doc => {
-                        this.setState({user: doc.data()});
-                    });
+        this.unsubscribe = Fire.shared.firestore
+            .collection("users")
+            .doc(user)
+            .onSnapshot(doc => {
+                this.setState({ user: doc.data() });
+            });
 
-                    this.getListSize();
+        this.getListSize();
 
     }
 
-
-
-
     getListSize = async () => {
 
+        const user = await firebase.firestore().collection("users").doc(Fire.shared.uid).get();
+        const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
+
+        this.setState({ nbOfPosts: await user.get(listOfPosts).length });
+        const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
+        this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
+
+        const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
+        this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
+
+    };
+
+    changeModalVisibility = (bool) => {
+        this.setState({ isModalVisible: bool });
+
+    }
+
+    setColor = (data) => {
+        this.setState({ infoColor: data });
+
+    }
+
+    render() {
+        return (
+            <View style={{ backgroundColor: this.state.infoColor }} >
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end' }}>
+                    <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
+                        <Text>Open Modal</Text>
+                    </Button>
+
+                    <Modal visible={this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}>
+                        <PicColor changeModalVisibility={this.changeModalVisibility} setColor={this.setColor} />
+                    </Modal>
+
+                    <LogoutButton />
+                </View>
+
+                <View>
+                    <View styles={styles.container}>
+                        <View style={{ paddingBottom: 10 }}>
+                            <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{ alignItems: "center", borderTopWidth: 1, borderColor: "#52575D" }}>
+                                <View style={styles.avatarContainer}>
+                                    <Image style={styles.avatar} source={this.state.user.profilePicture ? { uri: this.state.user.profilePicture } : require('../assets/tempAvatar.jpg')}></Image>
+                                </View>
+                                <View style={styles.changePic}>
+
+                                </View>
+                                <Text style={styles.name}> {this.state.user.name} </Text>
+
+                            </ImageBackground>
+
+                        </View>
 
 
-         const user = await firebase.firestore().collection("users").doc(Fire.shared.uid).get();
-
-              const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
-
-              this.setState({nbOfPosts:await user.get(listOfPosts).length});
-
-              const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
-
-              this.setState({nbOfFollowers:await user.get(listOfFollowers).length});
-
-              const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
-
-              this.setState({nbOfFollowing:await user.get(listOfFollowing).length});
-
-        };
-
-        changeModalVisibility = (bool) => {
-        this.setState({isModalVisible:bool});
-
-        }
-
-        setColor = (data) => {
-        this.setState({infoColor: data});
-
-        }
-
-
-
-   render() {
-     return (
-        <View style={{backgroundColor : this.state.infoColor}} >
-                            <View style={{flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end'}}>
-                            <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
-                                <Text>Open Modal</Text>
-                            </Button>
-
-                            <Modal visible = {this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}>
-                                <PicColor changeModalVisibility={this.changeModalVisibility} setColor = {this.setColor}/>
-                            </Modal>
-
-                            <LogoutButton/>
+                        <View style={styles.info}>
+                            <View style={styles.state}>
+                                <Text style={styles.amount}> {this.state.nbOfPosts} </Text>
+                                <Text style={styles.title}> Posts </Text>
                             </View>
+                            <View style={[styles.state, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                                <Text style={styles.amount}> {this.state.nbOfFollowers} </Text>
+                                <Text style={styles.title}> Followers </Text>
+                            </View>
+                            <View style={styles.state}>
+                                <Text style={styles.amount}> {this.state.nbOfFollowing} </Text>
+                                <Text style={styles.title}> Following </Text>
+                            </View>
+                        </View>
 
-                                <View>
-                                    <View styles = {styles.container}>
-                                          <View style={{paddingBottom: 10}}>
-                                                <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
-                                                   <View style={styles.avatarContainer}>
-                                                      <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
-                                                                              </View>
-                                                                              <View  style={styles.changePic}>
-
-                                                                                </View>
-                                                                             <Text style={styles.name}> {this.state.user.name} </Text>
-
-                                                        </ImageBackground>
-
-                                                    </View>
-
-
-                                                <View style = {styles.info}>
-                                                    <View style={styles.state}>
-                                                        <Text style = {styles.amount}> {this.state.nbOfPosts} </Text>
-                                                        <Text style={styles.title}> Posts </Text>
-                                                    </View>
-                                                    <View style={[styles.state, {borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1}]}>
-                                                        <Text style = {styles.amount}> {this.state.nbOfFollowers} </Text>
-                                                        <Text style={styles.title}> Followers </Text>
-                                                    </View>
-                                                    <View style={styles.state}>
-                                                        <Text style = {styles.amount}> {this.state.nbOfFollowing} </Text>
-                                                        <Text style={styles.title}> Following </Text>
-                                                    </View>
-                                                </View>
-
-                                            </View>
-                                            </View>
-                                          </View>
-     );
-   }};
+                    </View>
+                </View>
+            </View>
+        );
+    }
+};
 
 
 const styles = StyleSheet.create({
 
 
-  modalProfile:{
-    paddingBottom:2
+    modalProfile: {
+        paddingBottom: 2
 
-  },
-  container: {
-            flex:1,
+    },
+    container: {
+        flex: 1,
 
-         },
-         name: {
-             marginTop: 24,
-             fontSize: 16,
-             fontWeight: "bold",
-             paddingBottom:10
-         },
-         info: {
-             flexDirection: "row",
-             justifyContent: "space-between",
-             margin: 32,
-             backgroundColor: "#FFF",
-             borderRadius: 5,
-             padding: 8,
-             flexDirection: "row",
-             marginVertical: 8,
+    },
+    name: {
+        marginTop: 24,
+        fontSize: 16,
+        fontWeight: "bold",
+        paddingBottom: 10
+    },
+    info: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        margin: 32,
+        backgroundColor: "#FFF",
+        borderRadius: 5,
+        padding: 8,
+        flexDirection: "row",
+        marginVertical: 8,
 
-         },
-         state: {
-             alignItems: "center",
-             flex: 1
-         },
-         amount: {
-             fontSize: 18,
-             color: "#52575D",
-             fontFamily: "HelveticaNeue",
-         },
-         title: {
-             fontSize: 12,
-             fontWeight: "bold",
-             marginTop: 4,
-             color:"#AEB5BC",
-             textTransform: "uppercase",
-             fontWeight: "500"
-         },
-         avatarContainer:{
-             shadowColor: "#151734",
-             shadowRadius: 30,
-             shadowOpacity: 0.4,
-             paddingTop:10
+    },
+    state: {
+        alignItems: "center",
+        flex: 1
+    },
+    amount: {
+        fontSize: 18,
+        color: "#52575D",
+        fontFamily: "HelveticaNeue",
+    },
+    title: {
+        fontSize: 12,
+        fontWeight: "bold",
+        marginTop: 4,
+        color: "#AEB5BC",
+        textTransform: "uppercase",
+        fontWeight: "500"
+    },
+    avatarContainer: {
+        shadowColor: "#151734",
+        shadowRadius: 30,
+        shadowOpacity: 0.4,
+        paddingTop: 10
 
-         },
-         avatar:
-         {
-             width: 160,
-             height: 160,
-             borderRadius: 75,
-             borderWidth:5,
-             borderColor: "#6495ED",
+    },
+    avatar:
+    {
+        width: 160,
+        height: 160,
+        borderRadius: 75,
+        borderWidth: 5,
+        borderColor: "#6495ED",
 
 
-         },
-         returnButton:
-         {
-         color:"#6495ED",
-         paddingLeft:10,
-         paddingTop: 5,
-         paddingBottom:10,
+    },
+    returnButton:
+    {
+        color: "#6495ED",
+        paddingLeft: 10,
+        paddingTop: 5,
+        paddingBottom: 10,
 
-         },
-     postContainer:
-     {
+    },
+    postContainer:
+    {
         backgroundColor: "blue",
         borderRadius: 5,
         padding: 8,
         flexDirection: "row",
         marginVertical: 8
-     },
-     postAvatar:
-     {
+    },
+    postAvatar:
+    {
         width: 36,
         height: 36,
         borderRadius: 1,
         marginRight: 16
-     },
-     postName:
-     {
+    },
+    postName:
+    {
         fontSize: 15,
         fontWeight: "500",
         color: "#454D65"
-     },
-     postTimestamp:
-     {
+    },
+    postTimestamp:
+    {
         fontSize: 11,
         color: "#C4C6CE",
         marginTop: 4
-     },
-     post: {
+    },
+    post: {
         marginTop: 16,
         fontSize: 14,
         color: "#838899"
-      },
-      postImage: {
+    },
+    postImage: {
         width: undefined,
         height: 150,
         borderRadius: 5,
         marginVertical: 16
-      },
-      postFlatContainer:
-      {
+    },
+    postFlatContainer:
+    {
         flex: 1,
         backgroundColor: "#EFECF4"
-      },
-      logout:{
-      alignSelf: 'flex-end'
-      },
-      changePic:{
-          paddingRight: 120,
-          paddingTop: 10,
+    },
+    logout: {
+        alignSelf: 'flex-end'
+    },
+    changePic: {
+        paddingRight: 120,
+        paddingTop: 10,
 
 
 
 
-          position: "absolute",
-
-
-
-
-
+        position: "absolute",
 
 
 
 
 
 
-      }
+
+
+
+
+
+    }
 
 
 });

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
 
 export default class PicColor extends Component {
     constructor(props) {
         super(props);
-        this.options = ['red', 'blue', 'yellow', 'orange', 'green', 'gray', 'black', 'purple', 'pink', 'brown', 'navy', 'fuchsia', 'silver' ]
+        this.options = ['red', 'blue', 'yellow', 'orange', 'green', 'gray', 'black', 'purple', 'pink', 'brown', 'navy', 'fuchsia', 'silver']
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
@@ -14,8 +14,6 @@ export default class PicColor extends Component {
             this.setState(e.window);
         });
     }
-
-
 
     changeModalVisibility = (bool) => {
         this.setState({ isModalVisible: bool })
@@ -31,11 +29,11 @@ export default class PicColor extends Component {
     }
 
     render() {
-        const option = this.options.map( (option, index) => {
-            const borderBottom = index===this.options.length-1 ? (null) : (<View style={styles.borderBottom}></View>);
+        const option = this.options.map((option, index) => {
+            const borderBottom = index === this.options.length - 1 ? (null) : (<View style={styles.borderBottom}></View>);
             return <TouchableOpacity activeOpacity={1} style={styles.option} key={index}
-                    onPress={() => this.setState({ selectedItem: option })}>
-                <Text style={ this.state.selectedItem===option ? ([styles.text, {color: option}]) : (styles.text) }>
+                onPress={() => this.setState({ selectedItem: option })}>
+                <Text style={this.state.selectedItem === option ? ([styles.text, { color: option }]) : (styles.text)}>
                     {option.charAt(0).toUpperCase() + option.slice(1)}
                 </Text>
                 {borderBottom}
@@ -43,12 +41,12 @@ export default class PicColor extends Component {
         })
         return (
             <TouchableOpacity activeOpacity={1} onPress={() => this.props.changeModalVisibility(false)} style={styles.contentContainer}>
-                <View style={[styles.modal, {width: this.state.width - 80, height: this.state.height - 80}]}>
+                <View style={[styles.modal, { width: this.state.width - 80, height: this.state.height - 80 }]}>
                     <ScrollView style={styles.optionView}>
                         {option}
                     </ScrollView>
                     <TouchableHighlight onPress={() => this.closeModal(false, this.state.selectedItem)}
-                        style={[styles.touchableHighlight, {backgroundColor: 'orange'}]} underlayColor={'#f1f1f1'}>
+                        style={[styles.touchableHighlight, { backgroundColor: 'orange' }]} underlayColor={'#f1f1f1'}>
                         <Text style={styles.text}>
                             Choose color
                         </Text>
@@ -62,7 +60,7 @@ export default class PicColor extends Component {
 
 const styles = StyleSheet.create({
 
-contentContainer: {
+    contentContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -97,13 +95,13 @@ contentContainer: {
         width: '100%',
         flexDirection: 'row',
     },
-    optionView:{
+    optionView: {
         width: '100%',
     },
-    option:{
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    backgroundColor: 'white'
+    option: {
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        backgroundColor: 'white'
 
     }
 

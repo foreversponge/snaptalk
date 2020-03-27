@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
-    
+
     state = {
         email: "",
         password: "",
@@ -14,16 +14,15 @@ export default class LoginScreen extends React.Component {
 
 
     handleLogin = () => {
-        const {email, password} = this.state
+        const { email, password } = this.state
 
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .catch(error => this.setState({errorMessage: error.message}))
+            .catch(error => this.setState({ errorMessage: error.message }))
     }
 
-    render()
-    {
+    render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.greeting}>
@@ -35,24 +34,24 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <KeyboardAwareScrollView
-                    resetScrollToCoords={{ x: 0, y:0 }}
+                    resetScrollToCoords={{ x: 0, y: 0 }}
                     scrollEnabled={true}
                 >
                     <View style={styles.form}>
                         <View>
                             <Text style={styles.inputTitle}>Email Address</Text>
-                            <TextInput 
-                                style={styles.input} 
-                                autoCapitalize="none" 
+                            <TextInput
+                                style={styles.input}
+                                autoCapitalize="none"
                                 onChangeText={email => this.setState({ email })}
                                 value={this.state.email}
                             ></TextInput>
                         </View>
-                    
-                        <View style={{marginTop: 32}}>
+
+                        <View style={{ marginTop: 32 }}>
                             <View>
                                 <Text style={styles.inputTitle}>Password</Text>
-                                <TextInput 
+                                <TextInput
                                     style={styles.input}
                                     secureTextEntry
                                     autoCapitalize="none"
@@ -64,12 +63,12 @@ export default class LoginScreen extends React.Component {
                     </View>
 
                     <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-                        <Text style={{color:"#FFF", fontWeight: "500"}}>Sign In</Text>
+                        <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign In</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{alignSelf: "center", marginTop: 32}} onPress={() => this.props.navigation.navigate("Register")}>
-                        <Text style={{color: "#414959", fontSize: 13}}>
-                            New to SnapTalk? <Text style={{fontWeight: "500", color: "#59446A"}}>Sign Up</Text>
+                    <TouchableOpacity style={{ alignSelf: "center", marginTop: 32 }} onPress={() => this.props.navigation.navigate("Register")}>
+                        <Text style={{ color: "#414959", fontSize: 13 }}>
+                            New to SnapTalk? <Text style={{ fontWeight: "500", color: "#59446A" }}>Sign Up</Text>
                         </Text>
                     </TouchableOpacity>
                 </KeyboardAwareScrollView>
@@ -83,13 +82,13 @@ const styles = StyleSheet.create(
         container: {
             flex: 1,
         },
-        greeting:{
+        greeting: {
             marginTop: 32,
             fontSize: 18,
             fontWeight: "400",
             textAlign: "center"
         },
-        errorMessage:{
+        errorMessage: {
             height: 72,
             alignItems: "center",
             justifyContent: "center",
@@ -102,7 +101,7 @@ const styles = StyleSheet.create(
             fontWeight: "600",
             textAlign: "center"
         },
-        form:{
+        form: {
             marginBottom: 48,
             marginHorizontal: 30
         },
