@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
-import Fire from './firebase/Fire';
+import React, {Component} from './node_modules/react';
+import Fire from './Fire';
 import {Text, View, Image, StyleSheet} from 'react-native';
-require('firebase/firestore');
-import moment from 'moment';
-import Icon from 'react-native-vector-icons/Ionicons';
+require('./node_modules/firebase/firestore');
+import moment from './node_modules/moment';
+import Icon from './node_modules/react-native-vector-icons/Ionicons';
 import CommentList from './CommentList';
-import firebase from 'firebase';
+import OtherUserProfile from '../profile/OtherUserProfile';
+import firebase from './node_modules/firebase';
 
 export default class Post extends Component {
   state = {
@@ -31,14 +32,10 @@ export default class Post extends Component {
 
     if (arrayOfLikes.includes(firebase.auth().currentUser.uid)) {
       this.setState({likeIconName: 'ios-heart'});
-      this.setState(prevState => {
-        return {numOfLikes: arrayOfLikes.length};
-      });
+      this.setState({numOfLikes: arrayOfLikes.length});
     } else {
       this.setState({likeIconName: 'ios-heart-empty'});
-      this.setState(prevState => {
-        return {numOfLikes: arrayOfLikes.length};
-      });
+      this.setState({numOfLikes: arrayOfLikes.length});
     }
   };
 
@@ -54,16 +51,14 @@ export default class Post extends Component {
           style={styles.avatar}
         />
         <View style={{flex: 1}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.info}>
             <View>
-              <Text style={styles.name}>
-                {JSON.stringify(this.state.post.username).replace(/\"/g, '')}
-              </Text>
+              <OtherUserProfile
+                postUserId={this.state.post.uid}
+                username={JSON.stringify(this.state.post.username).replace(
+                  /\"/g,
+                  '',
+                )}></OtherUserProfile>
               <Text style={styles.timestamp}>
                 {' '}
                 {moment(this.state.post.timestamp).fromNow()}{' '}
@@ -116,10 +111,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#EBECF4',
-    shadowColor: '#454D65',
-    shadowOffset: {height: 5},
-    shadowRadius: 15,
-    shadowOpacity: 0.2,
     zIndex: 10,
   },
   headerTitle: {
@@ -162,5 +153,10 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 5,
     marginVertical: 16,
+  },
+  info: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
