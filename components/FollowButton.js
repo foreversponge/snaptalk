@@ -27,16 +27,11 @@ export default class FollowButton extends Component {
           .collection("users")
           .get()
           .then(snapshot => {
-
                   snapshot.forEach(doc => {
-
                        if (doc.id == this.props.loggedUserUID) {
-
                            this.setState({user: doc.data()});
-
                         }
                         if(doc.data().name == this.props.userToFollow){
-
                               this.setState({toFollowedUserId: doc.id});
                               this.setState({targetUser: doc.data()});
                         }
@@ -48,36 +43,22 @@ export default class FollowButton extends Component {
                         .collection("users")
                         .get()
                         .then(snapshot => {
-
                                 snapshot.forEach(doc => {
-
                                      if (doc.id == this.props.loggedUserUID) {
 
                                           doc.data().listOfFollowing.forEach(followerName => {
-
                                                     console.log(followerName)
 
                                                     if(this.state.targetUser.name == followerName){
                                                         this.setState({followClick: true});
                                                         this.setState({isFollowing: true});
-
-
                                                     }
-
-
                                               }
-
                                           )
-
-
                                       }
-
                                   })
                             })
-
-
-
-        };
+      };
 
 
     followAction = () => {

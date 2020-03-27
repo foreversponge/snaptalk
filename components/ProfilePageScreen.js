@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import {StyleSheet,View,Text, Image, Button, TouchableHighlightBase, TouchableHighlight, ImageBackground, ScrollView, FlatList} from 'react-native';
+import {StyleSheet,View,Text, Image, Button, TouchableHighlightBase, TouchableHighlight, ImageBackground, ScrollView, FlatList,TouchableOpacity, Modal} from 'react-native';
 
 import Fire from './Fire';
 import LogoutButton from './LogoutButton';
+import PicColor from './PicColor';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from "moment";
 import CommentList from './CommentList'
 import firebase from "firebase"
+import ImagePicker from 'react-native-image-picker';
 
 export default class ProfilePageScreen extends Component {
 
@@ -19,10 +21,16 @@ export default class ProfilePageScreen extends Component {
         isLoading: false,
         postInArray: false,
         result: '',
+        infoColor: "#EFECF4",
+        isModalVisible: false,
+
+
+
 
     }
 
     unsubscribe = null
+
 
 
     componentDidMount(){
@@ -74,14 +82,29 @@ export default class ProfilePageScreen extends Component {
 
         };
 
+        changeModalVisibility = (bool) => {
+        this.setState({isModalVisible:bool});
+
+        }
+
+        setColor = (data) => {
+        this.setState({infoColor: data});
+
+        }
 
 
 
    render() {
      return (
-        <View style={{backgroundColor: "#EFECF4"}} >
+        <View style={{backgroundColor : this.state.infoColor}} >
                             <View style={{flexDirection: "row", justifyContent: "space-between", alignSelf: 'flex-end'}}>
+                            <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
+                                <Text>Open Modal</Text>
+                            </Button>
 
+                            <Modal visible = {this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}>
+                                <PicColor changeModalVisibility={this.changeModalVisibility} setColor = {this.setColor}/>
+                            </Modal>
 
                             <LogoutButton/>
                             </View>
@@ -93,6 +116,9 @@ export default class ProfilePageScreen extends Component {
                                                    <View style={styles.avatarContainer}>
                                                       <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
                                                                               </View>
+                                                                              <View  style={styles.changePic}>
+
+                                                                                </View>
                                                                              <Text style={styles.name}> {this.state.user.name} </Text>
 
                                                         </ImageBackground>
@@ -176,8 +202,8 @@ const styles = StyleSheet.create({
          },
          avatar:
          {
-             width: 150,
-             height: 150,
+             width: 160,
+             height: 160,
              borderRadius: 75,
              borderWidth:5,
              borderColor: "#6495ED",
@@ -194,7 +220,7 @@ const styles = StyleSheet.create({
          },
      postContainer:
      {
-        backgroundColor: "#FFF",
+        backgroundColor: "blue",
         borderRadius: 5,
         padding: 8,
         flexDirection: "row",
@@ -237,6 +263,26 @@ const styles = StyleSheet.create({
       },
       logout:{
       alignSelf: 'flex-end'
+      },
+      changePic:{
+          paddingRight: 120,
+          paddingTop: 10,
+
+
+
+
+          position: "absolute",
+
+
+
+
+
+
+
+
+
+
+
       }
 
 

@@ -10,7 +10,6 @@ const firebase = require('firebase');
 require("firebase/firestore");
 
 
-//accessing uid of current user <Text>{current.uid}</Text>
 
 
 export default class ModalExample extends Component {
@@ -25,7 +24,6 @@ export default class ModalExample extends Component {
     nbOfFollowing:0,
     nbOfPosts:0,
     currentUserId : null,
-    isNotSameUser : true,
   };
 
   setModalVisible(visible) {
@@ -115,7 +113,7 @@ export default class ModalExample extends Component {
           <View style={{backgroundColor: "#EFECF4"}} >
           <View style={{flexDirection: "row", justifyContent: "space-between"}}>
             <TouchableHighlight onPress={() => {this.setModalVisible(!this.state.modalVisible);}}><Text style={styles.returnButton}>Return</Text></TouchableHighlight>
-            {!this.state.isNotSameUser && <LogoutButton style={styles.logout}/>}
+
             </View>
             <View>
                 <View styles = {styles.container}>
@@ -123,7 +121,9 @@ export default class ModalExample extends Component {
                         <ImageBackground source={require('../assets/Default-profile-bg.jpg')} style={{alignItems: "center", borderTopWidth:1, borderColor:"#52575D"}}>
                                          <View style={styles.avatarContainer}>
                                                 <Image style={styles.avatar} source={this.state.user.profilePicture ? {uri: this.state.user.profilePicture} : require('../assets/tempAvatar.jpg')}></Image>
+
                                               </View>
+
                                              <Text style={styles.name}> {this.state.user.name} </Text>
 
 
