@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
-import Fire from './Fire';
+import Fire from '../firebase/Fire';
 import _ from "underscore";
-import Post from './Post';
+import Post from '../post/Post';
 
 export default class HomeScreen extends React.Component {
 
@@ -10,10 +10,8 @@ export default class HomeScreen extends React.Component {
     posts: [],
     isLoading: false,
     isProfileModalVisible: false,
-    postInArray: false,
-    result: ''
+    postInArray: false
   };
-
 
   componentDidMount() {
     this.getData
@@ -21,32 +19,22 @@ export default class HomeScreen extends React.Component {
 
   getData = () => {
     this.setState({ isLoading: true })
+    this.setState({posts:[]})
     this.unsubscribe = Fire.shared.firestore
       .collection("posts")
       .get()
       .then(snapshot => {
-
+        //Fetching posts from database
         snapshot.forEach(doc => {
-          this.setState({ postInArray: false })
-          this.state.posts.forEach(currentPost => {
-
-            if (currentPost.postKey == doc.data().postKey) {
-              this.setState({ postInArray: true })
-            }
-          })
-
-          if (!this.state.postInArray) {
             this.state.posts.push(doc.data())
-          }
         })
-        this.state.posts.sort(function (a, b) { return parseInt(b.timestamp) - parseInt(a.timestamp) })
+        this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) }) })
       }).finally(() => this.setState({ isLoading: false }))
   }
 
   renderPost = post => {
     return (
-
-      <Post post={post} />
+       <Post post={post} profilePagePost={false}/>
     )
   };
 
@@ -68,13 +56,13 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#EFECF4"
-
   },
   header: {
     paddingTop: 16,

@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
 
 export default class PicColor extends Component {
+
     constructor(props) {
         super(props);
         this.options = ['red', 'blue', 'yellow', 'orange', 'green', 'gray', 'black', 'purple', 'pink', 'brown', 'navy', 'fuchsia', 'silver']
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
-            selectedItem: '',
+            selectedItem: ''
         };
         Dimensions.addEventListener("change", (e) => {
             this.setState(e.window);
@@ -53,7 +54,6 @@ export default class PicColor extends Component {
                     </TouchableHighlight>
                 </View>
             </TouchableOpacity>
-
         )
     }
 };
@@ -104,8 +104,4 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
 
     }
-
-
-
-
 })
