@@ -25,7 +25,6 @@ class CommentList extends Component {
     };
 
     handleComment = () => {
-
         if (this.state.comment.trim() === '') {
             alert('Comment is blank.');
             return;
@@ -38,11 +37,9 @@ class CommentList extends Component {
         }).catch(error => {
             alert(error.message);
         });
-
     };
 
     getData = () => {
-
         this.setState({ isLoading: true })
 
         this.unsubscribe = Fire.shared.firestore
@@ -101,7 +98,6 @@ class CommentList extends Component {
                 this.setState({ commentsToAdd: [] })
                 this.setState({ commentList: this.state.commentList.sort((a, b) => a.timestamp - b.timestamp) })
             })
-            
     }
 
     setModalVisible(visible) {
@@ -167,6 +163,7 @@ class CommentList extends Component {
             </View>
         );
     }
+    
 }
 
 const styles = StyleSheet.create({

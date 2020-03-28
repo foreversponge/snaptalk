@@ -10,8 +10,7 @@ export default class HomeScreen extends React.Component {
     posts: [],
     isLoading: false,
     isProfileModalVisible: false,
-    postInArray: false,
-    result: ''
+    postInArray: false
   };
 
   componentDidMount() {
@@ -25,17 +24,17 @@ export default class HomeScreen extends React.Component {
       .collection("posts")
       .get()
       .then(snapshot => {
-
+        //Fetching posts from database
         snapshot.forEach(doc => {
             this.state.posts.push(doc.data())
         })
-        this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) })})
+        this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) }) })
       }).finally(() => this.setState({ isLoading: false }))
   }
 
   renderPost = post => {
     return (
-       <Post post={post} />
+       <Post post={post} profilePagePost={false}/>
     )
   };
 
@@ -57,13 +56,13 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#EFECF4"
-
   },
   header: {
     paddingTop: 16,

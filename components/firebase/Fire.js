@@ -1,36 +1,38 @@
-import FirebaseKeys from '../firebase/config';
+import FirebaseKeys from './Config';
 import firebase from 'firebase';
 require('firebase/firestore');
 
 class Fire {
+
   constructor() {
     firebase.initializeApp(FirebaseKeys);
   }
 
   addPost = async ({text, localUri, postKey}) => {
-    const remoteUri = await this.uploadPhotoAsync(
-      localUri,
-      'photos/' + this.uid + '/' + Date.now(),
-    );
+    //Uploading picture to database
+    const remoteUri = await this.uploadPhotoAsync(localUri,'photos/' + this.uid + '/' + Date.now());
 
+    //Getting User from database
     const user = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
+    //Pointer to the name field of the user in the database
     const fieldPathName = new firebase.firestore.FieldPath('name');
 
+    //Getting User from database again (because cannot use the same variable)
     const userAgain = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
-    const fieldPathProfilePicture = new firebase.firestore.FieldPath(
-      'profilePicture',
-    );
+    //Pointer to the profile picture field of the user in the database
+    const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
 
+    //Creating a new post in the database
     return new Promise((res, rej) => {
       this.firestore
         .collection('posts')
@@ -45,7 +47,7 @@ class Fire {
           listOfComments: [],
           nbOfComments: 0,
           listOfLikes: [],
-          nbOfLikes: 0,
+          nbOfLikes: 0
         })
         .then(ref => {
           res(ref);
@@ -57,23 +59,28 @@ class Fire {
   };
 
   updateUserLikedList = async postId => {
+    //Getting post from the database
     let db = this.firestore.collection('posts').doc(postId);
 
+    //Getting post from the database
     const post = await firebase
       .firestore()
       .collection('posts')
       .doc(postId)
       .get();
-    const fieldPathListOfLikes = new firebase.firestore.FieldPath(
-      'listOfLikes',
-    );
+
+    //Creating pointer to the list Of likes of the post in the database
+    const fieldPathListOfLikes = new firebase.firestore.FieldPath('listOfLikes');
+
+    //Getting the list of likes of the post from the database
     const arrayOfLikes = await post.get(fieldPathListOfLikes);
 
     if (arrayOfLikes.includes(this.uid)) {
       db.update({
         listOfLikes: firebase.firestore.FieldValue.arrayRemove(this.uid),
       });
-    } else {
+    } 
+    else {
       db.update({
         listOfLikes: firebase.firestore.FieldValue.arrayUnion(this.uid),
       });
@@ -81,6 +88,7 @@ class Fire {
   };
 
   addPostKey = async postId => {
+    //Getting post from database
     let dbPost = this.firestore.collection('posts').doc(postId);
 
     if (postId) {
@@ -91,17 +99,18 @@ class Fire {
   };
 
   updatePostList = async postId => {
+    //Getting user from the database
     let db = this.firestore.collection('users').doc(this.uid);
 
+    //Getting user from the database
     const user = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
-    const fieldPathListOfPosts = new firebase.firestore.FieldPath(
-      'listOfPosts',
-    );
+    //Creating pointer to the list of posts field in the database
+    const fieldPathListOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
     if (postId) {
       db.update({
@@ -115,23 +124,25 @@ class Fire {
   };
 
   addComment = async ({text, postKey}) => {
+    //Getting user from database
     const user = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
+    //Creating a pointer to name field of the user in the database
     const fieldPathName = new firebase.firestore.FieldPath('name');
 
+    //Getting User from database again (because cannot use the same variable)
     const userAgain = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
-    const fieldPathProfilePicture = new firebase.firestore.FieldPath(
-      'profilePicture',
-    );
+    //Creating a pointer to the profile picture field in the database
+    const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
 
     return new Promise((res, rej) => {
       this.firestore
@@ -155,6 +166,7 @@ class Fire {
   };
 
   addCommentKey = async commentId => {
+    //Getting comments from database
     let dbComment = this.firestore.collection('comments').doc(commentId);
 
     if (commentId) {
@@ -165,19 +177,21 @@ class Fire {
   };
 
   updateCommentList = async ({commentId, postId}) => {
+    //Getting user from database
     let dbUser = this.firestore.collection('users').doc(this.uid);
 
+    //Getting post from database
     let dbPost = this.firestore.collection('posts').doc(postId);
 
+    //Getting user again from database
     const user = await firebase
       .firestore()
       .collection('users')
       .doc(this.uid)
       .get();
 
-    const fieldPathListOfComments = new firebase.firestore.FieldPath(
-      'listOfComments',
-    );
+    //Creating pointer to the list of comments field in the database
+    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
 
     if (commentId) {
       dbUser.update({
@@ -204,6 +218,7 @@ class Fire {
     let remoteAvatarUri = null;
 
     try {
+
       if (!user.name) {
         throw new Error('Username was not entered.');
       }
@@ -234,7 +249,7 @@ class Fire {
         listOfComments: [],
         nbOfPosts: 0,
         nbOfComments: 0,
-        profilePicture: remoteAvatarUri,
+        profilePicture: remoteAvatarUri
       });
 
       if (user.avatar) {
@@ -244,12 +259,15 @@ class Fire {
         );
         db.set({profilePicture: remoteAvatarUri}, {merge: true});
       }
-    } catch (error) {
+
+    } 
+    catch (error) {
       alert('Error: ' + error.message);
     }
   };
 
   uploadPhotoAsync = async (uri, filename) => {
+    //Uploading picture to firebase storage
     return new Promise(async (res, rej) => {
       const response = await fetch(uri);
       const file = await response.blob();
@@ -284,6 +302,7 @@ class Fire {
   get timestamp() {
     return Date.now();
   }
+  
 }
 
 Fire.shared = new Fire();

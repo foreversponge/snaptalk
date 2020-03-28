@@ -6,13 +6,13 @@ import Post from '../post/Post';
 import firebase from 'firebase';
 
 export default class PersonalScreen extends React.Component {
+
   state = {
     posts: [],
     isLoading: false,
     isProfileModalVisible: false,
     postInArray: false,
     followingUser: false,
-    result: '',
   };
 
   componentDidMount() {

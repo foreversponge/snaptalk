@@ -1,18 +1,9 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PermissionsAndroid} from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 import Fire from '../firebase/Fire';
 import ImagePicker from 'react-native-image-picker';
-
 import {decode, encode} from 'base-64';
 
 if (!global.btoa) {
@@ -27,11 +18,12 @@ const firebase = require('firebase');
 require('firebase/firestore');
 
 export default class PostScreen extends React.Component {
+
   state = {
     text: '',
     image: null,
     likes: 0,
-    user: {},
+    user: {}
   };
 
   componentDidMount() {
@@ -39,6 +31,7 @@ export default class PostScreen extends React.Component {
 
     const user = this.props.uid || Fire.shared.uid;
 
+    //Gettimg users from the database
     this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .doc(user)
@@ -109,7 +102,7 @@ export default class PostScreen extends React.Component {
             <Icon name="ios-arrow-back" size={24} />
           </TouchableOpacity>
           <TouchableOpacity onPress={this.handlePost}>
-            <Text style={{fontWeight: 'bold'}}> Post </Text>
+            <Text style={styles.postButton}> Post </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.captionContainer}>
@@ -124,7 +117,7 @@ export default class PostScreen extends React.Component {
             autofocus={true}
             multiline={true}
             numberOfLines={4}
-            style={{flex: 1}}
+            style={styles.textArea}
             placeholder="Write your caption..."
             maxLength={250}
             onChangeText={text => this.setState({text})}
@@ -134,10 +127,10 @@ export default class PostScreen extends React.Component {
           <Icon name="ios-camera" size={30} />
         </TouchableOpacity>
 
-        <View style={{marginalHorizontal: 32, marginTop: 32, height: 150}}>
+        <View style={styles.imageContainer}>
           <Image
             source={{uri: this.state.image}}
-            style={{width: '100%', height: '100%'}}></Image>
+            style={styles.image}></Image>
         </View>
       </SafeAreaView>
     );
@@ -149,6 +142,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image:
+  {
+    width: '100%',
+    height:'100%'
+  },
+  imageContainer:
+  {
+    marginHorizontal: 32,
+    marginTop: 32,
+    height: 150
+  },
+  textArea:
+  {
+    flex: 1
+  },
+  postButton:
+  {
+    fontWeight: 'bold'
   },
   header: {
     flexDirection: 'row',

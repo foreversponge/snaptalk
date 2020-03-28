@@ -1,20 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Fire from '../firebase/Fire';
 import ImagePicker from 'react-native-image-picker';
 
 export default class RegisterScreen extends React.Component {
+
   state = {
     user: {
       name: '',
       email: '',
       password: '',
-      errorMessage: null,
-      avatar: null,
-    },
-    errorMessage: null,
+      avatar: null
+    }
   };
 
   handlePickAvatar = async () => {
@@ -46,7 +45,7 @@ export default class RegisterScreen extends React.Component {
           scrollEnabled={true}>
           <Text style={styles.greeting}>{'Sign up to get started'}</Text>
 
-          <View style={{alignItems: 'center', width: '100%'}}>
+          <View style={styles.avatarContainer}>
             <TouchableOpacity
               style={styles.avatarPlaceHolder}
               onPress={this.handlePickAvatar}>
@@ -73,7 +72,7 @@ export default class RegisterScreen extends React.Component {
                 value={this.state.user.name}></TextInput>
             </View>
 
-            <View style={{marginTop: 32}}>
+            <View style={styles.emailBox}>
               <Text style={styles.inputTitle}>Email Address</Text>
               <TextInput
                 style={styles.input}
@@ -106,6 +105,7 @@ export default class RegisterScreen extends React.Component {
       </View>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({
@@ -116,18 +116,6 @@ const styles = StyleSheet.create({
     marginTop: 32,
     fontSize: 18,
     fontWeight: '400',
-    textAlign: 'center',
-  },
-  errorMessage: {
-    height: 72,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 30,
-  },
-  error: {
-    color: '#E9446A',
-    fontSize: 13,
-    fontWeight: '600',
     textAlign: 'center',
   },
   form: {
@@ -183,4 +171,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  avatarContainer:
+  {
+    alignItems: 'center', 
+    width: '100%'
+  },
+  emailBox:
+  {
+    marginTop: 32
+  }
 });

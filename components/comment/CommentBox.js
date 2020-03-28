@@ -14,6 +14,7 @@ export default class CommentBox extends Component {
       </View>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({

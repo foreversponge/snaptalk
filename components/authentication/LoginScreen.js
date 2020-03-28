@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
+
   state = {
     email: '',
     password: '',
     errorMessage: null,
   };
+
   handleLogin = () => {
     const {email, password} = this.state;
 
@@ -23,6 +19,7 @@ export default class LoginScreen extends React.Component {
       .signInWithEmailAndPassword(email, password)
       .catch(error => this.setState({errorMessage: error.message}));
   };
+  
   render() {
     return (
       <View style={styles.container}>
@@ -74,6 +71,7 @@ export default class LoginScreen extends React.Component {
       </View>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({
@@ -140,5 +138,5 @@ const styles = StyleSheet.create({
   },
   passwordBox: {
     marginTop: 32,
-  },
+  }
 });

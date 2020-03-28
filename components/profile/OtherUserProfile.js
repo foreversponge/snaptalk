@@ -1,13 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableHighlight,
-  Modal,
-  ImageBackground,
-} from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableHighlight, Modal, ImageBackground } from 'react-native';
 import Fire from '../firebase/Fire';
 import FollowButton from '../profile/FollowButton';
 import LogoutButton from '../profile/LogoutButton';
@@ -17,6 +9,7 @@ const firebase = require('firebase');
 require('firebase/firestore');
 
 export default class ModalExample extends Component {
+
   state = {
     modalVisible: false,
     user: {},
@@ -24,7 +17,7 @@ export default class ModalExample extends Component {
     nbOfFollowing: 0,
     nbOfPosts: 0,
     currentUserId: null,
-    isNotSameUser: true,
+    isNotSameUser: true
   };
 
   setModalVisible(visible) {
@@ -85,7 +78,7 @@ export default class ModalExample extends Component {
           onRequestClose={() => {
             this.setModalVisible(!this.state.modalVisible);
           }}>
-          <View style={{backgroundColor: '#EFECF4'}}>
+          <View style={styles.modalContainer}>
             <View style={styles.topBar}>
               <TouchableHighlight
                 onPress={() => {
@@ -94,7 +87,7 @@ export default class ModalExample extends Component {
                 <Icon
                   name="ios-arrow-back"
                   size={24}
-                  style={{paddingVertical: 3}}
+                  style={styles.backButton}
                 />
               </TouchableHighlight>
               {!this.state.isNotSameUser && (
@@ -103,7 +96,7 @@ export default class ModalExample extends Component {
             </View>
             <View>
               <View styles={styles.container}>
-                <View style={{paddingBottom: 10}}>
+                <View style={styles.header}>
                   <ImageBackground
                     source={require('../../assets/Default-profile-bg.jpg')}
                     style={styles.backgroundImage}>
@@ -168,11 +161,24 @@ export default class ModalExample extends Component {
       </View>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({
   modalProfile: {
     paddingBottom: 2,
+  },
+  header:
+  {
+    paddingBottom: 10
+  },
+  backButton:
+  {
+    paddingVertical: 3
+  },
+  modalContainer:
+  {
+    backgroundColor: '#EFECF4'
   },
   container: {
     flex: 1,

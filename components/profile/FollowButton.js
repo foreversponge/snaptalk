@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
-import {
-  Alert,
-  Button,
-  TouchableHighlight,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import { TouchableHighlight, Text } from 'react-native';
 import Fire from '../firebase/Fire';
 
 const firebase = require('firebase');
 require('firebase/firestore');
 
 export default class FollowButton extends Component {
+
   state = {
     followClick: false,
     isFollowing: false,
@@ -19,7 +14,9 @@ export default class FollowButton extends Component {
     targetUser: {},
     toFollowedUserId: {},
   };
+
   componentDidMount() {
+    //Getting user from database
     this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .get()
@@ -34,6 +31,7 @@ export default class FollowButton extends Component {
           }
         });
       });
+    
     this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .get()
@@ -68,7 +66,7 @@ export default class FollowButton extends Component {
         isFollowing: !this.state.isFollowing,
       });
 
-      // add a new Following to the "listOfFollwing" array of the current
+      // add a new Following to the "listOfFollwing" array of the current user
       let arrUnionFollowing = followingRef.update({
         listOfFollowing: firebase.firestore.FieldValue.arrayUnion(
           this.props.userToFollow,
@@ -123,4 +121,5 @@ export default class FollowButton extends Component {
       </TouchableHighlight>
     );
   }
+  
 }
