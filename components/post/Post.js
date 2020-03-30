@@ -14,7 +14,8 @@ export default class Post extends Component {
     post: this.props.post,
     likeIconName: "ios-heart-empty",
     numOfLikes: 0,
-    profilePagePost: this.props.profilePagePost
+    profilePagePost: this.props.profilePagePost,
+    nbOfComments: this.props.post.nbOfComments
   }
 
   componentDidMount() {
@@ -72,7 +73,7 @@ export default class Post extends Component {
                 color="#73788B" style={styles.likeIcon} />
               <Text> {this.state.numOfLikes} </Text>
             </View>
-            <CommentList name="comment-list" postKey={this.state.post.postKey}></CommentList>
+            <CommentList name="comment-list" postKey={this.state.post.postKey} postUserId={this.state.post.uid} nbOfComments={this.state.nbOfComments}></CommentList>
           </View>
         </View>
       </View>
