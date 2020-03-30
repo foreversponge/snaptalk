@@ -8,9 +8,9 @@ class Fire {
     firebase.initializeApp(FirebaseKeys);
   }
 
-  addPost = async ({text, localUri, postKey}) => {
+  addPost = async ({ text, localUri, postKey }) => {
     //Uploading picture to database
-    const remoteUri = await this.uploadPhotoAsync(localUri,'photos/' + this.uid + '/' + Date.now());
+    const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/' + this.uid + '/' + Date.now());
 
     //Getting User from database
     const user = await firebase
@@ -47,7 +47,6 @@ class Fire {
           listOfComments: [],
           nbOfComments: 0,
           listOfLikes: [],
-          nbOfLikes: 0
         })
         .then(ref => {
           res(ref);
@@ -79,7 +78,7 @@ class Fire {
       db.update({
         listOfLikes: firebase.firestore.FieldValue.arrayRemove(this.uid),
       });
-    } 
+    }
     else {
       db.update({
         listOfLikes: firebase.firestore.FieldValue.arrayUnion(this.uid),
@@ -119,11 +118,11 @@ class Fire {
 
       const nbOfPosts = (await user.get(fieldPathListOfPosts).length) + 1;
 
-      db.set({nbOfPosts: nbOfPosts}, {merge: true});
+      db.set({ nbOfPosts: nbOfPosts }, { merge: true });
     }
   };
 
-  addComment = async ({text, postKey}) => {
+  addComment = async ({ text, postKey }) => {
     //Getting user from database
     const user = await firebase
       .firestore()
@@ -176,12 +175,19 @@ class Fire {
     }
   };
 
-  updateCommentList = async ({commentId, postId}) => {
+  updateCommentList = async ({ commentId, postId }) => {
     //Getting user from database
     let dbUser = this.firestore.collection('users').doc(this.uid);
 
     //Getting post from database
     let dbPost = this.firestore.collection('posts').doc(postId);
+
+    //Getting post again from database
+    const post = await firebase
+    .firestore()
+    .collection('posts')
+    .doc(postId)
+    .get();
 
     //Getting user again from database
     const user = await firebase
@@ -200,19 +206,84 @@ class Fire {
 
       const nbOfComments = (await user.get(fieldPathListOfComments).length) + 1;
 
-      dbUser.set({nbOfComments: nbOfComments}, {merge: true});
+      dbUser.set({ nbOfComments: nbOfComments }, { merge: true });
     }
 
     if (postId) {
       dbPost.update({
-        listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId),
+        listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
       });
 
-      const nbOfComments = (await user.get(fieldPathListOfComments).length) + 1;
+      const nbOfComments = (await post.get(fieldPathListOfComments).length) + 1;
 
-      dbPost.set({nbOfComments: nbOfComments}, {merge: true});
+      dbPost.set({ nbOfComments: nbOfComments }, { merge: true });
     }
   };
+
+  modifyComment = async (commentKey, newComment) => {
+    //Getting comments from database
+    let dbComment = this.firestore.collection('comments').doc(commentKey);
+
+    if (commentKey) {
+      dbComment.update({
+        comment: newComment,
+      });
+    }
+  };
+
+  deleteComment = async (commentId, postId) => {
+
+    //Getting comment from database
+    let dbComments = this.firestore.collection('comments').doc(commentId);
+
+    //Getting user from database
+    let dbUser = this.firestore.collection('users').doc(this.uid);
+
+    //Getting post from database
+    let dbPost = this.firestore.collection('posts').doc(postId);
+
+    //Getting post again from database
+    const post = await firebase
+    .firestore()
+    .collection('posts')
+    .doc(postId)
+    .get();
+
+    //Getting user again from database
+    const user = await firebase
+      .firestore()
+      .collection('users')
+      .doc(this.uid)
+      .get();
+
+    //Creating pointer to the list of comments field in the database
+    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
+
+    if (commentId) {
+
+      dbComments.delete();
+
+      dbUser.update({
+        listOfComments: firebase.firestore.FieldValue.arrayRemove(commentId)
+      });
+
+      const nbOfComments = (await user.get(fieldPathListOfComments).length) - 1;
+
+      dbUser.set({ nbOfComments: nbOfComments }, { merge: true });
+    }
+
+    if (postId) {
+      dbPost.update({
+        listOfComments: firebase.firestore.FieldValue.arrayRemove(commentId),
+      });
+
+      const nbOfComments = (await post.get(fieldPathListOfComments).length) - 1;
+
+      dbPost.set({ nbOfComments: nbOfComments }, { merge: true });
+    }
+  };
+
+
 
   createUser = async user => {
     let remoteAvatarUri = null;
@@ -257,10 +328,10 @@ class Fire {
           user.avatar,
           'avatar/' + this.uid,
         );
-        db.set({profilePicture: remoteAvatarUri}, {merge: true});
+        db.set({ profilePicture: remoteAvatarUri }, { merge: true });
       }
 
-    } 
+    }
     catch (error) {
       alert('Error: ' + error.message);
     }
@@ -279,7 +350,7 @@ class Fire {
 
       upload.on(
         'state_changed',
-        snapshot => {},
+        snapshot => { },
         err => {
           rej(err);
         },
@@ -302,7 +373,7 @@ class Fire {
   get timestamp() {
     return Date.now();
   }
-  
+
 }
 
 Fire.shared = new Fire();
