@@ -117,7 +117,7 @@ export default class ModalExample extends Component {
                   {this.state.isNotSameUser && (
                     <FollowButton
                       loggedUserUID={this.state.currentUserId}
-                      userToFollow={this.state.user.name}
+                      userToFollow={this.state.user.uid}
                     />
                   )}
                 </View>

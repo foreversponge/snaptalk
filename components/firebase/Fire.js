@@ -184,10 +184,10 @@ class Fire {
 
     //Getting post again from database
     const post = await firebase
-    .firestore()
-    .collection('posts')
-    .doc(postId)
-    .get();
+      .firestore()
+      .collection('posts')
+      .doc(postId)
+      .get();
 
     //Getting user again from database
     const user = await firebase
@@ -244,10 +244,10 @@ class Fire {
 
     //Getting post again from database
     const post = await firebase
-    .firestore()
-    .collection('posts')
-    .doc(postId)
-    .get();
+      .firestore()
+      .collection('posts')
+      .doc(postId)
+      .get();
 
     //Getting user again from database
     const user = await firebase
@@ -320,7 +320,8 @@ class Fire {
         listOfComments: [],
         nbOfPosts: 0,
         nbOfComments: 0,
-        profilePicture: remoteAvatarUri
+        profilePicture: remoteAvatarUri,
+        uid: this.uid,
       });
 
       if (user.avatar) {

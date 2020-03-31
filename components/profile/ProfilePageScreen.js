@@ -16,7 +16,6 @@ export default class ProfilePageScreen extends Component {
     nbOfPosts: 0,
     posts: [],
     isLoading: false,
-    postInArray: false,
     infoColor: "#EFECF4",
     isModalVisible: false
   };
@@ -79,8 +78,6 @@ export default class ProfilePageScreen extends Component {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          this.setState({ postInArray: false });
-
           if (Fire.shared.uid == doc.data().uid) {
             this.state.posts.push(doc.data());
           }
