@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import Fire from '../firebase/Fire';
-import _ from "underscore";
 import Post from '../post/Post';
 import firebase from 'firebase';
 import styles from '../home/style/HomeScreenStyle';

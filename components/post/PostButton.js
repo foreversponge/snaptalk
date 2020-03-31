@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, View, Image, StyleSheet } from 'react-native';
+import { Button, View, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import styles from '../post/style/PostButtonStyle';
 
 export default class PostButton extends Component {
 
@@ -36,12 +37,12 @@ export default class PostButton extends Component {
   };
 
   render() {
-    const {photo} = this.state;
+    const { photo } = this.state;
 
     return (
       <View>
         <View style={styles.images}>
-          {photo && <Image source={{uri: photo.uri}} style={styles.images}/>}
+          {photo && <Image source={{ uri: photo.uri }} style={styles.images} />}
         </View>
         <View style={styles.button}>
           <Button
@@ -55,15 +56,3 @@ export default class PostButton extends Component {
   }
 
 }
-
-const styles = StyleSheet.create({
-  button: {
-    alignSelf: 'stretch',
-    paddingTop: 10,
-  },
-  images: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    height: 300,
-  }
-});

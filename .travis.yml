@@ -24,3 +24,4 @@ script:
   - npx jetify 
   - cd android
   - ./gradlew assembleRelease --stacktrace
+  - npm test

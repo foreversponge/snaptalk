@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, TouchableHighlight, Dimensions } from 'react-native';
+import styles from '../profile/style/PicColorStyle';
 
 export default class PicColor extends Component {
 
@@ -57,51 +58,3 @@ export default class PicColor extends Component {
         )
     }
 };
-
-const styles = StyleSheet.create({
-
-    contentContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    modal: {
-        height: 100,
-        paddingTop: 10,
-        alignSelf: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        backgroundColor: "white",
-        borderRadius: 10,
-    },
-    text: {
-        margin: 5,
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    touchableHighlight: {
-        flex: 1,
-        backgroundColor: 'white',
-        paddingVertical: 10,
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        borderRadius: 10,
-    },
-    textView: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    buttonsView: {
-        width: '100%',
-        flexDirection: 'row',
-    },
-    optionView: {
-        width: '100%',
-    },
-    option: {
-        alignItems: 'center',
-        alignSelf: 'stretch',
-        backgroundColor: 'white'
-
-    }
-})
