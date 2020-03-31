@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, ImageBackground, FlatList, Modal, Button } from 'react-native';
 import Fire from '../firebase/Fire';
 import LogoutButton from '../profile/LogoutButton';
@@ -15,7 +15,6 @@ export default class ProfilePageScreen extends Component {
     nbOfPosts: 0,
     posts: [],
     isLoading: false,
-    postInArray: false,
     infoColor: "#EFECF4",
     isModalVisible: false
   };
@@ -33,7 +32,7 @@ export default class ProfilePageScreen extends Component {
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
-        this.setState({user: doc.data()});
+        this.setState({ user: doc.data() });
       });
 
     this.getListSize();
@@ -49,15 +48,15 @@ export default class ProfilePageScreen extends Component {
 
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
-    this.setState({nbOfPosts: await user.get(listOfPosts).length});
+    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
 
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
 
-    this.setState({nbOfFollowers: await user.get(listOfFollowers).length});
+    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
 
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
-    this.setState({nbOfFollowing: await user.get(listOfFollowing).length});
+    this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
   };
 
   changeModalVisibility = (bool) => {
@@ -69,26 +68,23 @@ export default class ProfilePageScreen extends Component {
   }
 
   getCurrentUserPost = async () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
 
-    this.setState({posts:[]})
+    this.setState({ posts: [] })
 
     Fire.shared.firestore
       .collection('posts')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          this.setState({postInArray: false});
-      
-          if (Fire.shared.uid == doc.data().uid) 
-          {
+          if (Fire.shared.uid == doc.data().uid) {
             this.state.posts.push(doc.data());
           }
         });
 
         this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) }) })
       })
-      .finally(() => this.setState({isLoading: false}));
+      .finally(() => this.setState({ isLoading: false }));
   };
 
   renderPost = post => {
@@ -149,7 +145,7 @@ export default class ProfilePageScreen extends Component {
         <FlatList
           style={styles.feed}
           data={this.state.posts}
-          renderItem={({item}) => this.renderPost(item)}
+          renderItem={({ item }) => this.renderPost(item)}
           ListHeaderComponent={this.profileHeaderRender}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}

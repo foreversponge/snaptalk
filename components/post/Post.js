@@ -15,11 +15,12 @@ export default class Post extends Component {
     likeIconName: "ios-heart-empty",
     numOfLikes: 0,
     profilePagePost: this.props.profilePagePost,
-    nbOfComments: this.props.post.nbOfComments
+    numOfComments: 0,
   }
 
   componentDidMount() {
     this.updateLikeIcon(this.state.post.postKey);
+    this.updateCommentIcon(this.state.post.postKey);
   }
 
   updateLikeIcon = async (postId) => {
@@ -46,6 +47,21 @@ export default class Post extends Component {
     }
   }
 
+  updateCommentIcon = async (postId) => {
+    //Getting post from database
+    const post = await firebase.firestore().collection("posts").doc(postId).get();
+
+    //Creating pointer to the list of likes fields in the database
+    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
+
+    //Getting the array of likes
+    const arrayOfComments = await post.get(fieldPathListOfComments)
+    console.log(arrayOfComments)
+    this.setState(prevState => {
+      return { numOfComments: arrayOfComments.length }
+    })
+  }
+
   render() {
     return (
       <View style={styles.feedItem}>
@@ -54,9 +70,9 @@ export default class Post extends Component {
           <View style={styles.postHeader}>
             <View >
               {
-                this.state.profilePagePost ? 
-                (<Text style={styles.name}>{JSON.stringify(this.state.post.username).replace(/\"/g, '')}</Text>) : 
-                (<OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")}/>)
+                this.state.profilePagePost ?
+                  (<Text style={styles.name}>{JSON.stringify(this.state.post.username).replace(/\"/g, '')}</Text>) :
+                  (<OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")} />)
               }
               <Text style={styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
             </View>
@@ -71,9 +87,9 @@ export default class Post extends Component {
               }
               }
                 color="#73788B" style={styles.likeIcon} />
-              <Text> {this.state.numOfLikes} </Text>
+              <Text> {this.state.numOfLikes}</Text>
             </View>
-            <CommentList name="comment-list" postKey={this.state.post.postKey} postUserId={this.state.post.uid} nbOfComments={this.state.nbOfComments}></CommentList>
+            <CommentList name="comment-list" postKey={this.state.post.postKey}></CommentList>
           </View>
         </View>
       </View>

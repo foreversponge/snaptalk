@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePageScreen from '../profile/ProfilePageScreen';
+import HomeScreen from '../home/HomeScreen';
 import DiscoveryScreen from '../discovery/DiscoveryScreen';
-import PersonalScreen from '../personal/PersonalScreen';
 import NotificationScreen from '../notification/NotificationScreen';
 import PostScreen from '../post/PostScreen';
 
@@ -20,28 +20,28 @@ export default function Tabs() {
           showLabel: false,
         }}>
         <AppTabs.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Icon name="ios-home" size={30} color={color} />
+            )
+          }}
+        />
+        <AppTabs.Screen
           name="Discovery"
           component={DiscoveryScreen}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({ color }) => (
               <Icon name="ios-globe" size={30} color={color} />
             ),
           }}
         />
-        {/* <AppTabs.Screen
-            name = "PersonalScreen"
-            component={PersonalScreen}
-            options={{
-              tabBarIcon: ({ color }) => (
-                  <Icon name="ios-home" size={30} color= {color} />
-              )
-            }}
-          /> */}
         <AppTabs.Screen
           name="Post"
           component={PostScreen}
           options={{
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <Icon name="ios-add-circle-outline" size={30} color={color} />
             ),
           }}
@@ -50,7 +50,7 @@ export default function Tabs() {
           name="Notifications"
           component={NotificationScreen}
           options={{
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <Icon name="ios-notifications" size={30} color={color} />
             ),
           }}
@@ -59,7 +59,7 @@ export default function Tabs() {
           name="Profile"
           component={ProfilePageScreen}
           options={{
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <Icon name="ios-person" size={30} color={color} />
             ),
           }}
