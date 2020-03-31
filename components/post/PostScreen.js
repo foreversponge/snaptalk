@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PermissionsAndroid } from 'react-native';
 import Fire from '../firebase/Fire';
 import ImagePicker from 'react-native-image-picker';
-import {decode, encode} from 'base-64';
+import { decode, encode } from 'base-64';
+import styles from '../post/style/PostScreenStyle';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -36,7 +37,7 @@ export default class PostScreen extends React.Component {
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
-        this.setState({user: doc.data()});
+        this.setState({ user: doc.data() });
       });
   }
 
@@ -63,10 +64,10 @@ export default class PostScreen extends React.Component {
 
   handlePost = () => {
     Fire.shared
-      .addPost({text: this.state.text.trim(), localUri: this.state.image})
+      .addPost({ text: this.state.text.trim(), localUri: this.state.image })
       .then(ref => {
         Fire.shared.addPostKey(ref.id);
-        this.setState({text: '', image: null});
+        this.setState({ text: '', image: null });
         Fire.shared.updatePostList(ref.id);
         this.props.navigation.goBack();
       })
@@ -77,7 +78,7 @@ export default class PostScreen extends React.Component {
 
   pickImage = async () => {
     ImagePicker.launchImageLibrary(
-      {aspect: [4, 3], mediaType: 'photo'},
+      { aspect: [4, 3], mediaType: 'photo' },
       response => {
         console.log('Response =', response);
         if (response.didCancel) {
@@ -85,7 +86,7 @@ export default class PostScreen extends React.Component {
         } else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
         } else {
-          const source = {uri: response.uri};
+          const source = { uri: response.uri };
           this.setState({
             image: response.uri,
           });
@@ -109,7 +110,7 @@ export default class PostScreen extends React.Component {
           <Image
             source={
               this.state.user.profilePicture
-                ? {uri: this.state.user.profilePicture}
+                ? { uri: this.state.user.profilePicture }
                 : require('../../assets/tempAvatar.jpg')
             }
             style={styles.profilePic}></Image>
@@ -120,7 +121,7 @@ export default class PostScreen extends React.Component {
             style={styles.textArea}
             placeholder="Write your caption..."
             maxLength={250}
-            onChangeText={text => this.setState({text})}
+            onChangeText={text => this.setState({ text })}
             value={this.state.text}></TextInput>
         </View>
         <TouchableOpacity style={styles.cameraIcon} onPress={this.pickImage}>
@@ -129,59 +130,10 @@ export default class PostScreen extends React.Component {
 
         <View style={styles.imageContainer}>
           <Image
-            source={{uri: this.state.image}}
+            source={{ uri: this.state.image }}
             style={styles.image}></Image>
         </View>
       </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image:
-  {
-    width: '100%',
-    height:'100%'
-  },
-  imageContainer:
-  {
-    marginHorizontal: 32,
-    marginTop: 32,
-    height: 150
-  },
-  textArea:
-  {
-    flex: 1
-  },
-  postButton:
-  {
-    fontWeight: 'bold'
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#7E3DE8',
-  },
-  captionContainer: {
-    margin: 32,
-    flexDirection: 'row',
-  },
-  profilePic: {
-    width: 60,
-    height: 60,
-    borderRadius: 24,
-    marginRight: 12,
-  },
-  cameraIcon: {
-    alignItems: 'flex-end',
-    marginHorizontal: 40,
-  },
-});

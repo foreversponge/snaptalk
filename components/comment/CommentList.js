@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View, TextInput, FlatList, StyleSheet, Alert } from 'react-native';
+import { Modal, Text, TouchableHighlight, View, FlatList, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Button, Textarea } from 'native-base';
+import { Textarea } from 'native-base';
 import CommentBox from '../comment/CommentBox';
 import Fire from '../firebase/Fire';
-import _ from "underscore";
 import Popover from 'react-native-popover-view';
 import styles from '../comment/style/CommentListStyle';
 
