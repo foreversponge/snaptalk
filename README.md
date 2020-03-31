@@ -29,4 +29,3 @@ The objective of this project is to develop a social media application that ress
 * Firebase
 * React Native
 * JavaScript
-* Adobe Photoshop
