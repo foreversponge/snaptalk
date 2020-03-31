@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { TouchableHighlight, Text } from 'react-native';
 import Fire from '../firebase/Fire';
 
@@ -23,15 +23,15 @@ export default class FollowButton extends Component {
       .then(snapshot => {
         snapshot.forEach(doc => {
           if (doc.id == this.props.loggedUserUID) {
-            this.setState({user: doc.data()});
+            this.setState({ user: doc.data() });
           }
-          if (doc.data().name == this.props.userToFollow) {
-            this.setState({toFollowedUserId: doc.id});
-            this.setState({targetUser: doc.data()});
+          if (doc.data().uid == this.props.userToFollow) {
+            this.setState({ toFollowedUserId: doc.id });
+            this.setState({ targetUser: doc.data() });
           }
         });
       });
-    
+
     this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .get()
@@ -41,9 +41,9 @@ export default class FollowButton extends Component {
             doc.data().listOfFollowing.forEach(followerName => {
               console.log(followerName);
 
-              if (this.state.targetUser.name == followerName) {
-                this.setState({followClick: true});
-                this.setState({isFollowing: true});
+              if (this.state.targetUser.uid == followerName) {
+                this.setState({ followClick: true });
+                this.setState({ isFollowing: true });
               }
             });
           }
@@ -76,7 +76,7 @@ export default class FollowButton extends Component {
       // add a new Follower to the "listOfFollowing" array of the other user
       let arrUnionFollower = followerRef.update({
         listOfFollowers: firebase.firestore.FieldValue.arrayUnion(
-          this.state.user.name,
+          this.state.user.uid,
         ),
       });
     }
@@ -95,7 +95,7 @@ export default class FollowButton extends Component {
 
       let arrRemoveFollower = followerRef.update({
         listOfFollowers: firebase.firestore.FieldValue.arrayRemove(
-          this.state.user.name,
+          this.state.user.uid,
         ),
       });
     }
@@ -107,7 +107,8 @@ export default class FollowButton extends Component {
 
     return (
       <TouchableHighlight
-        style={{width: 70,
+        style={{
+          width: 70,
           height: 20,
           backgroundColor: buttonColor,
           borderRadius: 5,
@@ -115,11 +116,12 @@ export default class FollowButton extends Component {
           borderColor: 'black',
           color: '#52575D',
           fontFamily: 'HelveticaNeue',
-          fontSize: 1}}
+          fontSize: 1
+        }}
         onPress={this.followAction}>
-        <Text style={{textAlign: 'center'}}>{followState}</Text>
+        <Text style={{ textAlign: 'center' }}>{followState}</Text>
       </TouchableHighlight>
     );
   }
-  
+
 }

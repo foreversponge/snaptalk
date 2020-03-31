@@ -54,9 +54,9 @@ export default class Post extends Component {
           <View style={styles.postHeader}>
             <View >
               {
-                this.state.profilePagePost ? 
-                (<Text style={styles.name}>{JSON.stringify(this.state.post.username).replace(/\"/g, '')}</Text>) : 
-                (<OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")}/>)
+                this.state.profilePagePost ?
+                  (<Text style={styles.name}>{JSON.stringify(this.state.post.username).replace(/\"/g, '')}</Text>) :
+                  (<OtherUserProfile postUserId={this.state.post.uid} username={(JSON.stringify(this.state.post.username)).replace(/\"/g, "")} />)
               }
               <Text style={styles.timestamp}> {moment(this.state.post.timestamp).fromNow()} </Text>
             </View>

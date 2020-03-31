@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, TouchableHighlight, Modal, ImageBackground } from 'react-native';
 import Fire from '../firebase/Fire';
 import FollowButton from '../profile/FollowButton';
@@ -21,7 +21,7 @@ export default class ModalExample extends Component {
   };
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
 
   componentDidMount() {
@@ -37,31 +37,31 @@ export default class ModalExample extends Component {
 
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
 
-    this.setState({nbOfPosts: await user.get(listOfPosts).length});
+    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
 
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
 
-    this.setState({nbOfFollowers: await user.get(listOfFollowers).length});
+    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
 
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
-    this.setState({nbOfFollowing: await user.get(listOfFollowing).length});
+    this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
   };
 
   getUserId = async () => {
-    this.setState({isLoadingList: true});
+    this.setState({ isLoadingList: true });
     this.unsubscribe = await Fire.shared.firestore
       .collection('users')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           if (doc.data().name == this.props.username) {
-            this.setState({user: doc.data()});
+            this.setState({ user: doc.data() });
             this.getListSize();
             var current = firebase.auth().currentUser;
-            this.setState({currentUserId: current.uid});
+            this.setState({ currentUserId: current.uid });
             if (current.uid == doc.id) {
-              this.setState({isNotSameUser: false});
+              this.setState({ isNotSameUser: false });
             }
           }
         });
@@ -105,7 +105,7 @@ export default class ModalExample extends Component {
                         style={styles.avatar}
                         source={
                           this.state.user.profilePicture
-                            ? {uri: this.state.user.profilePicture}
+                            ? { uri: this.state.user.profilePicture }
                             : require('../../assets/tempAvatar.jpg')
                         }></Image>
                     </View>
@@ -116,7 +116,7 @@ export default class ModalExample extends Component {
                   {this.state.isNotSameUser && (
                     <FollowButton
                       loggedUserUID={this.state.currentUserId}
-                      userToFollow={this.state.user.name}
+                      userToFollow={this.state.user.uid}
                     />
                   )}
                 </View>
@@ -161,7 +161,7 @@ export default class ModalExample extends Component {
       </View>
     );
   }
-  
+
 }
 
 const styles = StyleSheet.create({
