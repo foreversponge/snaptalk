@@ -15,12 +15,11 @@ export default class Post extends Component {
     likeIconName: "ios-heart-empty",
     numOfLikes: 0,
     profilePagePost: this.props.profilePagePost,
-    numOfComments: 0,
+    nbOfComments: this.props.post.nbOfComments
   }
 
   componentDidMount() {
     this.updateLikeIcon(this.state.post.postKey);
-    this.updateCommentIcon(this.state.post.postKey);
   }
 
   updateLikeIcon = async (postId) => {
@@ -45,21 +44,6 @@ export default class Post extends Component {
         return { numOfLikes: arrayOfLikes.length }
       })
     }
-  }
-
-  updateCommentIcon = async (postId) => {
-    //Getting post from database
-    const post = await firebase.firestore().collection("posts").doc(postId).get();
-
-    //Creating pointer to the list of likes fields in the database
-    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
-
-    //Getting the array of likes
-    const arrayOfComments = await post.get(fieldPathListOfComments)
-    console.log(arrayOfComments)
-    this.setState(prevState => {
-      return { numOfComments: arrayOfComments.length }
-    })
   }
 
   render() {
@@ -87,9 +71,9 @@ export default class Post extends Component {
               }
               }
                 color="#73788B" style={styles.likeIcon} />
-              <Text> {this.state.numOfLikes}</Text>
+              <Text> {this.state.numOfLikes} </Text>
             </View>
-            <CommentList name="comment-list" postKey={this.state.post.postKey}></CommentList>
+            <CommentList name="comment-list" postKey={this.state.post.postKey} postUserId={this.state.post.uid} nbOfComments={this.state.nbOfComments}></CommentList>
           </View>
         </View>
       </View>
