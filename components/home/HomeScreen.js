@@ -66,7 +66,6 @@ export default class HomeScreen extends React.Component {
         })
         this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) }) })
       }).finally(() => this.setState({ isLoading: false }))
-    console.log("IN DISCOVERY SCREEN")
   }
 
   renderPost = post => {

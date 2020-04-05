@@ -5,7 +5,9 @@ require('firebase/firestore');
 class Fire {
 
   constructor() {
-    firebase.initializeApp(FirebaseKeys);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FirebaseKeys);
+    }
   }
 
   addPost = async ({ text, localUri, postKey }) => {
