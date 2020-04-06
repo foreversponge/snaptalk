@@ -14,7 +14,8 @@ export default class RegisterScreen extends React.Component {
       email: '',
       password: '',
       avatar: null
-    }
+    },
+    errorMessage: null
   };
 
   handlePickAvatar = async () => {
@@ -35,7 +36,8 @@ export default class RegisterScreen extends React.Component {
   };
 
   handleSignUp = () => {
-    Fire.shared.createUser(this.state.user);
+    Fire.shared.createUser(this.state.user)
+      .catch(error => this.setState({ errorMessage: error.message }));
   };
 
   render() {
@@ -59,6 +61,12 @@ export default class RegisterScreen extends React.Component {
                 color="#FFF"
                 style={styles.addPictureIcon}></Icon>
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.errorMessage}>
+            {this.state.errorMessage && (
+              <Text style={styles.error}>{this.state.errorMessage}</Text>
+            )}
           </View>
 
           <View style={styles.form}>

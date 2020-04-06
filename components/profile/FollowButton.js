@@ -39,8 +39,6 @@ export default class FollowButton extends Component {
         snapshot.forEach(doc => {
           if (doc.id == this.props.loggedUserUID) {
             doc.data().listOfFollowing.forEach(followerName => {
-              console.log(followerName);
-
               if (this.state.targetUser.uid == followerName) {
                 this.setState({ followClick: true });
                 this.setState({ isFollowing: true });
