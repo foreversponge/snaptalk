@@ -4,6 +4,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    errorMessage: {
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 30,
+    },
+    error: {
+        color: '#E9446A',
+        fontSize: 13,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
     greeting: {
         marginTop: 32,
         fontSize: 18,
