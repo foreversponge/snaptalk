@@ -22,7 +22,6 @@ class Fire {
     // }
 
 
-
     const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/' + this.uid + '/' + Date.now());
 
     //Getting User from database

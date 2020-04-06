@@ -63,10 +63,6 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-Empty-4.png" width="50%" height="50%">
 
-> Example of a situation where the client is following a user.
-
-<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-Follow-8.png" width="50%" height="50%">
-
 # 5. Discovery Screen
 
 > The discovery screen displays all posts from all users.
@@ -76,8 +72,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 # 6. Profile Screen / Follow Feature
 
-> The client access another user's profile by clicking on the post's user name.
-> The profile screen displays only the user's posts, as well as the user's number of posts, followers and following.
+> The client can access another user's profile by clicking on the post's user name.
 > The profile screen also displays the option to follow the user.
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/ProfileScreen-Unfollow-6.png" width="50%" height="50%">
@@ -86,7 +81,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/ProfileScreen-Follow-7.png" width="50%" height="50%">
 
-<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/User-Following-Firebase.png" width="50%" height="50%">
+<img src="https://github.com/huangs08/snaptalk/blob/master/User-Following-Firebase.jpg" width="50%" height="50%">
 
 > The home screen will then update and display all the posts from the user that the client is following, as seen below.
 
@@ -102,7 +97,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 # 8. Comment Feature
 
-> The client can access any posts' comments section.
+> The client can access any post's comments section.
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/CommentScreen-Empty-11.png" width="50%" height="50%">
 
@@ -156,4 +151,4 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/DiscoveryScreen-PickedColor-26.png" width="50%" height="50%">
 
-<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-PickedColor-27.pngg" width="50%" height="50%">
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-PickedColor-27.png" width="50%" height="50%">
