@@ -12,6 +12,17 @@ class Fire {
 
   addPost = async ({ text, localUri, postKey }) => {
     //Uploading picture to database
+
+    // if (!text) {
+    //   throw new Error('Username was not entered.');
+    // }
+
+    // if (!user.name.match(usernameRegex) || user.name.length > 20) {
+    //   throw new Error('Username must only contain 20 letters and/or numbers.');
+    // }
+
+
+
     const remoteUri = await this.uploadPhotoAsync(localUri, 'photos/' + this.uid + '/' + Date.now());
 
     //Getting User from database
