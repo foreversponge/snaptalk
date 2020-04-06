@@ -34,7 +34,6 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 * JavaScript
 * Node.js
 * Android Studio
-* 
 
 ## Screenshots
 
@@ -81,7 +80,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/ProfileScreen-Follow-7.png" width="40%" height="40%">
 
-<img src="https://github.com/huangs08/snaptalk/blob/master/User-Following-Firebase.jpg" width="40%" height="40%">
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/User-Following-Firebase.jpg" width="100%" height="100%">
 
 > The home screen will then update and display all the posts from the user that the client is following, as seen below.
 
@@ -105,7 +104,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/CommentScreen-12.png" width="40%" height="40%">
 
-<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Comment-firebase.png" width="40%" height="40%">
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Comment-firebase.png" width="100%" height="100%">
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/DiscoveryScreen-NumberOfComments-13.png" width="40%" height="40%">
 
@@ -113,7 +112,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/CommentScreen-Edit-14.png" width="40%" height="40%">
 
-<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Comment-edit-firebase.png" width="40%" height="40%">
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Comment-edit-firebase.png" width="100%" height="100%">
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/CommentScreen-AfterEdit-15.png" width="40%" height="40%">
 
