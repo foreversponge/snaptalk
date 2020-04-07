@@ -27,9 +27,9 @@ export default class ProfilePageScreen extends Component {
   }
 
   getData = async () => {
-    const user = this.props.uid || Fire.shared.uid;
+    const user = this.props.uid || firebase.uid;
 
-    this.unsubscribe = Fire.shared.firestore
+    this.unsubscribe = firebase.firestore()
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
@@ -44,7 +44,7 @@ export default class ProfilePageScreen extends Component {
     const user = await firebase
       .firestore()
       .collection('users')
-      .doc(Fire.shared.uid)
+      .doc(firebase.uid)
       .get();
 
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
@@ -73,12 +73,12 @@ export default class ProfilePageScreen extends Component {
 
     this.setState({ posts: [] })
 
-    Fire.shared.firestore
+    firebase.firestore()
       .collection('posts')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          if (Fire.shared.uid == doc.data().uid) {
+          if (firebase.uid == doc.data().uid) {
             this.state.posts.push(doc.data());
           }
         });

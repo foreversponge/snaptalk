@@ -51,7 +51,7 @@ export default class ModalExample extends Component {
 
   getUserId = async () => {
     this.setState({ isLoadingList: true });
-    this.unsubscribe = await Fire.shared.firestore
+    this.unsubscribe = await firebase.firestore()
       .collection('users')
       .get()
       .then(snapshot => {
