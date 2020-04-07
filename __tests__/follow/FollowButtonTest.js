@@ -7,11 +7,6 @@ import Fire from '../../components/firebase/Fire'
 describe('FollowButton Test', () => {
     let followButtonSnapshot = renderer.create(<FollowButton />).toJSON();
 
-    beforeAll(() => {
-            //Initializing firebase
-            Fire
-        })
-
     test('FollowButton Render Test', () => {
         expect(followButtonSnapshot).toMatchSnapshot();
     })

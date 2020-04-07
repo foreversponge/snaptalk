@@ -112,9 +112,6 @@ export default class FollowButton extends Component {
           borderRadius: 5,
           borderWidth: 1,
           borderColor: 'black',
-          color: '#52575D',
-          fontFamily: 'HelveticaNeue',
-          fontSize: 1
         }}
         onPress={this.followAction}>
         <Text style={{ textAlign: 'center' }}>{followState}</Text>

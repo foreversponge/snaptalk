@@ -7,11 +7,6 @@ import Fire from '../../components/firebase/Fire'
 describe('ProfilePageScreen Test', () => {
     let profilePageScreenSnapshot = renderer.create(<ProfilePageScreen />).toJSON();
 
-    beforeAll(() => {
-            //Initializing firebase
-            Fire
-        })
-
     test('ProfilePageScreen Render Test', () => {
         expect(profilePageScreenSnapshot).toMatchSnapshot();
     })

@@ -178,9 +178,6 @@ exports[`OtherUserProfile Test OtherUserProfile Render Test 1`] = `
                   "borderColor": "black",
                   "borderRadius": 5,
                   "borderWidth": 1,
-                  "color": "#52575D",
-                  "fontFamily": "HelveticaNeue",
-                  "fontSize": 1,
                   "height": 20,
                   "width": 70,
                 }
