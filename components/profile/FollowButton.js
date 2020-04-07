@@ -17,7 +17,7 @@ export default class FollowButton extends Component {
 
   componentDidMount() {
     //Getting user from database
-    this.unsubscribe = firebase.firestore()
+    this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .get()
       .then(snapshot => {
@@ -32,7 +32,7 @@ export default class FollowButton extends Component {
         });
       });
 
-    this.unsubscribe = firebase.firestore()
+    this.unsubscribe = Fire.shared.firestore
       .collection('users')
       .get()
       .then(snapshot => {
@@ -50,11 +50,11 @@ export default class FollowButton extends Component {
   }
 
   followAction = () => {
-    let followingRef = firebase.firestore()
+    let followingRef = Fire.shared.firestore
       .collection('users')
       .doc(this.props.loggedUserUID);
 
-    let followerRef = firebase.firestore()
+    let followerRef = Fire.shared.firestore
       .collection('users')
       .doc(this.state.toFollowedUserId);
 
@@ -112,6 +112,9 @@ export default class FollowButton extends Component {
           borderRadius: 5,
           borderWidth: 1,
           borderColor: 'black',
+          color: '#52575D',
+          fontFamily: 'HelveticaNeue',
+          fontSize: 1
         }}
         onPress={this.followAction}>
         <Text style={{ textAlign: 'center' }}>{followState}</Text>
