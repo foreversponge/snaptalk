@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Fire from '../firebase/Fire';
 import ImagePicker from 'react-native-image-picker';
 import styles from '../authentication/style/RegisterScreenStyle';
+import AuthenticationController from '../firebase/AuthenticationController';
 
 export default class RegisterScreen extends React.Component {
 
@@ -36,7 +36,7 @@ export default class RegisterScreen extends React.Component {
   };
 
   handleSignUp = () => {
-    Fire.shared.createUser(this.state.user)
+    AuthenticationController.shared.createUser(this.state.user)
       .catch(error => this.setState({ errorMessage: error.message }));
   };
 
