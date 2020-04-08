@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PermissionsAndroid } from 'react-native';
-import Fire from '../firebase/Fire';
+import PostController from '../firebase/PostController';
 import ImagePicker from 'react-native-image-picker';
-import { decode, encode } from 'base-64';
-import styles from '../post/style/PostScreenStyle';
+import { encode, decode } from 'base-64';
+import Styles from '../post/style/PostScreenStyle';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -30,10 +30,10 @@ export default class PostScreen extends React.Component {
   componentDidMount() {
     this.requestCameraRollPermission();
 
-    const user = this.props.uid || Fire.shared.uid;
+    const user = this.props.uid || PostController.shared.uid;
 
     //Gettimg users from the database
-    this.unsubscribe = Fire.shared.firestore
+    this.unsubscribe = PostController.shared.firestore
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
@@ -63,12 +63,12 @@ export default class PostScreen extends React.Component {
   };
 
   handlePost = () => {
-    Fire.shared
+    PostController.shared
       .addPost({ text: this.state.text.trim(), localUri: this.state.image })
       .then(ref => {
-        Fire.shared.addPostKey(ref.id);
+        PostController.shared.addPostKey(ref.id);
         this.setState({ text: '', image: null });
-        Fire.shared.updatePostList(ref.id);
+        PostController.shared.updatePostList(ref.id);
         this.props.navigation.goBack();
       })
       .catch(error => {
@@ -98,40 +98,40 @@ export default class PostScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={StyleSheet.container}>
-        <View style={styles.header}>
+        <View style={Styles.header}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Icon name="ios-arrow-back" size={24} />
           </TouchableOpacity>
           <TouchableOpacity onPress={this.handlePost}>
-            <Text style={styles.postButton}> Post </Text>
+            <Text style={Styles.postButton}> Post </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.captionContainer}>
+        <View style={Styles.captionContainer}>
           <Image
             source={
               this.state.user.profilePicture
                 ? { uri: this.state.user.profilePicture }
                 : require('../../assets/tempAvatar.jpg')
             }
-            style={styles.profilePic}></Image>
+            style={Styles.profilePic}></Image>
           <TextInput
             autofocus={true}
             multiline={true}
             numberOfLines={4}
-            style={styles.textArea}
+            style={Styles.textArea}
             placeholder="Write your caption..."
             maxLength={250}
             onChangeText={text => this.setState({ text })}
             value={this.state.text}></TextInput>
         </View>
-        <TouchableOpacity style={styles.cameraIcon} onPress={this.pickImage}>
+        <TouchableOpacity style={Styles.cameraIcon} onPress={this.pickImage}>
           <Icon name="ios-camera" size={30} />
         </TouchableOpacity>
 
-        <View style={styles.imageContainer}>
+        <View style={Styles.imageContainer}>
           <Image
             source={{ uri: this.state.image }}
-            style={styles.image}></Image>
+            style={Styles.image}></Image>
         </View>
       </SafeAreaView>
     );

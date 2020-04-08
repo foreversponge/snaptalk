@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
-import Fire from '../firebase/Fire';
+import PostController from '../firebase/PostController';
 import Post from '../post/Post';
-import firebase from 'firebase';
+import Firebase from 'firebase';
 import styles from '../home/style/HomeScreenStyle';
 
 export default class HomeScreen extends React.Component {
@@ -25,18 +25,18 @@ export default class HomeScreen extends React.Component {
 
   //get the data for the home screen
   getHomeData = async () => {
-    const post = await firebase
+    const post = await Firebase
       .firestore()
       .collection('users')
-      .doc(firebase.auth().currentUser.uid)
+      .doc(Firebase.auth().currentUser.uid)
       .get();
-    const fieldPathListOfFollowing = new firebase.firestore.FieldPath(
+    const fieldPathListOfFollowing = new Firebase.firestore.FieldPath(
       'listOfFollowing',
     );
     const arrayOfFollowing = await post.get(fieldPathListOfFollowing);
     this.setState({ posts: [] })
     this.setState({ isLoading: true });
-    Fire.shared.firestore
+    PostController.shared.firestore
       .collection('posts')
       .get()
       .then(snapshot => {
@@ -56,7 +56,7 @@ export default class HomeScreen extends React.Component {
   getDiscoveryData = () => {
     this.setState({ isLoading: true })
     this.setState({ posts: [] })
-    this.unsubscribe = Fire.shared.firestore
+    this.unsubscribe = PostController.shared.firestore
       .collection("posts")
       .get()
       .then(snapshot => {
