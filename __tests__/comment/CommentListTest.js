@@ -3,9 +3,9 @@ import CommentController from '../../components/firebase/CommentController';
 
 describe('CommentList Test', () => {
 
-    test('Empty string username', async () => {
+    test('Empty string comment', async () => {
         const commentEmpty = { "comment": "" };
-        const usernameError = await CommentController.shared.createUser(usernameEmpty).catch(error => { return error.message })
+        const commentError = await CommentController.shared.createUser(usernameEmpty).catch(error => { return error.message })
         expect(usernameError).toBe("Username was not entered.");
     })
 
