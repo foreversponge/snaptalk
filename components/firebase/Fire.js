@@ -5,8 +5,12 @@ require('firebase/firestore');
 class Fire {
 
   constructor() {
-    firebase.initializeApp(FirebaseKeys);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FirebaseKeys);
+   }
   }
+
+
 
   addPost = async ({ text, localUri, postKey }) => {
     //Uploading picture to database
@@ -231,7 +235,6 @@ class Fire {
     }
   };
 
-<<<<<<< HEAD
   deleteComment = async (commentId, postId) => {
 
     //Getting comment from database
@@ -285,19 +288,7 @@ class Fire {
   };
 
 
-=======
-  createNotif = async ({follower,followed}) => {
-
-      let dbNotif = this.firestore.collection('notifications').doc(this.uid);
-
-      dbNotif.set({
-        follower:follower,
-        followedPerson: followed},
-        {merge:true}
-      );
-
-  }
->>>>>>> created notif box js file #41
+  
 
   createUser = async user => {
     let remoteAvatarUri = null;
@@ -330,6 +321,7 @@ class Fire {
         email: user.email,
         listOfFollowers: [],
         listOfFollowing: [],
+        listOfFollowingNotif: [],
         listOfPosts: [],
         listOfComments: [],
         nbOfPosts: 0,

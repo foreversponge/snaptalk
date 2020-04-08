@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
     },
     passwordBox: {
         marginTop: 32,
+    },
+    welcomeImage: {
+        width: 120, 
+        height: 120,
+        alignSelf: 'center',
+        marginTop: 50
     }
 });
 
