@@ -172,59 +172,6 @@ class Fire {
     }
   };
 
-
-
-  createUser = async user => {
-    let remoteAvatarUri = null;
-    let usernameRegex = /(?!.*\.\.)(?!.*\.$)[^\W][\w.]+/;
-
-    if (!user.name) {
-      throw new Error('Username was not entered.');
-    }
-
-    if (!user.name.match(usernameRegex) || user.name.length > 20) {
-      throw new Error('Username must only contain 20 letters and/or numbers.');
-    }
-
-    await this.firestore
-      .collection('users')
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          if (user.name == doc.data().name) {
-            throw new Error('Username already taken.');
-          }
-        });
-      });
-
-    await firebase
-      .auth()
-      .createUserWithEmailAndPassword(user.email, user.password);
-
-    let db = this.firestore.collection('users').doc(this.uid);
-
-    db.set({
-      name: user.name,
-      email: user.email,
-      listOfFollowers: [],
-      listOfFollowing: [],
-      listOfPosts: [],
-      listOfComments: [],
-      nbOfPosts: 0,
-      nbOfComments: 0,
-      profilePicture: remoteAvatarUri,
-      uid: this.uid,
-    });
-
-    if (user.avatar) {
-      remoteAvatarUri = await this.uploadPhotoAsync(
-        user.avatar,
-        'avatar/' + this.uid,
-      );
-      db.set({ profilePicture: remoteAvatarUri }, { merge: true });
-    }
-  };
-
   get firestore() {
     return firebase.firestore();
   }
