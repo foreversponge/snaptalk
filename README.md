@@ -11,10 +11,10 @@ The objective of this project is to develop a social media application that ress
 ## Core Features
 
 1. The user can post pictures.
-2. The user can follow other users and received notifications when the followed user posts a picture.
-3. The user can leave comments to posted pictures.
+2. The user can follow other users and receive notifications when the user is followed by another user.
+3. The user can leave comments on posted pictures.
 4. The user can like other users' posts.
-5. The user can change his profile header color.
+5. The user can change the app's color scheme.
 
 ## Team Members
 
@@ -39,8 +39,8 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 * All identifiers must start with a letter.
 * All identifiers must follow the camelCase convention.
-* Stylesheets should be separated in another folder and file, except when it is absolutely necessary to keep them in the file.
 * All code blocks should be properly indented.
+* Stylesheets should be separated in another folder and file, except when it is absolutely necessary to keep them in the file.
 * Use a space before opening the bracket.  
 ```
 function = () =>  {
@@ -49,6 +49,14 @@ function = () =>  {
 ```
 * Avoid underscores.
 * Comments should be above the code involved.
+
+
+## Install
+
+1. Clone the repository.
+2. Run the command `npm install` to install all relevant dependencies.
+3. Run the command `npx react-native run-android`.
+4. To run the unit tests, run the command `npm test`.
 
 ## Screenshots
 
