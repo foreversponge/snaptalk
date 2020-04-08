@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@firebase/testing": "^0.18.2",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-navigation/bottom-tabs": "^5.1.1",
     "@react-navigation/native": "^5.0.8",
@@ -53,6 +54,9 @@
     "react-test-renderer": "16.9.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "/node_modules/(?!native-base)/"
+    ]
   }
 }

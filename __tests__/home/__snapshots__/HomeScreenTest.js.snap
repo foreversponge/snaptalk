@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeScreen Test HomeTest Render Test 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#EFECF4",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFF",
+        "borderBottomColor": "#EBECF4",
+        "borderBottomWidth": 1,
+        "justifyContent": "center",
+        "paddingBottom": 16,
+        "paddingTop": 16,
+        "shadowColor": "#454D65",
+        "shadowOffset": Object {
+          "height": 5,
+        },
+        "shadowOpacity": 0.2,
+        "shadowRadius": 15,
+        "zIndex": 10,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 20,
+          "fontWeight": "500",
+        }
+      }
+    >
+       Home 
+    </Text>
+  </View>
+  <RCTScrollView
+    data={Array []}
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onRefresh={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    refreshControl={
+      <RefreshControlMock
+        onRefresh={[Function]}
+        refreshing={false}
+      />
+    }
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsVerticalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "marginHorizontal": 16,
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <RCTRefreshControl />
+    <View />
+  </RCTScrollView>
+</View>
+`;
