@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ImageBackground, FlatList, Modal, Button } from 'react-native';
-import Fire from '../firebase/Fire';
 import LogoutButton from '../profile/LogoutButton';
-import firebase from 'firebase';
 import Post from '../post/Post';
 import PicColor from './PicColor';
 import styles from '../profile/style/ProfilePageScreenStyle';
+import firebase from 'firebase';
+require('firebase/firestore');
+
 
 export default class ProfilePageScreen extends Component {
 
@@ -27,9 +28,9 @@ export default class ProfilePageScreen extends Component {
   }
 
   getData = async () => {
-    const user = this.props.uid || Fire.shared.uid;
+    const user = this.props.uid || firebase.auth().currentUser.uid;
 
-    this.unsubscribe = Fire.shared.firestore
+    this.unsubscribe = firebase.firestore()
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
@@ -44,19 +45,15 @@ export default class ProfilePageScreen extends Component {
     const user = await firebase
       .firestore()
       .collection('users')
-      .doc(Fire.shared.uid)
+      .doc(firebase.auth().currentUser.uid)
       .get();
 
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
-
-    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
-
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
-
-    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
-
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
+    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
+    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
     this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
   };
 
@@ -73,12 +70,12 @@ export default class ProfilePageScreen extends Component {
 
     this.setState({ posts: [] })
 
-    Fire.shared.firestore
+    firebase.firestore()
       .collection('posts')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          if (Fire.shared.uid == doc.data().uid) {
+          if (firebase.auth().currentUser.uid == doc.data().uid) {
             this.state.posts.push(doc.data());
           }
         });

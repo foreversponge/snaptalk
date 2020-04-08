@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableHighlight, Modal, ImageBackground } from 'react-native';
-import Fire from '../firebase/Fire';
 import FollowButton from '../profile/FollowButton';
 import LogoutButton from '../profile/LogoutButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from '../profile/style/OtherUserProfileStyle';
-
-const firebase = require('firebase');
+import firebase from 'firebase';
 require('firebase/firestore');
 
 export default class ModalExample extends Component {
@@ -37,21 +35,17 @@ export default class ModalExample extends Component {
       .get();
 
     const listOfPosts = new firebase.firestore.FieldPath('listOfPosts');
-
-    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
-
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
-
-    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
-
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
+    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
+    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
     this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
   };
 
   getUserId = async () => {
     this.setState({ isLoadingList: true });
-    this.unsubscribe = await Fire.shared.firestore
+    this.unsubscribe = await firebase.firestore()
       .collection('users')
       .get()
       .then(snapshot => {
