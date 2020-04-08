@@ -35,6 +35,21 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 * Node.js
 * Android Studio
 
+## Coding Conventions
+
+* All identifiers must start with a letter.
+* All identifiers must follow the camelCase convention.
+* Stylesheets should be separated in another folder and file, except when it is absolutely necessary to keep them in the file.
+* All code blocks should be properly indented.
+* Use a space before opening the bracket.  
+```
+function = () =>  {
+  //...
+}
+```
+* Avoid underscores.
+* Comments should be above the code involved.
+
 ## Screenshots
 
 # 1. Loading Screen
