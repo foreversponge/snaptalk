@@ -86,7 +86,19 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-Follow-8.png" width="40%" height="40%">
 
-# 7. Like Feature
+# 7. Notification Screen
+
+> The client receives a notification when someone follows them. They can choose to delete the notification if they want to.
+
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/NotificationScreen-Follow.png" width="40%" height="40%">
+
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Notification-Following-Firebase.png" width="100%" height="100%">
+
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/NotificationScreen-Follow-Empty.png" width="40%" height="40%">
+
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Notification-Following-Database-Empty.png" width="100%" height="100%">
+
+# 8. Like Feature
 
 > The client can like posts. For instance, on the discovery page, the client can like and unlike the new post. 
 
@@ -94,7 +106,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/DiscoveryScreen-Unlike-10.png" width="40%" height="40%">
 
-# 8. Comment Feature
+# 9. Comment Feature
 
 > The client can access any post's comments section.
 
@@ -123,7 +135,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/CommentScreen-Deleted-17.png" width="40%" height="40%">
 
 
-# 9. Post Screen
+# 10. Post Screen
 
 > The client can post a picture with a caption. The post will be displayed on the Discovery screen.
 
@@ -138,7 +150,7 @@ Cosmin Sustac | [N0ot-No0t](https://github.com/N0ot-No0t)
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/ProfilePageScreen-22.png" width="40%" height="40%">
 
 
-# 10. SnapTalk Color Feature
+# 11. SnapTalk Color Feature
 
 > The client can choose SnapTalk's color schemes.
 

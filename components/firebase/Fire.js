@@ -10,7 +10,6 @@ class Fire {
     }
   }
 
-
   addComment = async ({ text, postKey }) => {
     //Getting user from database
     const user = await firebase

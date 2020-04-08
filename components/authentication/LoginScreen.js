@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 import styles from '../authentication/style/LoginScreenStyle';
@@ -24,16 +24,18 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.greeting}>{'Welcome to SnapTalk'}</Text>
-        <View style={styles.errorMessage}>
-          {this.state.errorMessage && (
-            <Text style={styles.error}>{this.state.errorMessage}</Text>
-          )}
-        </View>
 
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={true}>
+          <Image source={require('../../assets/welcome_image.png')} style={styles.welcomeImage} />
+
+          <View style={styles.errorMessage}>
+            {this.state.errorMessage && (
+              <Text style={styles.error}>{this.state.errorMessage}</Text>
+            )}
+          </View>
+
           <View style={styles.form}>
             <View>
               <Text style={styles.inputTitle}>Email Address</Text>

@@ -75,6 +75,13 @@ export default class FollowButton extends Component {
           this.state.user.uid,
         ),
       });
+
+      let arrUnionFollowerNotif = followerRef.update({
+        listOfNotif: firebase.firestore.FieldValue.arrayUnion(
+          this.state.user.name + " is following you!",
+        ),
+      });
+
     }
 
     if (this.state.followClick == true || this.state.isFollowing == true) {
