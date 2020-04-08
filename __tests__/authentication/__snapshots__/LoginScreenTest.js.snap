@@ -8,28 +8,6 @@ exports[`LoginScreen Test LoginScreen Render Test 1`] = `
     }
   }
 >
-  <Text
-    style={
-      Object {
-        "fontSize": 18,
-        "fontWeight": "400",
-        "marginTop": 32,
-        "textAlign": "center",
-      }
-    }
-  >
-    Welcome to SnapTalk
-  </Text>
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "height": 72,
-        "justifyContent": "center",
-        "marginHorizontal": 30,
-      }
-    }
-  />
   <RCTScrollView
     automaticallyAdjustContentInsets={false}
     contentInset={
@@ -67,6 +45,31 @@ exports[`LoginScreen Test LoginScreen Render Test 1`] = `
     viewIsInsideTabBar={false}
   >
     <View>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/welcome_image.png",
+          }
+        }
+        style={
+          Object {
+            "alignSelf": "center",
+            "height": 120,
+            "marginTop": 50,
+            "width": 120,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 72,
+            "justifyContent": "center",
+            "marginHorizontal": 30,
+          }
+        }
+      />
       <View
         style={
           Object {
