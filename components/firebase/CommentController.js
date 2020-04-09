@@ -10,7 +10,23 @@ class CommentController {
     }
   }
 
+  verifyValidComment = text => {
+
+    console.log(text);
+
+    if (text.trim() === '') {
+      throw new Error('Comment is blank.');
+    }
+
+    if (text.length > 199) {
+      throw new Error('Comment should be shorter than 200 characters.');
+    }
+  };
+
   addComment = async ({ text, postKey }) => {
+
+    this.verifyValidComment(text);
+
     //Getting user from database
     const user = await firebase
       .firestore()

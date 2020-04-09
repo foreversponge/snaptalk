@@ -22,7 +22,8 @@ class CommentList extends Component {
             newComment: '',
             tmpCommentList: [],
             commentState: '',
-            nbOfComments: this.props.nbOfComments
+            nbOfComments: this.props.nbOfComments,
+            defaultErrorMessageHeader: 'Oops...'
         });
     }
 
@@ -31,17 +32,12 @@ class CommentList extends Component {
     };
 
     handleComment = () => {
-        if (this.state.comment.trim() === '') {
-            alert('Comment is blank.');
-            return;
-        }
-
         CommentController.shared.addComment({ text: this.state.comment.trim(), postKey: this.props.postKey }).then(ref => {
             CommentController.shared.addCommentKey(ref.id);
             this.setState({ comment: "" });
             CommentController.shared.updateCommentList({ commentId: ref.id, postId: this.props.postKey });
         }).catch(error => {
-            alert(error.message);
+            Alert.alert(this.state.defaultErrorMessageHeader, error.message);
         });
     };
 
@@ -165,7 +161,7 @@ class CommentList extends Component {
                                 this.showPopover();
                             }
                             else {
-                                Alert.alert("Oops...", "You cannot edit a comment that you have not posted.");
+                                Alert.alert(this.state.defaultErrorMessageHeader, "You cannot edit a comment that you have not posted.");
                             }
                         }}>
                         <Icon name="md-create" size={30} style={styles.editButton} />
@@ -177,7 +173,7 @@ class CommentList extends Component {
                                 this.promptUserDeleteComment(item);
                             }
                             else {
-                                Alert.alert("Oops...", "You cannot delete a comment that you have not posted.");
+                                Alert.alert(this.state.defaultErrorMessageHeader, "You cannot delete a comment that you have not posted.");
                             }
                         }}>
                         <Icon name="ios-trash" size={30} style={styles.deleteButton} />

@@ -12,7 +12,7 @@ class PostController {
 
     addPost = async ({ text, localUri }) => {
 
-        if (!text) {
+        if (text.trim() === '') {
             throw new Error('Caption cannot be empty.');
         }
 
