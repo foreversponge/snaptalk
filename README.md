@@ -168,7 +168,7 @@ function = () =>  {
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/DiscoveryScreen-Posted-21.png" width="40%" height="40%">
 
-> The client's post will also be displayed on his profile picture. 
+> The client's post will also be displayed on the client's profile page.
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/ProfilePageScreen-22.png" width="40%" height="40%">
 
