@@ -1,5 +1,13 @@
-import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground, FlatList, Modal, Button } from 'react-native';
+import React, {Component} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  FlatList,
+  Modal,
+  Button,
+} from 'react-native';
 import LogoutButton from '../profile/LogoutButton';
 import Post from '../post/Post';
 import PicColor from './PicColor';
@@ -7,9 +15,7 @@ import styles from '../profile/style/ProfilePageScreenStyle';
 import firebase from 'firebase';
 require('firebase/firestore');
 
-
 export default class ProfilePageScreen extends Component {
-
   state = {
     user: {},
     nbOfFollowers: 0,
@@ -17,8 +23,8 @@ export default class ProfilePageScreen extends Component {
     nbOfPosts: 0,
     posts: [],
     isLoading: false,
-    infoColor: "#EFECF4",
-    isModalVisible: false
+    infoColor: '#EFECF4',
+    isModalVisible: false,
   };
 
   unsubscribe = null;
@@ -30,11 +36,12 @@ export default class ProfilePageScreen extends Component {
   getData = async () => {
     const user = this.props.uid || firebase.auth().currentUser.uid;
 
-    this.unsubscribe = firebase.firestore()
+    this.unsubscribe = firebase
+      .firestore()
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
-        this.setState({ user: doc.data() });
+        this.setState({user: doc.data()});
       });
 
     this.getListSize();
@@ -52,25 +59,26 @@ export default class ProfilePageScreen extends Component {
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
-    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
-    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
-    this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
+    this.setState({nbOfPosts: await user.get(listOfPosts).length});
+    this.setState({nbOfFollowers: await user.get(listOfFollowers).length});
+    this.setState({nbOfFollowing: await user.get(listOfFollowing).length});
   };
 
-  changeModalVisibility = (bool) => {
-    this.setState({ isModalVisible: bool });
-  }
+  changeModalVisibility = bool => {
+    this.setState({isModalVisible: bool});
+  };
 
-  setColor = (data) => {
-    this.setState({ infoColor: data });
-  }
+  setColor = data => {
+    this.setState({infoColor: data});
+  };
 
   getCurrentUserPost = async () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
-    this.setState({ posts: [] })
+    this.setState({posts: []});
 
-    firebase.firestore()
+    firebase
+      .firestore()
       .collection('posts')
       .get()
       .then(snapshot => {
@@ -80,9 +88,13 @@ export default class ProfilePageScreen extends Component {
           }
         });
 
-        this.setState({ posts: this.state.posts.sort(function (a, b) { return (parseInt(b.timestamp) - parseInt(a.timestamp)) }) })
+        this.setState({
+          posts: this.state.posts.sort(function(a, b) {
+            return parseInt(b.timestamp) - parseInt(a.timestamp);
+          }),
+        });
       })
-      .finally(() => this.setState({ isLoading: false }));
+      .finally(() => this.setState({isLoading: false}));
   };
 
   renderPost = post => {
@@ -91,14 +103,22 @@ export default class ProfilePageScreen extends Component {
 
   profileHeaderRender = () => {
     return (
-      <View style={{ backgroundColor: this.state.infoColor }} >
+      <View style={{backgroundColor: this.state.infoColor}}>
         <View style={styles.header}>
-          <Button title="Change Color" color="purple" onPress={() => this.changeModalVisibility(true)}>
+          <Button
+            title="Change Color"
+            color="purple"
+            onPress={() => this.changeModalVisibility(true)}>
             <Text>Open Modal</Text>
           </Button>
 
-          <Modal visible={this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}>
-            <PicColor changeModalVisibility={this.changeModalVisibility} setColor={this.setColor} />
+          <Modal
+            visible={this.state.isModalVisible}
+            onRequestClose={() => this.changeModalVisibility(false)}>
+            <PicColor
+              changeModalVisibility={this.changeModalVisibility}
+              setColor={this.setColor}
+            />
           </Modal>
           <LogoutButton />
         </View>
@@ -106,9 +126,18 @@ export default class ProfilePageScreen extends Component {
         <View>
           <View styles={styles.container}>
             <View style={styles.imageContainer}>
-              <ImageBackground source={require('../../assets/Default-profile-bg.jpg')} style={styles.imageBackground}>
+              <ImageBackground
+                source={require('../../assets/Default-profile-bg.jpg')}
+                style={styles.imageBackground}>
                 <View style={styles.avatarContainer}>
-                  <Image style={styles.avatar} source={this.state.user.profilePicture ? { uri: this.state.user.profilePicture } : require('../../assets/tempAvatar.jpg')}></Image>
+                  <Image
+                    style={styles.avatar}
+                    source={
+                      this.state.user.profilePicture
+                        ? {uri: this.state.user.profilePicture}
+                        : require('../../assets/tempAvatar.jpg')
+                    }
+                  />
                 </View>
 
                 <Text style={styles.name}> {this.state.user.name} </Text>
@@ -121,7 +150,7 @@ export default class ProfilePageScreen extends Component {
                 <Text style={styles.title}> Posts </Text>
               </View>
 
-              <View style={[styles.state, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+              <View style={[styles.state, styles.separators]}>
                 <Text style={styles.amount}> {this.state.nbOfFollowers} </Text>
                 <Text style={styles.title}> Followers </Text>
               </View>
@@ -143,7 +172,7 @@ export default class ProfilePageScreen extends Component {
         <FlatList
           style={styles.feed}
           data={this.state.posts}
-          renderItem={({ item }) => this.renderPost(item)}
+          renderItem={({item}) => this.renderPost(item)}
           ListHeaderComponent={this.profileHeaderRender}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}

@@ -3,7 +3,6 @@ import firebase from 'firebase';
 require('firebase/firestore');
 
 class CommentController {
-
   constructor() {
     if (!firebase.apps.length) {
       firebase.initializeApp(FirebaseKeys);
@@ -11,7 +10,6 @@ class CommentController {
   }
 
   verifyValidComment = text => {
-
     if (text.trim() === '') {
       throw new Error('Comment is blank.');
     }
@@ -21,8 +19,7 @@ class CommentController {
     }
   };
 
-  addComment = async ({ text, postKey }) => {
-
+  addComment = async ({text, postKey}) => {
     this.verifyValidComment(text);
 
     //Getting user from database
@@ -43,7 +40,9 @@ class CommentController {
       .get();
 
     //Creating a pointer to the profile picture field in the database
-    const fieldPathProfilePicture = new firebase.firestore.FieldPath('profilePicture');
+    const fieldPathProfilePicture = new firebase.firestore.FieldPath(
+      'profilePicture',
+    );
 
     return new Promise((res, rej) => {
       this.firestore
@@ -77,7 +76,7 @@ class CommentController {
     }
   };
 
-  updateCommentList = async ({ commentId, postId }) => {
+  updateCommentList = async ({commentId, postId}) => {
     //Getting user from database
     let dbUser = this.firestore.collection('users').doc(this.uid);
 
@@ -99,7 +98,9 @@ class CommentController {
       .get();
 
     //Creating pointer to the list of comments field in the database
-    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
+    const fieldPathListOfComments = new firebase.firestore.FieldPath(
+      'listOfComments',
+    );
 
     if (commentId) {
       dbUser.update({
@@ -108,17 +109,17 @@ class CommentController {
 
       const nbOfComments = (await user.get(fieldPathListOfComments).length) + 1;
 
-      dbUser.set({ nbOfComments: nbOfComments }, { merge: true });
+      dbUser.set({nbOfComments: nbOfComments}, {merge: true});
     }
 
     if (postId) {
       dbPost.update({
-        listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId)
+        listOfComments: firebase.firestore.FieldValue.arrayUnion(commentId),
       });
 
       const nbOfComments = (await post.get(fieldPathListOfComments).length) + 1;
 
-      dbPost.set({ nbOfComments: nbOfComments }, { merge: true });
+      dbPost.set({nbOfComments: nbOfComments}, {merge: true});
     }
   };
 
@@ -134,7 +135,6 @@ class CommentController {
   };
 
   deleteComment = async (commentId, postId) => {
-
     //Getting comment from database
     let dbComments = this.firestore.collection('comments').doc(commentId);
 
@@ -159,19 +159,20 @@ class CommentController {
       .get();
 
     //Creating pointer to the list of comments field in the database
-    const fieldPathListOfComments = new firebase.firestore.FieldPath('listOfComments');
+    const fieldPathListOfComments = new firebase.firestore.FieldPath(
+      'listOfComments',
+    );
 
     if (commentId) {
-
       dbComments.delete();
 
       dbUser.update({
-        listOfComments: firebase.firestore.FieldValue.arrayRemove(commentId)
+        listOfComments: firebase.firestore.FieldValue.arrayRemove(commentId),
       });
 
       const nbOfComments = (await user.get(fieldPathListOfComments).length) - 1;
 
-      dbUser.set({ nbOfComments: nbOfComments }, { merge: true });
+      dbUser.set({nbOfComments: nbOfComments}, {merge: true});
     }
 
     if (postId) {
@@ -181,7 +182,7 @@ class CommentController {
 
       const nbOfComments = (await post.get(fieldPathListOfComments).length) - 1;
 
-      dbPost.set({ nbOfComments: nbOfComments }, { merge: true });
+      dbPost.set({nbOfComments: nbOfComments}, {merge: true});
     }
   };
 
@@ -196,7 +197,6 @@ class CommentController {
   get timestamp() {
     return Date.now();
   }
-
 }
 
 CommentController.shared = new CommentController();

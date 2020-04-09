@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { TouchableHighlight, Text } from 'react-native';
+import React, {Component} from 'react';
+import {TouchableHighlight, Text} from 'react-native';
 import firebase from 'firebase';
+import styles from '../profile/style/FollowButtonStyle';
 require('firebase/firestore');
 
 export default class FollowButton extends Component {
-
   state = {
     followClick: false,
     isFollowing: false,
@@ -15,22 +15,24 @@ export default class FollowButton extends Component {
 
   componentDidMount() {
     //Getting user from database
-    this.unsubscribe = firebase.firestore()
+    this.unsubscribe = firebase
+      .firestore()
       .collection('users')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           if (doc.id == this.props.loggedUserUID) {
-            this.setState({ user: doc.data() });
+            this.setState({user: doc.data()});
           }
           if (doc.data().uid == this.props.userToFollow) {
-            this.setState({ toFollowedUserId: doc.id });
-            this.setState({ targetUser: doc.data() });
+            this.setState({toFollowedUserId: doc.id});
+            this.setState({targetUser: doc.data()});
           }
         });
       });
 
-    this.unsubscribe = firebase.firestore()
+    this.unsubscribe = firebase
+      .firestore()
       .collection('users')
       .get()
       .then(snapshot => {
@@ -38,8 +40,8 @@ export default class FollowButton extends Component {
           if (doc.id == this.props.loggedUserUID) {
             doc.data().listOfFollowing.forEach(followerName => {
               if (this.state.targetUser.uid == followerName) {
-                this.setState({ followClick: true });
-                this.setState({ isFollowing: true });
+                this.setState({followClick: true});
+                this.setState({isFollowing: true});
               }
             });
           }
@@ -48,11 +50,13 @@ export default class FollowButton extends Component {
   }
 
   followAction = () => {
-    let followingRef = firebase.firestore()
+    let followingRef = firebase
+      .firestore()
       .collection('users')
       .doc(this.props.loggedUserUID);
 
-    let followerRef = firebase.firestore()
+    let followerRef = firebase
+      .firestore()
       .collection('users')
       .doc(this.state.toFollowedUserId);
 
@@ -63,25 +67,24 @@ export default class FollowButton extends Component {
       });
 
       // add a new Following to the "listOfFollwing" array of the current user
-      let arrUnionFollowing = followingRef.update({
+      followingRef.update({
         listOfFollowing: firebase.firestore.FieldValue.arrayUnion(
           this.props.userToFollow,
         ),
       });
 
       // add a new Follower to the "listOfFollowing" array of the other user
-      let arrUnionFollower = followerRef.update({
+      followerRef.update({
         listOfFollowers: firebase.firestore.FieldValue.arrayUnion(
           this.state.user.uid,
         ),
       });
 
-      let arrUnionFollowerNotif = followerRef.update({
+      followerRef.update({
         listOfNotif: firebase.firestore.FieldValue.arrayUnion(
-          this.state.user.name + " is following you!",
+          this.state.user.name + ' is following you!',
         ),
       });
-
     }
 
     if (this.state.followClick == true || this.state.isFollowing == true) {
@@ -90,13 +93,13 @@ export default class FollowButton extends Component {
         isFollowing: !this.state.isFollowing,
       });
 
-      let arrRemoveFollowing = followingRef.update({
+      followingRef.update({
         listOfFollowing: firebase.firestore.FieldValue.arrayRemove(
           this.props.userToFollow,
         ),
       });
 
-      let arrRemoveFollower = followerRef.update({
+      followerRef.update({
         listOfFollowers: firebase.firestore.FieldValue.arrayRemove(
           this.state.user.uid,
         ),
@@ -110,21 +113,10 @@ export default class FollowButton extends Component {
 
     return (
       <TouchableHighlight
-        style={{
-          width: 70,
-          height: 20,
-          backgroundColor: buttonColor,
-          borderRadius: 5,
-          borderWidth: 1,
-          borderColor: 'black',
-          color: '#52575D',
-          fontFamily: 'HelveticaNeue',
-          fontSize: 1
-        }}
+        style={[styles.followButton, {backgroundColor: buttonColor}]}
         onPress={this.followAction}>
-        <Text style={{ textAlign: 'center' }}>{followState}</Text>
+        <Text style={styles.followText}>{followState}</Text>
       </TouchableHighlight>
     );
   }
-
 }

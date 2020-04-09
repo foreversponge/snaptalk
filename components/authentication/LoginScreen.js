@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 import styles from '../authentication/style/LoginScreenStyle';
 
 export default class LoginScreen extends React.Component {
-
   state = {
     email: '',
     password: '',
@@ -13,22 +12,24 @@ export default class LoginScreen extends React.Component {
   };
 
   handleLogin = () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .catch(error => this.setState({ errorMessage: error.message }));
+      .catch(error => this.setState({errorMessage: error.message}));
   };
 
   render() {
     return (
       <View style={styles.container}>
-
         <KeyboardAwareScrollView
-          resetScrollToCoords={{ x: 0, y: 0 }}
+          resetScrollToCoords={{x: 0, y: 0}}
           scrollEnabled={true}>
-          <Image source={require('../../assets/welcome_image.png')} style={styles.welcomeImage} />
+          <Image
+            source={require('../../assets/welcome_image.png')}
+            style={styles.welcomeImage}
+          />
 
           <View style={styles.errorMessage}>
             {this.state.errorMessage && (
@@ -42,8 +43,9 @@ export default class LoginScreen extends React.Component {
               <TextInput
                 style={styles.input}
                 autoCapitalize="none"
-                onChangeText={email => this.setState({ email })}
-                value={this.state.email}></TextInput>
+                onChangeText={email => this.setState({email})}
+                value={this.state.email}
+              />
             </View>
 
             <View style={styles.passwordBox}>
@@ -53,8 +55,9 @@ export default class LoginScreen extends React.Component {
                   style={styles.input}
                   secureTextEntry
                   autoCapitalize="none"
-                  onChangeText={password => this.setState({ password })}
-                  value={this.state.password}></TextInput>
+                  onChangeText={password => this.setState({password})}
+                  value={this.state.password}
+                />
               </View>
             </View>
           </View>
@@ -74,5 +77,4 @@ export default class LoginScreen extends React.Component {
       </View>
     );
   }
-
 }

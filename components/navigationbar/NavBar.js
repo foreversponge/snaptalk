@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePageScreen from '../profile/ProfilePageScreen';
 import HomeScreen from '../home/HomeScreen';
@@ -23,16 +23,16 @@ export default function Tabs() {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({color}) => (
               <Icon name="ios-home" size={30} color={color} />
-            )
+            ),
           }}
         />
         <AppTabs.Screen
           name="Discovery"
           component={DiscoveryScreen}
           options={{
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({color}) => (
               <Icon name="ios-globe" size={30} color={color} />
             ),
           }}
@@ -41,7 +41,7 @@ export default function Tabs() {
           name="Post"
           component={PostScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({color, size}) => (
               <Icon name="ios-add-circle-outline" size={30} color={color} />
             ),
           }}
@@ -50,7 +50,7 @@ export default function Tabs() {
           name="Notifications"
           component={NotificationScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({color, size}) => (
               <Icon name="ios-notifications" size={30} color={color} />
             ),
           }}
@@ -59,7 +59,7 @@ export default function Tabs() {
           name="Profile"
           component={ProfilePageScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({color, size}) => (
               <Icon name="ios-person" size={30} color={color} />
             ),
           }}

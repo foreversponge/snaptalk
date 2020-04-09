@@ -3,8 +3,6 @@ import HomeScreen from '../home/HomeScreen';
 
 export default class DiscoveryScreen extends React.Component {
   render() {
-    return (
-      <HomeScreen isDiscoveryTab={true}></HomeScreen>
-    );
+    return <HomeScreen isDiscoveryTab={true} />;
   }
 }

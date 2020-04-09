@@ -4,9 +4,11 @@ import renderer from 'react-test-renderer';
 import ProfilePageScreen from '../../components/profile/ProfilePageScreen';
 
 describe('ProfilePageScreen Test', () => {
-    let profilePageScreenSnapshot = renderer.create(<ProfilePageScreen />).toJSON();
+  let profilePageScreenSnapshot = renderer
+    .create(<ProfilePageScreen />)
+    .toJSON();
 
-    test('PicColor Render Test', () => {
-        expect(profilePageScreenSnapshot).toMatchSnapshot();
-    })
-})
+  test('PicColor Render Test', () => {
+    expect(profilePageScreenSnapshot).toMatchSnapshot();
+  });
+});
