@@ -186,3 +186,7 @@ function = () =>  {
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/DiscoveryScreen-PickedColor-26.png" width="40%" height="40%">
 
 <img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/HomeScreen-PickedColor-27.png" width="40%" height="40%">
+
+## Test
+
+<img src="https://github.com/huangs08/snaptalk/blob/master/screenshots/Test.png" width="100%" height="100%">
