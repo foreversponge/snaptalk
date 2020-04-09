@@ -1,8 +1,7 @@
 import 'react-native';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PicColor from '../../components/profile/PicColor'
-import Fire from '../../components/firebase/Fire'
+import PicColor from '../../components/profile/PicColor';
 
 describe('PicColor Test', () => {
     let picColorSnapshot = renderer.create(<PicColor />).toJSON();

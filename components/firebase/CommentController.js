@@ -12,8 +12,6 @@ class CommentController {
 
   verifyValidComment = text => {
 
-    console.log(text);
-
     if (text.trim() === '') {
       throw new Error('Comment is blank.');
     }
