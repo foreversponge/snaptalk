@@ -490,19 +490,14 @@ exports[`PicColor Test PicColor Render Test 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
-            "alignItems": "center",
-            "alignSelf": "stretch",
-            "backgroundColor": "white",
-            "borderRadius": 10,
-            "flex": 1,
-            "paddingVertical": 10,
-          },
-          Object {
-            "backgroundColor": "orange",
-          },
-        ]
+        Object {
+          "alignItems": "center",
+          "alignSelf": "stretch",
+          "backgroundColor": "orange",
+          "borderRadius": 10,
+          "flex": 1,
+          "paddingVertical": 10,
+        }
       }
     >
       <Text
