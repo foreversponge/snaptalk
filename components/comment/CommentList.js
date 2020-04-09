@@ -3,7 +3,7 @@ import { Modal, Text, TouchableHighlight, View, FlatList, Alert } from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Textarea } from 'native-base';
 import CommentBox from '../comment/CommentBox';
-import Fire from '../firebase/Fire';
+import CommentController from '../firebase/CommentController';
 import Popover from 'react-native-popover-view';
 import styles from '../comment/style/CommentListStyle';
 
@@ -22,7 +22,8 @@ class CommentList extends Component {
             newComment: '',
             tmpCommentList: [],
             commentState: '',
-            nbOfComments: this.props.nbOfComments
+            nbOfComments: this.props.nbOfComments,
+            defaultErrorMessageHeader: 'Oops...'
         });
     }
 
@@ -31,24 +32,19 @@ class CommentList extends Component {
     };
 
     handleComment = () => {
-        if (this.state.comment.trim() === '') {
-            alert('Comment is blank.');
-            return;
-        }
-
-        Fire.shared.addComment({ text: this.state.comment.trim(), postKey: this.props.postKey }).then(ref => {
-            Fire.shared.addCommentKey(ref.id);
+        CommentController.shared.addComment({ text: this.state.comment.trim(), postKey: this.props.postKey }).then(ref => {
+            CommentController.shared.addCommentKey(ref.id);
             this.setState({ comment: "" });
-            Fire.shared.updateCommentList({ commentId: ref.id, postId: this.props.postKey });
+            CommentController.shared.updateCommentList({ commentId: ref.id, postId: this.props.postKey });
         }).catch(error => {
-            alert(error.message);
+            Alert.alert(this.state.defaultErrorMessageHeader, error.message);
         });
     };
 
     getData = () => {
         this.setState({ isLoading: true })
 
-        this.unsubscribe = Fire.shared.firestore
+        this.unsubscribe = CommentController.shared.firestore
             .collection("posts")
             .get()
             .then(snapshot => {
@@ -76,7 +72,7 @@ class CommentList extends Component {
 
         this.setState({ isLoading: true })
 
-        this.unsubscribe = Fire.shared.firestore
+        this.unsubscribe = CommentController.shared.firestore
             .collection("comments")
             .get()
             .then(snapshot => {
@@ -141,7 +137,7 @@ class CommentList extends Component {
 
                     this.setState({ isLoading: true });
 
-                    Fire.shared.deleteComment(comment.commentKey, comment.postKey);
+                    CommentController.shared.deleteComment(comment.commentKey, comment.postKey);
 
                     this.removeCommentFromList(comment);
 
@@ -160,24 +156,24 @@ class CommentList extends Component {
                 <View style={styles.buttons}>
                     <TouchableHighlight
                         onPress={() => {
-                            if (Fire.shared.uid == item.uid) {
+                            if (CommentController.shared.uid == item.uid) {
                                 this.setState({ commentState: item });
                                 this.showPopover();
                             }
                             else {
-                                Alert.alert("Oops...", "You cannot edit a comment that you have not posted.");
+                                Alert.alert(this.state.defaultErrorMessageHeader, "You cannot edit a comment that you have not posted.");
                             }
                         }}>
                         <Icon name="md-create" size={30} style={styles.editButton} />
                     </TouchableHighlight>
                     <TouchableHighlight
                         onPress={() => {
-                            if (Fire.shared.uid == item.uid) {
+                            if (CommentController.shared.uid == item.uid) {
 
                                 this.promptUserDeleteComment(item);
                             }
                             else {
-                                Alert.alert("Oops...", "You cannot delete a comment that you have not posted.");
+                                Alert.alert(this.state.defaultErrorMessageHeader, "You cannot delete a comment that you have not posted.");
                             }
                         }}>
                         <Icon name="ios-trash" size={30} style={styles.deleteButton} />
@@ -248,7 +244,7 @@ class CommentList extends Component {
                                     onPress={() => {
                                         this.setState({ isLoading: true });
 
-                                        Fire.shared.modifyComment(this.state.commentState.commentKey, this.state.newComment);
+                                        CommentController.shared.modifyComment(this.state.commentState.commentKey, this.state.newComment);
 
                                         this.removeCommentFromList(this.state.commentState);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PermissionsAndroid } from 'react-native';
 import PostController from '../firebase/PostController';
@@ -24,7 +24,8 @@ export default class PostScreen extends React.Component {
     text: '',
     image: null,
     likes: 0,
-    user: {}
+    user: {},
+    defaultErrorMessageHeader: 'Oops...'
   };
 
   componentDidMount() {
@@ -72,7 +73,7 @@ export default class PostScreen extends React.Component {
         this.props.navigation.goBack();
       })
       .catch(error => {
-        alert(error);
+        Alert.alert(this.state.defaultErrorMessageHeader, error.message);
       });
   };
 

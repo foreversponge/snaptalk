@@ -2,7 +2,7 @@ import FirebaseKeys from './Config';
 import firebase from 'firebase';
 require('firebase/firestore');
 
-class Fire {
+class CommentController {
 
   constructor() {
     if (!firebase.apps.length) {
@@ -10,7 +10,21 @@ class Fire {
     }
   }
 
+  verifyValidComment = text => {
+
+    if (text.trim() === '') {
+      throw new Error('Comment is blank.');
+    }
+
+    if (text.length > 199) {
+      throw new Error('Comment should be shorter than 200 characters.');
+    }
+  };
+
   addComment = async ({ text, postKey }) => {
+
+    this.verifyValidComment(text);
+
     //Getting user from database
     const user = await firebase
       .firestore()
@@ -185,5 +199,5 @@ class Fire {
 
 }
 
-Fire.shared = new Fire();
-export default Fire;
+CommentController.shared = new CommentController();
+export default CommentController;
