@@ -2,7 +2,7 @@
 
 ## Description
 
-SnapTalk is a social media application for Android. It allows users to stay updated on the content posted by other users. The user can post, comment, and like pictures. By following another account, the user can receive notifications of new pictures posted by the followed account. The user can also send messages to other users and can customize the UI of the application.
+SnapTalk is a social media application for Android. It allows users to stay updated on the content posted by other users. The user can post, comment, and like pictures. By following another account, the user can have a personal feed. The user will also receive notifications when being followed, and can customize the color scheme of the app.
 
 ## Objective
 
