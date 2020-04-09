@@ -4,7 +4,7 @@ import {
   FIREBASE_DATABASE_URL,
   FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET,
-  FIREBASE_APP_ID
+  FIREBASE_APP_ID,
 } from 'react-native-dotenv';
 
 const API_KEY = FIREBASE_API_KEY;
@@ -14,7 +14,8 @@ const PROJECT_ID = FIREBASE_PROJECT_ID;
 const STORAGE_BUCKET = FIREBASE_STORAGE_BUCKET;
 const APP_ID = FIREBASE_APP_ID;
 
-export default FirebaseKeys = {
+// eslint-disable-next-line no-undef
+export default (FirebaseKeys = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
   databaseURL: DATABASE_URL,
@@ -22,4 +23,4 @@ export default FirebaseKeys = {
   storageBucket: STORAGE_BUCKET,
   messagingSenderId: '',
   appId: APP_ID,
-};
+});

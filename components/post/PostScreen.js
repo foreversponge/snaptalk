@@ -1,10 +1,19 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { PermissionsAndroid } from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import PostController from '../firebase/PostController';
 import ImagePicker from 'react-native-image-picker';
-import { encode, decode } from 'base-64';
+import {encode, decode} from 'base-64';
 import Styles from '../post/style/PostScreenStyle';
 
 if (!global.btoa) {
@@ -15,17 +24,16 @@ if (!global.atob) {
   global.atob = decode;
 }
 
-const firebase = require('firebase');
+require('firebase');
 require('firebase/firestore');
 
 export default class PostScreen extends React.Component {
-
   state = {
     text: '',
     image: null,
     likes: 0,
     user: {},
-    defaultErrorMessageHeader: 'Oops...'
+    defaultErrorMessageHeader: 'Oops...',
   };
 
   componentDidMount() {
@@ -38,7 +46,7 @@ export default class PostScreen extends React.Component {
       .collection('users')
       .doc(user)
       .onSnapshot(doc => {
-        this.setState({ user: doc.data() });
+        this.setState({user: doc.data()});
       });
   }
 
@@ -65,10 +73,10 @@ export default class PostScreen extends React.Component {
 
   handlePost = () => {
     PostController.shared
-      .addPost({ text: this.state.text.trim(), localUri: this.state.image })
+      .addPost({text: this.state.text.trim(), localUri: this.state.image})
       .then(ref => {
         PostController.shared.addPostKey(ref.id);
-        this.setState({ text: '', image: null });
+        this.setState({text: '', image: null});
         PostController.shared.updatePostList(ref.id);
         this.props.navigation.goBack();
       })
@@ -79,7 +87,7 @@ export default class PostScreen extends React.Component {
 
   pickImage = async () => {
     ImagePicker.launchImageLibrary(
-      { aspect: [4, 3], mediaType: 'photo' },
+      {aspect: [4, 3], mediaType: 'photo'},
       response => {
         console.log('Response =', response);
         if (response.didCancel) {
@@ -87,7 +95,6 @@ export default class PostScreen extends React.Component {
         } else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
         } else {
-          const source = { uri: response.uri };
           this.setState({
             image: response.uri,
           });
@@ -111,10 +118,11 @@ export default class PostScreen extends React.Component {
           <Image
             source={
               this.state.user.profilePicture
-                ? { uri: this.state.user.profilePicture }
+                ? {uri: this.state.user.profilePicture}
                 : require('../../assets/tempAvatar.jpg')
             }
-            style={Styles.profilePic}></Image>
+            style={Styles.profilePic}
+          />
           <TextInput
             autofocus={true}
             multiline={true}
@@ -122,17 +130,16 @@ export default class PostScreen extends React.Component {
             style={Styles.textArea}
             placeholder="Write your caption..."
             maxLength={250}
-            onChangeText={text => this.setState({ text })}
-            value={this.state.text}></TextInput>
+            onChangeText={text => this.setState({text})}
+            value={this.state.text}
+          />
         </View>
         <TouchableOpacity style={Styles.cameraIcon} onPress={this.pickImage}>
           <Icon name="ios-camera" size={30} />
         </TouchableOpacity>
 
         <View style={Styles.imageContainer}>
-          <Image
-            source={{ uri: this.state.image }}
-            style={Styles.image}></Image>
+          <Image source={{uri: this.state.image}} style={Styles.image} />
         </View>
       </SafeAreaView>
     );

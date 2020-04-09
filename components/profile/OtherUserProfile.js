@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { View, Text, Image, TouchableHighlight, Modal, ImageBackground } from 'react-native';
+import React, {Component} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  Modal,
+  ImageBackground,
+} from 'react-native';
 import FollowButton from '../profile/FollowButton';
 import LogoutButton from '../profile/LogoutButton';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +15,6 @@ import firebase from 'firebase';
 require('firebase/firestore');
 
 export default class ModalExample extends Component {
-
   state = {
     modalVisible: false,
     user: {},
@@ -16,11 +22,11 @@ export default class ModalExample extends Component {
     nbOfFollowing: 0,
     nbOfPosts: 0,
     currentUserId: null,
-    isNotSameUser: true
+    isNotSameUser: true,
   };
 
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+    this.setState({modalVisible: visible});
   }
 
   componentDidMount() {
@@ -38,25 +44,26 @@ export default class ModalExample extends Component {
     const listOfFollowers = new firebase.firestore.FieldPath('listOfFollowers');
     const listOfFollowing = new firebase.firestore.FieldPath('listOfFollowing');
 
-    this.setState({ nbOfPosts: await user.get(listOfPosts).length });
-    this.setState({ nbOfFollowers: await user.get(listOfFollowers).length });
-    this.setState({ nbOfFollowing: await user.get(listOfFollowing).length });
+    this.setState({nbOfPosts: await user.get(listOfPosts).length});
+    this.setState({nbOfFollowers: await user.get(listOfFollowers).length});
+    this.setState({nbOfFollowing: await user.get(listOfFollowing).length});
   };
 
   getUserId = async () => {
-    this.setState({ isLoadingList: true });
-    this.unsubscribe = await firebase.firestore()
+    this.setState({isLoadingList: true});
+    this.unsubscribe = await firebase
+      .firestore()
       .collection('users')
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
           if (doc.data().name == this.props.username) {
-            this.setState({ user: doc.data() });
+            this.setState({user: doc.data()});
             this.getListSize();
             var current = firebase.auth().currentUser;
-            this.setState({ currentUserId: current.uid });
+            this.setState({currentUserId: current.uid});
             if (current.uid == doc.id) {
-              this.setState({ isNotSameUser: false });
+              this.setState({isNotSameUser: false});
             }
           }
         });
@@ -100,9 +107,10 @@ export default class ModalExample extends Component {
                         style={styles.avatar}
                         source={
                           this.state.user.profilePicture
-                            ? { uri: this.state.user.profilePicture }
+                            ? {uri: this.state.user.profilePicture}
                             : require('../../assets/tempAvatar.jpg')
-                        }></Image>
+                        }
+                      />
                     </View>
                     <Text style={styles.name}> {this.state.user.name} </Text>
                   </ImageBackground>
@@ -120,15 +128,7 @@ export default class ModalExample extends Component {
                     <Text style={styles.amount}> {this.state.nbOfPosts} </Text>
                     <Text style={styles.title}> Posts </Text>
                   </View>
-                  <View
-                    style={[
-                      styles.state,
-                      {
-                        borderColor: '#DFD8C8',
-                        borderLeftWidth: 1,
-                        borderRightWidth: 1,
-                      },
-                    ]}>
+                  <View style={[styles.state, styles.separators]}>
                     <Text style={styles.amount}>
                       {' '}
                       {this.state.nbOfFollowers}{' '}
@@ -156,5 +156,4 @@ export default class ModalExample extends Component {
       </View>
     );
   }
-
 }

@@ -1,26 +1,25 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-picker';
 import styles from '../authentication/style/RegisterScreenStyle';
 import AuthenticationController from '../firebase/AuthenticationController';
 
 export default class RegisterScreen extends React.Component {
-
   state = {
     user: {
       name: '',
       email: '',
       password: '',
-      avatar: null
+      avatar: null,
     },
-    errorMessage: null
+    errorMessage: null,
   };
 
   handlePickAvatar = async () => {
     ImagePicker.launchImageLibrary(
-      { aspect: [4, 3], mediaType: 'photo' },
+      {aspect: [4, 3], mediaType: 'photo'},
       response => {
         console.log('Response =', response);
         if (response.didCancel) {
@@ -28,23 +27,23 @@ export default class RegisterScreen extends React.Component {
         } else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
         } else {
-          const source = { uri: response.uri };
-          this.setState({ user: { ...this.state.user, avatar: response.uri } });
+          this.setState({user: {...this.state.user, avatar: response.uri}});
         }
       },
     );
   };
 
   handleSignUp = () => {
-    AuthenticationController.shared.createUser(this.state.user)
-      .catch(error => this.setState({ errorMessage: error.message }));
+    AuthenticationController.shared
+      .createUser(this.state.user)
+      .catch(error => this.setState({errorMessage: error.message}));
   };
 
   render() {
     return (
       <View style={styles.container}>
         <KeyboardAwareScrollView
-          resetScrollToCoords={{ x: 0, y: 0 }}
+          resetScrollToCoords={{x: 0, y: 0}}
           scrollEnabled={true}>
           <Text style={styles.greeting}>{'Sign up to get started'}</Text>
 
@@ -53,13 +52,15 @@ export default class RegisterScreen extends React.Component {
               style={styles.avatarPlaceHolder}
               onPress={this.handlePickAvatar}>
               <Image
-                source={{ uri: this.state.user.avatar }}
-                style={styles.avatar}></Image>
+                source={{uri: this.state.user.avatar}}
+                style={styles.avatar}
+              />
               <Icon
                 name="ios-add"
                 size={40}
                 color="#FFF"
-                style={styles.addPictureIcon}></Icon>
+                style={styles.addPictureIcon}
+              />
             </TouchableOpacity>
           </View>
 
@@ -76,9 +77,10 @@ export default class RegisterScreen extends React.Component {
                 style={styles.input}
                 autoCapitalize="none"
                 onChangeText={name =>
-                  this.setState({ user: { ...this.state.user, name } })
+                  this.setState({user: {...this.state.user, name}})
                 }
-                value={this.state.user.name}></TextInput>
+                value={this.state.user.name}
+              />
             </View>
 
             <View style={styles.emailBox}>
@@ -87,9 +89,10 @@ export default class RegisterScreen extends React.Component {
                 style={styles.input}
                 autoCapitalize="none"
                 onChangeText={email =>
-                  this.setState({ user: { ...this.state.user, email } })
+                  this.setState({user: {...this.state.user, email}})
                 }
-                value={this.state.user.email}></TextInput>
+                value={this.state.user.email}
+              />
             </View>
 
             <View style={styles.passwordBox}>
@@ -100,9 +103,10 @@ export default class RegisterScreen extends React.Component {
                   secureTextEntry
                   autoCapitalize="none"
                   onChangeText={password =>
-                    this.setState({ user: { ...this.state.user, password } })
+                    this.setState({user: {...this.state.user, password}})
                   }
-                  value={this.state.user.password}></TextInput>
+                  value={this.state.user.password}
+                />
               </View>
             </View>
           </View>
@@ -114,5 +118,4 @@ export default class RegisterScreen extends React.Component {
       </View>
     );
   }
-
 }
